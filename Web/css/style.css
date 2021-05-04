@@ -1,0 +1,212 @@
+.logoimg{
+    width: 70%;
+    height: 70%;
+    margin-left: 20%;
+}
+.tm-content-box.flex-2-col{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.p:nth-child(1){
+    font-style: italic;
+}
+
+.flex-item{
+    align-content: flex-end;
+}
+
+h2+p{
+    font-style: italic;
+}
+
+.padding-medium.flex-item.tm-team-description-container.flex-item h2+p:first-letter,
+.padding-medium.flex-item.tm-team-description-container.flex-item h2+p+p:first-letter{
+    color: lightskyblue;
+    font-size: 30px;
+    margin-left: 20px
+}
+
+.padding-medium.flex-item.tm-team-description-container.flex-item h2+p,
+.padding-medium.flex-item.tm-team-description-container.flex-item h2+p+p{
+    line-height: 200%;
+}
+
+#about :hover{
+    color: #f5f5f5;
+    background-color:rgb(121, 209, 125);
+    font-weight: bold;
+}
+
+#home{
+    background-color: transparent;
+}
+
+.tm-banner-inner{
+    background-color: #fff;
+}
+
+.tm-sidebar, .tm-content-box{
+    box-shadow:0 0 10px rgba(0,0,0,0.5);
+}
+
+section::before {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border: 30px solid transparent;
+    border-top: 0 solid transparent;
+    border-left: 245px solid rgb(135, 250, 169);;
+}
+
+.carousel-item.active .carousel-content .flex-item h2{
+    color: gainsboro;
+    letter-spacing: 5px;
+}
+
+.tm-content-box div ol li:nth-child(1)::after, .tm-content-box div ol li:nth-child(3)::after{
+    content: "New";
+    color: red;
+    vertical-align: top;
+    font-size: 11px;
+    font-weight: bold;
+    font-variant: small-caps;
+}
+
+.heading.tm-content-box .padding-medium ol li a:visited{
+    text-decoration: underline solid;
+    color: black;
+}
+
+.heading.tm-content-box .padding-medium ol li a{
+    color: black;
+}
+
+.heading.tm-content-box .padding-medium ol li a:hover{
+    text-decoration: underline;
+    color:lightskyblue;
+    border-bottom: 1.5px solid lightskyblue;
+}
+
+
+@media print {
+    .tm-sidebar,
+    .blocks,
+    .img-contact-us,
+    .heading,
+    section:not(.blocks) .padding-medium.flex-item.tm-team-description-container.flex-item::before,
+    #about,
+    #ideas,
+    #contact {
+        display: none;
+    }
+}
+
+.box-work:nth-child(even) {
+    background: #f5f5f5;
+}
+.btn.btn-primary.submit-btn{
+    float: right;
+	background-color:transparent;
+	border:1px solid lightskyblue;
+    border-radius: 0%;
+	display:inline-block;
+	cursor:pointer;
+    color:  lightskyblue;
+    padding: 1.7% 6.5%;
+}
+
+.btn.btn-primary.submit-btn:hover{
+    background-color:lightskyblue;
+    color: rgb(209, 234, 250);
+    border:1px solid rgb(111, 199, 253);
+}
+.form-group.col-xs-12.col-sm-12.col-md-6.col-lg-6.form-group-2-col-right.mandatory-field:after{
+    color: red;
+    content: ' *';
+    font-weight: bold;
+}
+.container .tm-sidebar .tm-main-nav ul li:hover{
+    background:  #ddffdd;;
+}
+
+@media print {
+    .tm-sidebar,
+    .blocks,
+    .img-contact-us,
+    .heading,
+    section:not(.blocks) .padding-medium.flex-item.tm-team-description-container.flex-item::before,
+    #about,
+    #ideas,
+    #contact,
+    section::before {
+        display: none;
+    }
+
+    .tm-banner-text:first-letter,
+    .tm-footer p:first-letter
+    {
+        color: lightskyblue;
+        font-size: 30px;
+    }
+
+
+    .tm-main-content .tm-content-box.tm-content-header.margin-b-10{
+        display: flex;
+        justify-content: center;
+    }
+
+
+    .tm-main-content .tm-content-box.flex-2-col {
+        display: flex;
+        justify-content: flex-end;
+        padding-bottom: 0;
+    }
+
+    .tm-main-content{
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .tm-content-box.flex-2-col .padding-medium.flex-item.tm-team-description-container.flex-item{
+        width: 350px;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .tm-main-content .tm-content-box.flex-2-col .flex-item{
+        width: 180px;
+    }
+
+
+    footer{
+        margin-top: -50px;
+    }
+
+    .container{
+        display: flex;
+        justify-content: center;
+
+    }
+
+    .tm-main-content .tm-content-box.tm-content-header.margin-b-10 .tm-banner{
+        width: 500px;
+        padding: 0;
+    }
+    .tm-content-box.flex-2-col .padding-medium.flex-item.tm-team-description-container.flex-item h2 {
+        color:blue
+    }
+    .box.box-work{
+        margin: 10%;
+    }
+}
+.box.box-work{
+   border: 2px #ddffdd;
+   
+    
+}
+
