@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
+import 'package:po_psy/widgets/Logo.dart';
 import 'package:po_psy/widgets/MainButton.dart';
 
 class LoginPage extends StatelessWidget {
@@ -18,6 +19,7 @@ class LoginPage extends StatelessWidget {
         margin: EdgeInsets.all(10.0),
         child: ListView(
           children: [
+            Logo(),
             MyButton(text: 'Button'),
           ],
         )

@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 
 class TextStyles {
+  static TextStyle topBarTextStyle = TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 24,
+    fontWeight: FontWeight.bold,
+    color: Color(0xFF999999),
+  );
+
   static TextStyle headerTextStyle = TextStyle(
     fontFamily: 'Roboto',
     fontSize: 24,
@@ -57,4 +64,48 @@ class TextStyles {
     fontWeight: FontWeight.normal,
     color: ColorPallet.mainTextColor,
   );
+
+  static TextStyle songTitleTextStyle = TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 14,
+    fontWeight: FontWeight.normal,
+    color: Color(0xFF878787),
+  );
+
+  static TextStyle authorTitleTextStyle = TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 12,
+    fontWeight: FontWeight.normal,
+    color: Color(0xFF878787),
+  );
+
+  static TextStyle notificationButtonTextStyle = TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 14,
+    fontWeight: FontWeight.normal,
+    color: Colors.white,
+    decoration: TextDecoration.underline,
+  );
+
+  static TextStyle articleTextTextStyle = TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 14,
+    fontWeight: FontWeight.normal,
+    color: Color(0xFF878787),
+  );
+
+  static TextStyle articleTitleTextStyle = TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 22,
+    fontWeight: FontWeight.bold,
+    color: Color(0xFF878787),
+  );
+
+  static TextStyle articleAuthorTextStyle = TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: Color(0xFF878787),
+  );
+
 }
