@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:po_psy/pages/authorization/login/login.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
+import 'package:po_psy/pages/homeScreen/homePage.dart';
 
 
 void main() {
@@ -16,8 +16,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: ColorPallet.mainColor,
       ),
-      home: LoginPage(),
+      home: HomePage(),
     );
+
+
   }
 }
 
