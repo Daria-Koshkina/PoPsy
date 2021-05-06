@@ -9,17 +9,18 @@ class MyButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+        constraints: BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [ColorPallet.mainColor, ColorPallet.lightBlueColor]
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(25),
       ),
+      width: 200.0,
       child: TextButton(
         child: Text(text, style: TextStyles.lightHeader2TextStyle),
         onPressed: (){},
-
-    )
+      )
     );
   }
 }
