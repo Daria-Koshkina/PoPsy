@@ -42,10 +42,9 @@ class myWidget extends StatelessWidget {
           color: ColorPallet.redBlockColor);
     }
     else if (content.status == 'Videos') {
-      VideoPlaylist mp = content as VideoPlaylist;
+      VideoPlaylist vp = content as VideoPlaylist;
       return VideoPlaylistWidget(
-          title: mp.title,
-          videos: mp.videos,
+          videoPlaylist: vp,
           color: ColorPallet.blueBlockColor);
     }
     else if (content.status == 'Notification') {

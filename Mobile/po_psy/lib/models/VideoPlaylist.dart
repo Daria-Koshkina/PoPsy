@@ -8,13 +8,13 @@ class VideoPlaylist extends Content {
   final status;
   final List<Video> videos;
   final String URL;
-  final Image image;
+  final String imageURL;
 
   VideoPlaylist({
     this.title,
     this.status = 'Videos',
     this.videos,
     this.URL,
-    this.image
+    this.imageURL
   }) : super(title: title, status: status);
 }

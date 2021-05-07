@@ -3,13 +3,14 @@ import 'package:po_psy/assets/my_icons_icons.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
 import 'package:po_psy/models/Video.dart';
+import 'package:po_psy/models/VideoPlaylist.dart';
+import 'package:po_psy/pages/homeScreen/recommendations/videoPlaylistPage.dart';
 
 class VideoPlaylistWidget extends StatelessWidget {
-  final List<Video> videos;
-  final Color color;
-  final String title;
+final VideoPlaylist videoPlaylist;
+final Color color;
 
-  const VideoPlaylistWidget({Key key, this.videos, this.color, this.title})
+  const VideoPlaylistWidget({Key key, this.videoPlaylist, this.color})
       : super(key: key);
 
   @override
@@ -28,11 +29,18 @@ class VideoPlaylistWidget extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                   child: new Row(
                       children: [
-                        Text(title,
+                        Text(videoPlaylist.title,
                           style: TextStyles.lightHeaderTextStyle,),
                         Spacer(),
                         IconButton(icon: Icon(Icons.arrow_forward_ios,
-                          color: Colors.white,), onPressed: () {})
+                          color: Colors.white,), onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) =>
+                                VideoPlaylistPage(
+                                  videoPlaylist: videoPlaylist,)),
+                          );
+                        })
                       ]
                   )
               ),
@@ -43,7 +51,7 @@ class VideoPlaylistWidget extends StatelessWidget {
                       child: new SingleChildScrollView(
 
                           child: new Column(
-                              children: videos.map((Video video) {
+                              children: videoPlaylist.videos.map((Video video) {
                                 return _Song(video: video,);
                               }).toList()
                           )
