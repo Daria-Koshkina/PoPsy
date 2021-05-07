@@ -47,7 +47,6 @@ flutter:
 
 #   To add assets to your application, add an assets section, like this:
   assets:
-    - assets/image/background_login.jpg
     - assets/image/defolt_user.jpg
     - assets/image/facebook-logo.png
     - assets/image/google-logo.png

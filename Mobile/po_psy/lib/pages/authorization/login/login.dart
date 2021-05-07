@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
-import 'package:po_psy/widgets/Logo.dart';
-import 'package:po_psy/widgets/MainButton.dart';
+import 'package:po_psy/widgets/LogoElement.dart';
+import 'package:po_psy/pages/authorization/registration/registration.dart';
 
 
 class LoginPage extends StatelessWidget {
@@ -13,92 +13,133 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/image/background_login.jpg"),
-            fit: BoxFit.fill,
-          ),
-        ),
-        child: Center(
-          child:
-            new ListView(
-                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Container(
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.only(top: 20),
-                  child: Logo(),
-                ),
-                Container(
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.only(top: 50, left: 50, right: 50),
-                  child: new TextFormField(
-                    onChanged: (text) {
-                      _email = text;
-                    },
-                    validator: (value){},
-                    decoration: new InputDecoration(labelText: "Email"),
-                    keyboardType: TextInputType.emailAddress,
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.only(top: 10, left: 50, right: 50),
-                  child: new TextFormField(
-                    validator: (value){},
-                    decoration: new InputDecoration(labelText: "Password"),
-                    obscureText: true,
-                    onChanged: (text) {
-                      _pass = text;
-                    },
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.bottomRight,
-                  margin: EdgeInsets.only(top: 20, right: 50),
-                  child: InkWell(
-                    child: Text("Forgot your Password?",
-                      textAlign: TextAlign.right,
-                      style: TextStyles.linkTextStyle
+      backgroundColor: ColorPallet.backgroundColor,
+    body: Container(
+      child: Center(
+        child:
+          new ListView(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(top: 20),
+                child: LogoElement(),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 80, left: 20, right: 20),
+                height: 50,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: ColorPallet.placeholderColor,
+                      blurRadius: 30,
                     ),
-                    onTap: () {//TO DO
+                  ],
+                ),
+                child: TextFormField(
+                  keyboardType: TextInputType.emailAddress,
+                  autofocus: false,
+                  decoration: InputDecoration(
+                    fillColor: Colors.white,
+                    filled: true,
+                    hintText: 'Email',
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                      color: Colors.white),
+                      borderRadius: BorderRadius.circular(32.0)),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                      color: ColorPallet.mainColor),
+                      borderRadius: BorderRadius.circular(32.0)),
+                  ),
+                  onSaved: (String value) {
+                    _email = value;
+                  },
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+                height: 50,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: ColorPallet.placeholderColor,
+                      blurRadius: 30,
+                    ),
+                  ],
+                ),
+                child: TextFormField(
+                  autofocus: false,
+                  decoration: InputDecoration(
+                    fillColor: Colors.white,
+                    filled: true,
+                    hintText: 'Password',
+                    enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Colors.white),
+                        borderRadius: BorderRadius.circular(32.0)),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: ColorPallet.mainColor),
+                        borderRadius: BorderRadius.circular(32.0)),
+                  ),
+                  obscureText: true,
+                  onSaved: (String value) {
+                    _pass = value;
+                  },
+                ),
+              ),
+              Container(
+                alignment: Alignment.bottomRight,
+                margin: EdgeInsets.only(top: 20, right: 20),
+                child: InkWell(
+                  child: Text("Forgot your Password?", textAlign: TextAlign.right,
+                      style: TextStyles.linkTextStyle
+                  ),
+                  onTap: () {//TO DO-----------------------------------------------------------------------
                     },
+                ),
+              ),
+              Container(
+                height: 50,
+                  margin: EdgeInsets.only(top: 60, left: 80, right: 80),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        colors: [ColorPallet.mainColor, ColorPallet.lightBlueColor]
+                    ),
+                    borderRadius: BorderRadius.circular(25),
                   ),
+                  child: TextButton(
+                    child: Text("Sign in", style: TextStyles.lightHeader2TextStyle),
+                    onPressed: (){
+                      //TO DO -------------------------------------------------------------------------
+                    },
+                  )
+              ),
+              Container(
+                alignment: Alignment.bottomCenter,
+                margin: EdgeInsets.only(top: 30, left: 80, right: 80),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    IconButton(iconSize: 60.0,
+                      icon: Image.asset("assets/image/google-logo.png"),
+                      onPressed: (){
+                          //To Doo------------------------------------------------------------------------
+                      }
+                    ),
+                    IconButton(
+                      iconSize: 60.0,
+                      icon: Image.asset("assets/image/facebook-logo.png",fit:BoxFit.fill,),
+                      onPressed: (){
+                          //To Doo----------------------------------------------------------------------
+                      }
+                    )
+                  ],
                 ),
-                Padding(
-                  padding: new EdgeInsets.only(top: 80),
-                  child: MyButton(text: 'Sign in'),
-                ),
-                Container(
+              ),
+              Container(
                   alignment: Alignment.bottomCenter,
-                  margin: EdgeInsets.only(top: 50),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      IconButton(
-                        iconSize: 50.0,
-                        icon: Image.asset("assets/image/facebook-logo.png"),
-                        onPressed: (){
-                          //To Doo
-                        }
-                      ),
-                      IconButton(
-                        iconSize: 50.0,
-                        icon: Image.asset("assets/image/google-logo.png",fit:BoxFit.fill,),
-                        onPressed: (){
-                          //To Doo
-                        }
-                      )
-                    ],
-                  ),
-                  width: 200.0,
-                ),
-                Container(
-                  alignment: Alignment.bottomCenter,
-                  margin: EdgeInsets.only(top: 50),
+                  margin: EdgeInsets.only(top: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -108,7 +149,8 @@ class LoginPage extends StatelessWidget {
                       InkWell(
                         child: Text('Create',
                           style: TextStyles.linkTextStyle2),
-                        onTap: () {//TO DO
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => RegistrationPage()));
                         },
                       )
                     ],

@@ -15,36 +15,35 @@ class Logo extends StatelessWidget {
         style: new TextStyle(
             shadows: [
               Shadow(
-                blurRadius: 5.0,
+                blurRadius: 15.0,
                 color: Colors.white,
                 offset: Offset(0.0, 0.0),
               ),
               Shadow(
-                blurRadius: 2.0,
+                blurRadius: 3.0,
                 color: Colors.white,
                 offset: Offset(-1.0, -1.0),
               ),
               Shadow(
-                blurRadius: 2.0,
+                blurRadius: 3.0,
                 color: Colors.white,
                 offset: Offset(1.0, -1.0),
               ),
               Shadow(
-                blurRadius: 2.0,
+                blurRadius: 3.0,
                 color: Colors.white,
                 offset: Offset(1.0, 1.0),
               ),
               Shadow(
-                blurRadius: 2.0,
+                blurRadius: 3.0,
                 color: Colors.white,
                 offset: Offset(-1.0, 1.0),
               )
             ],
-            fontSize: 150,
+            fontSize: 180,
             fontFamily: 'Qwigley',
             foreground: Paint()..shader = linearGradient),
       ),
     );
   }
-  
 }
