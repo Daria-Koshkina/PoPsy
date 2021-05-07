@@ -10,10 +10,10 @@ import 'VideoPlaylist.dart';
 class ContentData {
   List<Content> getContent() {
     List<Song> _songs = <Song>[
-      new Song( "My song", 'Author', '3.25', 'https://picsum.photos/250?image=9'),
-      new Song( "My song", 'Author', '3.25', 'https://picsum.photos/250?image=9'),
-      new Song( "My song", 'Author', '3.25', 'https://picsum.photos/250?image=9'),
-      new Song( "My song", 'Author', '3.25', 'https://picsum.photos/250?image=9'),
+      new Song( "My song1", 'Author', '3.25', 'https://picsum.photos/250?image=9', 'https://thegrowingdeveloper.org/files/audios/quiet-time.mp3?b4869097e4'),
+      new Song( "My song2", 'Author', '3.25', 'https://picsum.photos/250?image=9', 'https://thegrowingdeveloper.org/files/audios/quiet-time.mp3?b4869097e4'),
+      new Song( "My song3", 'Author', '3.25', 'https://picsum.photos/250?image=9', 'https://thegrowingdeveloper.org/files/audios/quiet-time.mp3?b4869097e4'),
+      new Song( "My song4", 'Author', '3.25', 'https://picsum.photos/250?image=9', 'https://thegrowingdeveloper.org/files/audios/quiet-time.mp3?b4869097e4'),
     ];
     List<Video> _videos = <Video>[
       new Video( "My video", 'Author', '3.25', 'https://picsum.photos/250?image=9', 'https://picsum.photos/250?image=9'),
@@ -21,7 +21,7 @@ class ContentData {
       new Video( "My video", 'Author', '3.25', 'https://picsum.photos/250?image=9', 'https://picsum.photos/250?image=9'),
       new Video( "My video", 'Author', '3.25', 'https://picsum.photos/250?image=9', 'https://picsum.photos/250?image=9'),
     ];
-    MusicPlaylist musicPlaylist = new MusicPlaylist(title: 'My music playlist', songs: _songs);
+    MusicPlaylist musicPlaylist = new MusicPlaylist(title: 'My music playlist', songs: _songs, imageURL: 'https://picsum.photos/250?image=9');
     VideoPlaylist videoPlaylist = new VideoPlaylist(title: 'My video playlist', videos: _videos);
     MyNotification notification = new MyNotification(title: 'My notification', text: 'This is notification text.');
     Article article = new Article(title: 'My article', author: 'Author', text: 'This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text This is article text ');
@@ -33,13 +33,6 @@ class ContentData {
       article
     ];
 
-    content.forEach((element) {
-      print(element.title);
-      if (element.status == 'Article') {
-        Article article = element as Article;
-        print(article.author);
-      }
-    });
     return content;
   }
 }

@@ -7,13 +7,13 @@ class MusicPlaylist extends Content {
   final status;
   final List<Song> songs;
   final String URL;
-  final Image image;
+  final String imageURL;
 
   MusicPlaylist({
     this.title,
     this.status = 'Songs',
     this.songs,
     this.URL,
-    this.image
+    this.imageURL
   }) : super(title: title, status: status);
 }
