@@ -186,7 +186,11 @@ class Video(models.Model):
 
 
 class Audio(models.Model):
-    content = models.CharField(max_length=200)
+    title = models.CharField(max_length=200)
+    author = models.CharField(max_length=200)
+    image = models.CharField(max_length=200)
+    time = models.CharField(max_length=200)
+    url = models.CharField(max_length=200)
 
     def __str__(self):
         return self.content

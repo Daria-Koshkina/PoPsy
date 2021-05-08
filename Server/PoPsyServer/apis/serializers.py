@@ -21,7 +21,11 @@ class AudioSerializer(serializers.ModelSerializer):
     class Meta:
         fields = (
             'id',
-            'content'
+            'title',
+            'author',
+            'image',
+            'time',
+            'url'
         )
         model = models.Audio
 

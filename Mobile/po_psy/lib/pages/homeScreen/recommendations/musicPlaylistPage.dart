@@ -1,6 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:po_psy/api/api.dart';
 import 'package:po_psy/assets/my_icons_icons.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
@@ -9,8 +10,11 @@ import 'package:po_psy/models/Song.dart';
 import 'package:po_psy/pages/homeScreen/recommendations/musicPlaylistTopWidget.dart';
 import 'dart:math';
 
+import 'package:provider/provider.dart';
+
 class MusicPlaylistPage extends StatefulWidget {
-  final MusicPlaylist musicPlaylist;
+  MusicPlaylist musicPlaylist;
+
   MusicPlaylistPage({this.musicPlaylist});
 
   @override
