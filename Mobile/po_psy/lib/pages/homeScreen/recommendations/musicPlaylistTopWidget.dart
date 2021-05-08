@@ -3,6 +3,7 @@ import 'package:po_psy/assets/my_icons_icons.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
 import 'package:po_psy/models/MusicPlaylist.dart';
+import 'package:share/share.dart';
 
 class MusicPlaylistTopWidget extends StatelessWidget {
   final MusicPlaylist playlist;
@@ -18,7 +19,7 @@ class MusicPlaylistTopWidget extends StatelessWidget {
       color: ColorPallet.redBlockColor,
       child: Column(
         children: [
-          SizedBox(height: 35,),
+          Spacer(),
           Padding(
               padding: new EdgeInsets.symmetric(horizontal: 12),
               child: Row(
@@ -30,12 +31,15 @@ class MusicPlaylistTopWidget extends StatelessWidget {
                       }),
                   Spacer(),
                   IconButton(icon: Icon(MyIcons.exit_up, color: Colors.white,),
-                      onPressed: () {}),
+                      onPressed: () {
+                    if (playlist.URL != null) {
+                      Share.share(playlist.URL);
+                    }
+                      }),
                 ],
               )
           ),
-          SizedBox(height: 20,),
-          Padding(padding: new EdgeInsets.symmetric(horizontal: 25),
+          Padding(padding: new EdgeInsets.symmetric(horizontal: 20, vertical: 12),
             child: Row(
               children: [
                 Container(
