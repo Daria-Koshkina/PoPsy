@@ -52,7 +52,7 @@ final Color color;
 
                           child: new Column(
                               children: videoPlaylist.videos.map((Video video) {
-                                return _Song(video: video,);
+                                return _Video(video: video,);
                               }).toList()
                           )
                       )
@@ -65,9 +65,9 @@ final Color color;
   }
 }
 
-class _Song extends StatelessWidget {
+class _Video extends StatelessWidget {
   final Video video;
-  const _Song({Key key, this.video}) : super(key: key);
+  const _Video({Key key, this.video}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -97,5 +97,4 @@ class _Song extends StatelessWidget {
       ),
     );
   }
-
 }

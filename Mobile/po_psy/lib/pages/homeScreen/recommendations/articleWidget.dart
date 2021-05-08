@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
 import 'package:po_psy/models/Article.dart';
+import 'package:po_psy/pages/homeScreen/recommendations/articlePage.dart';
 
 class ArticleWidget extends StatelessWidget {
   final Article article;
@@ -32,7 +33,14 @@ class ArticleWidget extends StatelessWidget {
                       ]),
                       Spacer(),
                       IconButton(icon: Icon(Icons.arrow_forward_ios,
-                        color: Colors.white,), onPressed: () {})
+                        color: Colors.white,), onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) =>
+                              ArticlePage(
+                                article: article,)),
+                        );
+                      })
                     ]
                 )
             ),
