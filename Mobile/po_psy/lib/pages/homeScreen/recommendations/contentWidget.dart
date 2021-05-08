@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
+import 'package:po_psy/constants/stateConstants/ContentStates.dart';
 import 'package:po_psy/models/Article.dart';
 import 'package:po_psy/models/Content.dart';
 import 'package:po_psy/models/MusicPlaylist.dart';
@@ -35,19 +36,19 @@ class myWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (content.status == 'Songs') {
+    if (content.status == ContentStates.musicPlaylistStatus) {
       MusicPlaylist mp = content as MusicPlaylist;
       return MusicPlaylistWidget(
           musicPlaylist: mp,
           color: ColorPallet.redBlockColor);
     }
-    else if (content.status == 'Videos') {
+    else if (content.status == ContentStates.videoPlaylistStatus) {
       VideoPlaylist vp = content as VideoPlaylist;
       return VideoPlaylistWidget(
           videoPlaylist: vp,
           color: ColorPallet.blueBlockColor);
     }
-    else if (content.status == 'Notification') {
+    else if (content.status == ContentStates.notificationStatus) {
       MyNotification notification = content as MyNotification;
       return NotificationWidget(notification: notification);
     }
