@@ -14,4 +14,128 @@ class UserSerializer(serializers.ModelSerializer):
             'age',
             'password'
         )
-        model=models.User
+        model = models.User
+
+
+class AudioSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'id',
+            'content'
+        )
+        model = models.Audio
+
+
+class VideoSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'id',
+            'content'
+        )
+        model = models.Video
+
+
+class AudioListSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'id',
+            'title'
+        )
+        model = models.AudioList
+
+
+class VideoListSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'id',
+            'title'
+        )
+        model = models.VideoList
+
+
+class AudioHasAudioListSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'id',
+            'audioId',
+            'audioListId'
+        )
+        model = models.AudioHasAudioList
+
+
+class VideoHasVideoListSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'id',
+            'videoId',
+            'videoListId'
+        )
+        model = models.VideoHasVideoList
+
+
+class AudioListViewSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'id',
+            'userId',
+            'audioListId',
+            'date'
+        )
+        model = models.AudioListView
+
+
+class VideoListViewSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'id',
+            'userId',
+            'videoListId',
+            'date'
+        )
+        model = models.VideoListView
+
+
+class ArticleViewSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'id',
+            'userId',
+            'articleId',
+            'date'
+        )
+        model = models.ArticleView
+
+
+class NotificationViewSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'id',
+            'userId',
+            'notificationId',
+            'date'
+        )
+        model = models.NotificationView
+
+
+class ArticleSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'id',
+            'title',
+            'content',
+            'author'
+        )
+        model = models.Article
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'id',
+            'title',
+            'text',
+            'link'
+        )
+        model = models.Notification
+
+

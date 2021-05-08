@@ -2,6 +2,30 @@ from django.urls import path
 from apis import views
 
 urlpatterns = [
-    path('', views.ListUser.as_view()),
-    path('<int:pk>/', views.DetailUser.as_view())
+    path('user/', views.ListUser.as_view()),
+    path('user/<int:pk>/', views.DetailUser.as_view()),
+    path('video/', views.ListVideo.as_view()),
+    path('video/<int:pk>/', views.DetailVideo.as_view()),
+    path('audio/', views.ListAudio.as_view()),
+    path('audio/<int:pk>/', views.DetailAudio.as_view()),
+    path('audioList/', views.ListAudioList.as_view()),
+    path('audioList/<int:pk>/', views.DetailAudioList.as_view()),
+    path('videoList/', views.ListVideoList.as_view()),
+    path('videoList/<int:pk>/', views.DetailVideoList.as_view()),
+    path('audioHasAudioList/', views.ListAudioHasAudioList.as_view()),
+    path('audioHasAudioList/<int:pk>/', views.DetailAudioHasAudioList.as_view()),
+    path('videoHasVideoList/', views.ListVideoHasVideoList.as_view()),
+    path('videoHasVideoList/<int:pk>/', views.DetailVideoHasVideoList.as_view()),
+    path('audioListView/', views.ListAudioListView.as_view()),
+    path('audioListView/<int:pk>/', views.DetailAudioListView.as_view()),
+    path('videoListView/', views.ListVideoListView.as_view()),
+    path('videoListView/<int:pk>/', views.DetailVideoListView.as_view()),
+    path('articleView/', views.ListArticleView.as_view()),
+    path('articleView/<int:pk>/', views.DetailArticleView.as_view()),
+    path('notificationView/', views.ListNotificationView.as_view()),
+    path('notificationView/<int:pk>/', views.DetailNotificationView.as_view()),
+    path('article/', views.ListArticle.as_view()),
+    path('article/<int:pk>/', views.DetailArticle.as_view()),
+    path('notification/', views.ListNotification.as_view()),
+    path('notification/<int:pk>/', views.DetailNotification.as_view()),
 ]
