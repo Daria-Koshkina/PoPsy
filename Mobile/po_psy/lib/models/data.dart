@@ -8,14 +8,15 @@ import 'package:po_psy/models/Video.dart';
 import 'package:provider/provider.dart';
 
 import 'VideoPlaylist.dart';
+import '../api/api.dart';
 
 class ContentData {
   List<Content> getContent() {
     List<Song> _songs = <Song>[
-      new Song( "My song1", 'Author', '3.25', 'https://picsum.photos/250?image=9', 'https://thegrowingdeveloper.org/files/audios/quiet-time.mp3?b4869097e4'),
-      new Song( "My song2", 'Author', '3.25', 'https://picsum.photos/250?image=9', 'https://thegrowingdeveloper.org/files/audios/quiet-time.mp3?b4869097e4'),
-      new Song( "My song3", 'Author', '3.25', 'https://picsum.photos/250?image=9', 'https://thegrowingdeveloper.org/files/audios/quiet-time.mp3?b4869097e4'),
-      new Song( "My song4", 'Author', '3.25', 'https://picsum.photos/250?image=9', 'https://thegrowingdeveloper.org/files/audios/quiet-time.mp3?b4869097e4'),
+      new Song( 1, "My song1", 'Author', '3.25', 'https://picsum.photos/250?image=9', 'https://thegrowingdeveloper.org/files/audios/quiet-time.mp3?b4869097e4'),
+      new Song( 2, "My song2", 'Author', '3.25', 'https://picsum.photos/250?image=9', 'https://thegrowingdeveloper.org/files/audios/quiet-time.mp3?b4869097e4'),
+      new Song( 3, "My song3", 'Author', '3.25', 'https://picsum.photos/250?image=9', 'https://thegrowingdeveloper.org/files/audios/quiet-time.mp3?b4869097e4'),
+      new Song( 4, "My song4", 'Author', '3.25', 'https://picsum.photos/250?image=9', 'https://thegrowingdeveloper.org/files/audios/quiet-time.mp3?b4869097e4'),
     ];
     List<Video> _videos = <Video>[
       new Video( "My video", 'Author', '3.25', 'https://picsum.photos/250?image=9', 'https://www.youtube.com/watch?v=xhbLwKQvIpw&ab_channel=codeandartmain'),
