@@ -34,7 +34,11 @@ class VideoSerializer(serializers.ModelSerializer):
     class Meta:
         fields = (
             'id',
-            'content'
+            'title',
+            'author',
+            'image',
+            'time',
+            'url'
         )
         model = models.Video
 
@@ -43,6 +47,7 @@ class AudioListSerializer(serializers.ModelSerializer):
     class Meta:
         fields = (
             'id',
+            'image',
             'title'
         )
         model = models.AudioList
@@ -52,6 +57,7 @@ class VideoListSerializer(serializers.ModelSerializer):
     class Meta:
         fields = (
             'id',
+            'image',
             'title'
         )
         model = models.VideoList

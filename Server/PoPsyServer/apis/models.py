@@ -19,7 +19,7 @@ class Diary(models.Model):
     userId = models.IntegerField()
 
     def __str__(self):
-        return self.id
+        return str(self.id)
 
 
 class Record(models.Model):
@@ -29,7 +29,7 @@ class Record(models.Model):
     content = models.CharField(max_length=1000)
 
     def __str__(self):
-        return self.date
+        return str(self.date)
 
 
 class PremiumUser(models.Model):
@@ -37,7 +37,7 @@ class PremiumUser(models.Model):
     endSubscription = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
-        return self.userId
+        return str(self.userId)
 
 
 class Psychologist(models.Model):
@@ -57,7 +57,7 @@ class Consultation(models.Model):
     price = models.IntegerField()
 
     def __str__(self):
-        return self.date
+        return str(self.date)
 
 
 class TestResult(models.Model):
@@ -82,7 +82,7 @@ class TestHasCategories(models.Model):
     categotyId = models.IntegerField()
 
     def __str__(self):
-        return self.testId
+        return str(self.testId)
 
 
 class Category(models.Model):
@@ -116,7 +116,7 @@ class ArticleView(models.Model):
     date = models.DateTimeField(default=datetime.now)
 
     def __str__(self):
-        return self.articleId
+        return str(self.articleId)
 
 
 class VideoListView(models.Model):
@@ -125,7 +125,7 @@ class VideoListView(models.Model):
     date = models.DateTimeField(default=datetime.now)
 
     def __str__(self):
-        return self.videoListId
+        return str(self.videoListId)
 
 
 class AudioListView(models.Model):
@@ -134,7 +134,7 @@ class AudioListView(models.Model):
     date = models.DateTimeField(default=datetime.now)
 
     def __str__(self):
-        return self.audioListId
+        return str(self.audioListId)
 
 
 class NotificationView(models.Model):
@@ -143,7 +143,7 @@ class NotificationView(models.Model):
     date = models.DateTimeField(default=datetime.now)
 
     def __str__(self):
-        return self.notificationId
+        return str(self.notificationId)
 
 
 class Article(models.Model):
@@ -166,6 +166,7 @@ class Notification(models.Model):
 
 class AudioList(models.Model):
     title = models.CharField(max_length=200)
+    image = models.CharField(max_length=200)
 
     def __str__(self):
         return self.title
@@ -173,16 +174,21 @@ class AudioList(models.Model):
 
 class VideoList(models.Model):
     title = models.CharField(max_length=200)
+    image = models.CharField(max_length=200)
 
     def __str__(self):
         return self.title
 
 
 class Video(models.Model):
-    content = models.CharField(max_length=200)
+    title = models.CharField(max_length=200)
+    author = models.CharField(max_length=200)
+    image = models.CharField(max_length=200)
+    time = models.CharField(max_length=200)
+    url = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.content
+        return self.title
 
 
 class Audio(models.Model):
@@ -193,7 +199,7 @@ class Audio(models.Model):
     url = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.content
+        return self.title
 
 
 class VideoHasVideoList(models.Model):
@@ -201,7 +207,7 @@ class VideoHasVideoList(models.Model):
     videoListId = models.IntegerField()
 
     def __str__(self):
-        return self.videoId
+        return str(self.videoId)
 
 
 class AudioHasAudioList(models.Model):
@@ -209,4 +215,4 @@ class AudioHasAudioList(models.Model):
     audioListId = models.IntegerField()
 
     def __str__(self):
-        return self.audioId
+        return str(self.audioId)
