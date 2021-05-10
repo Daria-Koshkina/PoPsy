@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:po_psy/models/Content.dart';
 import 'package:po_psy/models/MusicPlaylist.dart';
 import '../models/Song.dart';
 import '../models/connecters/song_playlist.dart';
@@ -20,35 +21,13 @@ class ApiManager {
 
   Future<List<MusicPlaylist>> getPlayLists() async {
     List<MusicPlaylist> playlists = null;
-    List<Song> songs = null;
-    List<SongPlayList> songs_playlists = null;
 
-    var url = Uri.parse(urls.Strings.playlists_url);
+    var url = Uri.parse(urls.Strings.get_playlists_url);
     var responce = await http.get(url);
     if (responce.statusCode == 200) {
       var data = json.decode(responce.body) as List;
       playlists = data.map<MusicPlaylist>((json) => MusicPlaylist.fromJson(json)).toList();
     }
-
-    url = Uri.parse(urls.Strings.songs_playlists_url);
-    responce = await http.get(url);
-    if (responce.statusCode == 200) {
-      var data = json.decode(responce.body) as List;
-      songs_playlists = data.map<SongPlayList>((json) => SongPlayList.fromJson(json)).toList();
-    }
-
-    songs = await fetchSongs();
-
-    playlists.forEach((playlist) {
-      playlist.imageURL = 'https://picsum.photos/250?image=9';
-      // ignore: deprecated_member_use
-      playlist.songs = new List<Song>();
-      songs_playlists.forEach((sp) {
-        if (sp.PlaylistId == playlist.id){
-          playlist.songs.add(songs.firstWhere((song) => song.id == sp.SongId));
-        }
-      });
-    });
 
     return playlists;
   }

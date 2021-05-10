@@ -22,6 +22,7 @@ def getMusicPlayLists(request):
             song.image = audio.image
             song.author = audio.author
             song.time = audio.time
+            song.url = audio.url
             musiclist.songs.append(song)
         musiclists.append(musiclist)
 

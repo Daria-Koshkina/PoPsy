@@ -3,13 +3,11 @@ import 'package:po_psy/models/Content.dart';
 import 'package:po_psy/models/Song.dart';
 
 class MusicPlaylist extends Content {
-  final int id;
   List<Song> songs;
   final String URL;
   String imageURL;
 
   MusicPlaylist({
-    this.id,
     String title,
     final String status = 'Songs',
     this.songs,
@@ -19,12 +17,11 @@ class MusicPlaylist extends Content {
 
   factory MusicPlaylist.fromJson(Map<String, dynamic> json){
     return MusicPlaylist(
-        id: json['id'],
         title: json['title'],
-        status: 'Songs',
-        songs: null,
+        status: json['status'],
+        songs: json['songs'].map<Song>((json) => Song.fromJson(json)).toList(),
         URL: null,
-        imageURL: null
+        imageURL: json['image']
     );
   }
 }
