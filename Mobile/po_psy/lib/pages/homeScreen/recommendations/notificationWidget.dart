@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
+import 'package:po_psy/constants/stateConstants/NotificationStates.dart';
 import 'package:po_psy/models/Notification.dart';
+import 'package:po_psy/pages/homeScreen/diary/diary.dart';
+import 'package:po_psy/pages/homeScreen/tests/tests.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NotificationWidget extends StatelessWidget {
   final MyNotification notification;
@@ -25,10 +29,39 @@ class NotificationWidget extends StatelessWidget {
                   Text(
                     notification.text, style: TextStyles.lightCommonTextStyle,),
                   TextButton(
-                      onPressed: (){},
-                      child: Text("Complete", style: TextStyles.notificationButtonTextStyle,)),
+                      onPressed: (){
+                        _manageNotification(notification, context);
+                      },
+                      child: Text("Manage", style: TextStyles.notificationButtonTextStyle,)),
                 ]
         )
     );
+  }
+}
+
+void _manageNotification(MyNotification notification, BuildContext context) {
+  if (notification.URL == null) {
+    return;
+  }
+  if (notification.URL == NotificationStates.tests) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => TestsPage())
+    );
+  } else if (notification.URL == NotificationStates.diary) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => DiaryPage())
+    );
+  } else {
+    _launchURL(notification.URL);
+  }
+}
+
+void _launchURL(String url) async {
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
   }
 }

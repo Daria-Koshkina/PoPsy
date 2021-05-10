@@ -3,9 +3,11 @@ import 'package:po_psy/assets/my_icons_icons.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
 import 'package:po_psy/models/Article.dart';
+import 'package:share/share.dart';
 
 class ArticleTopWidget extends StatelessWidget {
   final Article article;
+
   ArticleTopWidget({this.article});
 
   @override
@@ -27,13 +29,17 @@ class ArticleTopWidget extends StatelessWidget {
                       }),
                   Spacer(),
                   IconButton(icon: Icon(MyIcons.exit_up, color: Colors.white,),
-                      onPressed: () {}),
+                      onPressed: () {
+                        if (article.URL != null) {
+                          Share.share(article.URL);
+                        }
+                      }),
                 ],
               )
           ),
           SizedBox(height: 20,),
           Text(
-              article.title,
+            article.title,
             style: TextStyles.lightHeaderTextStyle,
           ),
           Text(
@@ -44,5 +50,4 @@ class ArticleTopWidget extends StatelessWidget {
       ),
     );
   }
-
 }

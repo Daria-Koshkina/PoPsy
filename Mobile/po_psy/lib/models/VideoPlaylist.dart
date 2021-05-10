@@ -1,18 +1,16 @@
-import 'package:flutter/cupertino.dart';
 import 'package:po_psy/models/Content.dart';
-import 'package:po_psy/models/Song.dart';
 import 'package:po_psy/models/Video.dart';
 
 class VideoPlaylist extends Content {
-  final title;
-  final status;
+  final int id;
   final List<Video> videos;
   final String URL;
   final String imageURL;
 
   VideoPlaylist({
-    this.title,
-    this.status = 'Videos',
+    this.id,
+    String title,
+    final String status = 'Videos',
     this.videos,
     this.URL,
     this.imageURL
