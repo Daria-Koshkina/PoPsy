@@ -149,3 +149,24 @@ class NotificationSerializer(serializers.ModelSerializer):
         model = models.Notification
 
 
+class UserEmotionsSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'userId',
+            'empty',
+            'sadness',
+            'enthusiasm',
+            'worry',
+            'surprise',
+            'love',
+            'fun',
+            'hate',
+            'happiness',
+            'boredom',
+            'relief',
+            'anger'
+        )
+        model = models.UserEmotions
+
+
+

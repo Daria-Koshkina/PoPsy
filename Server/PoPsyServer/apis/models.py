@@ -216,3 +216,22 @@ class AudioHasAudioList(models.Model):
 
     def __str__(self):
         return str(self.audioId)
+
+
+class UserEmotions(models.Model):
+    userId = models.IntegerField()
+    empty = models.FloatField()
+    sadness = models.FloatField()
+    enthusiasm = models.FloatField()
+    worry = models.FloatField()
+    surprise = models.FloatField()
+    love = models.FloatField()
+    fun = models.FloatField()
+    hate = models.FloatField()
+    happiness = models.FloatField()
+    boredom = models.FloatField()
+    relief = models.FloatField()
+    anger = models.FloatField()
+
+    def __str__(self):
+        return str(self.userId)

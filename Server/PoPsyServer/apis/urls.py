@@ -28,4 +28,6 @@ urlpatterns = [
     path('article/<int:pk>/', views.DetailArticle.as_view()),
     path('notification/', views.ListNotification.as_view()),
     path('notification/<int:pk>/', views.DetailNotification.as_view()),
+    path('userEmotions/', views.ListUserEmotions.as_view()),
+    path('userEmotions/<int:pk>/', views.DetailUserEmotions.as_view()),
 ]

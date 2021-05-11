@@ -132,3 +132,14 @@ class ListNotification(generics.ListCreateAPIView):
 class DetailNotification(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Notification.objects.all()
     serializer_class = serializers.NotificationSerializer
+
+
+class ListUserEmotions(generics.ListCreateAPIView):
+    queryset = models.UserEmotions.objects.all()
+    serializer_class = serializers.UserEmotionsSerializer
+
+
+class DetailUserEmotions(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.UserEmotions.objects.all()
+    serializer_class = serializers.UserEmotionsSerializer
+
