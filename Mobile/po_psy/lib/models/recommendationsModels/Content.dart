@@ -1,4 +1,4 @@
-import 'package:po_psy/models/MusicPlaylist.dart';
+import 'package:po_psy/models/recommendationsModels/MusicPlaylist.dart';
 
 class Content {
   final String title;

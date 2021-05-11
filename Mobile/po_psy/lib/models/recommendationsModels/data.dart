@@ -1,14 +1,14 @@
 import 'package:po_psy/api/api.dart';
-import 'package:po_psy/models/Article.dart';
-import 'package:po_psy/models/Content.dart';
-import 'package:po_psy/models/MusicPlaylist.dart';
-import 'package:po_psy/models/Notification.dart';
-import 'package:po_psy/models/Song.dart';
-import 'package:po_psy/models/Video.dart';
+import 'package:po_psy/models/recommendationsModels/Article.dart';
+import 'package:po_psy/models/recommendationsModels/Content.dart';
+import 'package:po_psy/models/recommendationsModels/MusicPlaylist.dart';
+import 'package:po_psy/models/recommendationsModels/Notification.dart';
+import 'package:po_psy/models/recommendationsModels/Song.dart';
+import 'package:po_psy/models/recommendationsModels/Video.dart';
 import 'package:provider/provider.dart';
 
 import 'VideoPlaylist.dart';
-import '../api/api.dart';
+import '../../api/api.dart';
 
 class ContentData {
   List<Content> getContent() {

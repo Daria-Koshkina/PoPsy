@@ -1,5 +1,5 @@
-import 'package:po_psy/models/Content.dart';
-import 'package:po_psy/models/Video.dart';
+import 'package:po_psy/models/recommendationsModels/Content.dart';
+import 'package:po_psy/models/recommendationsModels/Video.dart';
 
 class VideoPlaylist extends Content {
   final int id;

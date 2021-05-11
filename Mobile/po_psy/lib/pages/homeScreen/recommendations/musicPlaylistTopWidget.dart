@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:po_psy/assets/my_icons_icons.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
-import 'package:po_psy/models/MusicPlaylist.dart';
+import 'package:po_psy/models/recommendationsModels/MusicPlaylist.dart';
 import 'package:share/share.dart';
 
 class MusicPlaylistTopWidget extends StatelessWidget {

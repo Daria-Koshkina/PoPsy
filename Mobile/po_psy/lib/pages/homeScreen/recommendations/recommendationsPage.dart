@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:po_psy/assets/my_icons_icons.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
-import 'package:po_psy/models/Content.dart';
-import 'package:po_psy/models/data.dart';
+import 'package:po_psy/models/recommendationsModels/Content.dart';
+import 'package:po_psy/models/recommendationsModels/data.dart';
 import 'package:po_psy/pages/homeScreen/recommendations/contentWidget.dart';
 
 
@@ -19,7 +19,6 @@ class RecommendationsPage extends StatefulWidget {
     @override
     void initState() {
       super.initState();
-
       myController.addListener(_searchContent);
     }
 

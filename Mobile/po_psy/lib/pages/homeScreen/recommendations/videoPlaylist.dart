@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:po_psy/assets/my_icons_icons.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
-import 'package:po_psy/models/Video.dart';
-import 'package:po_psy/models/VideoPlaylist.dart';
+import 'package:po_psy/models/recommendationsModels/Video.dart';
+import 'package:po_psy/models/recommendationsModels/VideoPlaylist.dart';
 import 'package:po_psy/pages/homeScreen/recommendations/videoPlaylistPage.dart';
 
 class VideoPlaylistWidget extends StatelessWidget {
