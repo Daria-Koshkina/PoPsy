@@ -2,24 +2,25 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:po_psy/models/Content.dart';
 import 'package:po_psy/models/MusicPlaylist.dart';
+import 'package:po_psy/models/User.dart';
 import '../models/Song.dart';
 import 'package:http/http.dart' as http;
 import '../constants/ApiConstants/Strings.dart' as urls;
 
-class User{
-  String email;
-  String password;
+//class User{
+//  String email;
+//  String password;
+//
+//  User(this.email, this.password);
 
-  User(this.email, this.password);
-
-  Map<String,String> toPost(){
-    final paramDic = {
-      "email": email,
-      "password": password,
-    };
-    return paramDic;
-  }
-}
+//  Map<String,String> toPost(){
+//    final paramDic = {
+//      "email": email,
+ //     "password": password,
+ //   };
+ //   return paramDic;
+ // }
+//}
 
 class ApiManager {
 

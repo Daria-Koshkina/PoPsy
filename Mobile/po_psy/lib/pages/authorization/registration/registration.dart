@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
 import 'package:po_psy/pages/authorization/login/login.dart';
@@ -7,6 +8,7 @@ import 'validation.dart';
 import 'package:po_psy/models/User.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:po_psy/api/api.dart';
 
 class RegistrationPage extends StatefulWidget {
 
@@ -373,15 +375,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   onPressed: () {
                     if (_key.currentState.validate()) {
                       _key.currentState.save();
-                      User nemUser = User(5, _registrationData.name, null, null,
+                      User newUser = User(5, _registrationData.name, null, null,
                           _registrationData.email, "", 18, _registrationData.password, new List<String>());
-                      //    Future<http.Response> response =  ApiManager().;
-                      //    if (response.statusCode == 200){
-                      int response = 200;
-                      if(response == 200){
+                          Response response =  ApiManager().register(newUser) as Response;
+                          if (response.statusCode == 200){
                         Text x = Text("You successfully registered",
                             style: TextStyles.articleTitleTextStyle);
                         _showDialog(x);
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage()));
                       }
                       else{
                         Text x = Text("You are not registered. Check all fields again",

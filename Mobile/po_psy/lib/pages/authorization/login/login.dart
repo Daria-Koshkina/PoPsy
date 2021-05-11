@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:po_psy/api/api.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
 import 'package:po_psy/widgets/LogoElement.dart';
@@ -149,9 +153,11 @@ class _LoginPageState extends State<LoginPage> {
                   child: TextButton(
                     child: Text("Sign in", style: TextStyles.lightHeader2TextStyle),
                     onPressed: (){
-                   //   User nemUser = User(5, , null, null,
-                    //      _email, "", 18, _pass, new List<String>());
-                      //Future<http.Response> response =  ApiManager().
+                     Response response =  ApiManager().register(_email, _pass) as Response;
+                 if (response.statusCode == 200){
+                   var data = json.decode(response.body) as User;
+                 //  User newUser = data.map<MusicPlaylist>((json) => MusicPlaylist.fromJson(json)).toList();
+                  }
                     },
                   )
               ),
