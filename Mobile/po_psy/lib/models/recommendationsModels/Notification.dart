@@ -1,4 +1,4 @@
-import 'package:po_psy/models/Content.dart';
+import 'package:po_psy/models/recommendationsModels/Content.dart';
 
 class MyNotification extends Content {
   final int id;

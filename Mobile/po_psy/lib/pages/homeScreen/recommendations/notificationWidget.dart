@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
 import 'package:po_psy/constants/stateConstants/NotificationStates.dart';
-import 'package:po_psy/models/Notification.dart';
+import 'package:po_psy/models/recommendationsModels/Notification.dart';
 import 'package:po_psy/pages/homeScreen/diary/diary.dart';
 import 'package:po_psy/pages/homeScreen/tests/tests.dart';
 import 'package:url_launcher/url_launcher.dart';

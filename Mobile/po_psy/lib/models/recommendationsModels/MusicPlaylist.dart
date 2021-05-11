@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:po_psy/models/Content.dart';
-import 'package:po_psy/models/Song.dart';
+import 'package:po_psy/models/recommendationsModels/Content.dart';
+import 'package:po_psy/models/recommendationsModels/Song.dart';
 
 class MusicPlaylist extends Content {
   final int id;

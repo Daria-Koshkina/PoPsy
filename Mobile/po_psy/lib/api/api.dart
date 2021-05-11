@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:po_psy/models/MusicPlaylist.dart';
-import '../models/Song.dart';
+import 'package:po_psy/models/recommendationsModels/MusicPlaylist.dart';
+import '../models/recommendationsModels/Song.dart';
 import '../models/connecters/song_playlist.dart';
 import 'package:http/http.dart' as http;
 import '../constants/ApiConstants/Strings.dart' as urls;
