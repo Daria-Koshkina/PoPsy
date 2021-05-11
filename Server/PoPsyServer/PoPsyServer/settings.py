@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-7!3ibi)vk#tliy
 DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
 
 ALLOWED_HOSTS = [
-'immense-atoll-09215.herokuapp.com','127.0.0.1'
+'immense-atoll-09215.herokuapp.com','127.0.0.1','10.0.2.2','localhost'
 ]
 
 
