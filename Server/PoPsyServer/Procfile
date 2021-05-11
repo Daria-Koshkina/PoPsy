@@ -1,0 +1,1 @@
+web: gunicorn PoPsyServer.wsgi --log-file -

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:po_psy/pages/authorization/registration/registration.dart';
 import 'package:po_psy/pages/authorization/bootSplash/boot.dart';
+=======
+>>>>>>> master
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
+import 'package:po_psy/pages/homeScreen/homePage.dart';
 
 
 void main() {
@@ -17,7 +21,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: ColorPallet.mainColor,
       ),
+<<<<<<< HEAD
       home: BootPage(),
+=======
+      home: HomePage(),
+>>>>>>> master
     );
   }
 }
