@@ -13,8 +13,10 @@ class ApiManager {
   Future<List<Content>> getContent() async {
     List<Content> content = null;
 
-    var url = Uri.parse(urls.Strings.get_playlists_url);
-    var responce = await http.get(url);
+    var url = Uri.parse(urls.Strings.get_content_url_local);
+    Map<String, dynamic> userId = {"userId": '1'};
+    var responce = await http.post(url, body: userId);
+    //var responce = await http.get(url);
     if (responce.statusCode == 200) {
       var data = json.decode(responce.body) as List;
       content = data.map<Content>((json) => Content.fromJson(json)).toList();

@@ -17,9 +17,9 @@ class Rcomendaror:
         if user_data.shape[0] == 0 or other_data.shape[0] == 0 :
             self.nearest = 0
             return
-        neighbors = NearestNeighbors(n_neighbors=1)
+        neighbors = NearestNeighbors(n_neighbors=2)
         neighbors.fit(other_data)
-        self.nearest = neighbors.kneighbors(user_data,1, return_distance=False)[0]
+        self.nearest = neighbors.kneighbors([user_data],2, return_distance=False)[0][1] + 1
         return self.nearest
 
     def fill_recomendatioms(self, view, general, recomedations):
@@ -39,10 +39,16 @@ class Rcomendaror:
 
 
     def generate_recomendations(self, audio, video, article, audioV, videoV, articleV):
-        self.fill_recomendatioms(self, audioV, audio, self.audio)
-        self.fill_recomendatioms(self, videoV, video, self.video)
-        self.fill_recomendatioms(self, articleV, article, self.article)
-        return self.audio + self.video + self.article
+        selfaudio = self.audio
+        selfvideo = self.video
+        selfarticle = self.article
+        self.fill_recomendatioms(audioV, audio, selfaudio)
+        self.fill_recomendatioms(videoV, video, selfvideo)
+        self.fill_recomendatioms(articleV, article, selfarticle)
+        self.audio = selfaudio
+        self.video = selfvideo
+        self.article = selfarticle
+        return self.audio , self.video , self.article
 
 
 
