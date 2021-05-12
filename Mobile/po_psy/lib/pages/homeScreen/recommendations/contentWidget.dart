@@ -20,50 +20,50 @@ class ContentWidget extends StatefulWidget {
 }
 
 class ContentWidgetState extends State<ContentWidget> {
-  Future<List<MusicPlaylist>> _content;
+  Future<List<Content>> _content;
 
   @override
   void initState() {
-    //_content = ApiManager().getPlayLists();
+    _content = ApiManager().getContent();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    // return new SingleChildScrollView(
-    //   child: Container(
-    //     child: FutureBuilder(
-    //       future: _content,
-    //       builder: (context, snapshot) {
-    //         if (snapshot.hasData) {
-    //           return new Column(
-    //               children:
-    //               snapshot.data.map<Widget>((Content c) {
-    //                 return Padding(
-    //                     padding: new EdgeInsets.symmetric(vertical: 8),
-    //                     child: myWidget(content: c)
-    //                 );
-    //               }).toList());
-    //         } else {
-    //           return CircularProgressIndicator();
-    //         }
-    //       },
-    //     ),
-    //   ),
-    // );
-
     return new SingleChildScrollView(
       child: Container(
-          child: new Column(
-              children:
-              widget.content.map<Widget>((Content c) {
-                return Padding(
-                    padding: new EdgeInsets.symmetric(vertical: 8),
-                    child: myWidget(content: c)
-                );
-              }).toList())
+        child: FutureBuilder(
+          future: _content,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return new Column(
+                  children:
+                  snapshot.data.map<Widget>((Content c) {
+                    return Padding(
+                        padding: new EdgeInsets.symmetric(vertical: 8),
+                        child: myWidget(content: c)
+                    );
+                  }).toList());
+            } else {
+              return CircularProgressIndicator();
+            }
+          },
+        ),
       ),
     );
+
+    // return new SingleChildScrollView(
+    //   child: Container(
+    //       child: new Column(
+    //           children:
+    //           widget.content.map<Widget>((Content c) {
+    //             return Padding(
+    //                 padding: new EdgeInsets.symmetric(vertical: 8),
+    //                 child: myWidget(content: c)
+    //             );
+    //           }).toList())
+    //   ),
+    // );
   }
 }
 

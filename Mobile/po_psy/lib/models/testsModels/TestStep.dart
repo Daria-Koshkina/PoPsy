@@ -1,8 +1,9 @@
 class TestStep {
   final Question question;
   final List<Answer> answers;
+  final String imageURL;
 
-  TestStep(this.question, this.answers);
+  TestStep(this.question, this.answers, this.imageURL);
 }
 
 class Question {

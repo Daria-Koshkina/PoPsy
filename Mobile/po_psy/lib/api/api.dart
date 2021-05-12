@@ -10,17 +10,17 @@ import '../models/User.dart';
 
 class ApiManager {
 
-  Future<List<MusicPlaylist>> getPlayLists() async {
-    List<MusicPlaylist> playlists = null;
+  Future<List<Content>> getContent() async {
+    List<Content> content = null;
 
     var url = Uri.parse(urls.Strings.get_playlists_url);
     var responce = await http.get(url);
     if (responce.statusCode == 200) {
       var data = json.decode(responce.body) as List;
-      playlists = data.map<MusicPlaylist>((json) => MusicPlaylist.fromJson(json)).toList();
+      content = data.map<Content>((json) => Content.fromJson(json)).toList();
     }
 
-    return playlists;
+    return content;
   }
 
   Future<http.Response> register (User user) async{

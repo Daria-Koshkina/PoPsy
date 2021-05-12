@@ -65,7 +65,7 @@ class _completedTestWidget extends StatelessWidget {
           ),
           Spacer(),
           Text(
-            _getDateString(test.date),
+            _getDateString(test.result.date),
             style: TextStyles.songTitleTextStyle,
           ),
           IconButton(
