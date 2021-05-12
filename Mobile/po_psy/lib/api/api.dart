@@ -25,14 +25,23 @@ class ApiManager {
 
   Future<http.Response> register (User user) async{
     var url = Uri.parse(urls.Strings.register_url);
-    var responce = await http.post(url, body: user.toPost());
+    Map<String, dynamic> responceBody = user.toPost();
+    var responce = await http.post(url, body: responceBody);
     return responce;
   }
 
-  Future<http.Response> signIn (String email, String password) async{
-    var url = Uri.parse(urls.Strings.signIn_url_local);
+  Future<User> signIn (String email, String password) async{
+    User user;
+    var url = Uri.parse(urls.Strings.signIn_url);
     var responce = await http.post(url, body: {"email" : email, "password" : password});
-    return responce;
+    if (responce.statusCode == 200){
+      var data = json.decode(responce.body);
+      user = User.fromJson(data);
+      //user = data((json) => User.fromJson(json));
+      return user;
+    }
+    else
+    return null;
   }
 
 }

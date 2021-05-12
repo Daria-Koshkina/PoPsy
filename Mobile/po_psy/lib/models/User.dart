@@ -12,14 +12,14 @@ class User {
   User(this.ID, this.name, this.surname, this.imageURL, this.email,
       this.phone, this.age, this.password, this.testResult);
 
-  Map<String,String> toPost(){
+  Map<String,dynamic> toPost(){
     final paramDic = {
       "name" : name,
       "surname" : surname,
       "image" : imageURL,
       "email": email,
       "phone" : phone,
-      "age" : age,
+      "age" : age.toString(),
       "password": password,
     };
     return paramDic;

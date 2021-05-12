@@ -5,7 +5,6 @@ import jsonpickle
 import json
 from django.views.decorators.csrf import csrf_exempt
 
-@csrf_exempt
 def getMusicPlayLists(request):
     musiclists = []
     playlists = models.AudioList.objects.all()
@@ -29,6 +28,7 @@ def getMusicPlayLists(request):
 
     return JsonResponse(jsonpickle.decode(jsonpickle.encode(list(musiclists),unpicklable=False)),safe = False)
 
+@csrf_exempt
 def register(request):
     name = request.POST.get("name")
     surname = request.POST.get("surname")
@@ -37,7 +37,9 @@ def register(request):
     phone = request.POST.get("phone")
     age = request.POST.get("age")
     password = request.POST.get("password")
-    if models.User.objects.get(email=email).DoesNotExist:
+    if models.User.objects.filter(email=email).exists():
+        return HttpResponseBadRequest()
+    else:
         user = models.User()
         user.name = name
         user.surname = surname
@@ -48,15 +50,12 @@ def register(request):
         user.password = password
         user.save()
         return HttpResponse()
-    else:
-        return HttpResponseBadRequest()
 
+@csrf_exempt
 def singIn(request):
     email = request.POST.get("email")
     password = request.POST.get("password")
-    if models.User.objects.get(email=email).DoesNotExist:
-        return HttpResponseBadRequest()
-    else:
+    if models.User.objects.filter(email=email).exists():
         user = models.User.objects.get(email=email)
         if user.password == password:
             user_exp = helpModels.User_exp()
@@ -69,3 +68,5 @@ def singIn(request):
             user_exp.phone = user.phone
             user_exp.photo = user.photo
             return JsonResponse(jsonpickle.decode(jsonpickle.encode(user_exp,unpicklable=False)),safe = False)
+    else:
+        return HttpResponseBadRequest()
