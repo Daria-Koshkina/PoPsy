@@ -11,4 +11,31 @@ class User {
 
   User(this.ID, this.name, this.surname, this.imageURL, this.email,
       this.phone, this.age, this.password, this.testResult);
+
+  Map<String,String> toPost(){
+    final paramDic = {
+      "name" : name,
+      "surname" : surname,
+      "image" : imageURL,
+      "email": email,
+      "phone" : phone,
+      "age" : age,
+      "password": password,
+    };
+    return paramDic;
+  }
+
+  factory User.fromJson(Map<String, dynamic> json){
+    return User(
+        json['id'],
+        json['name'],
+        json['surname'],
+        json['image'],
+        json['email'],
+        json['phone'],
+        json['age'],
+        json['password'],
+        null
+    );
+  }
 }

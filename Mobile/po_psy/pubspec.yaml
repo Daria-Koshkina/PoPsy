@@ -30,8 +30,8 @@ dependencies:
   audioplayers:
   provider:
   url_launcher: ^6.0.3
-  http: ^0.13.3
   share: ^2.0.1
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
