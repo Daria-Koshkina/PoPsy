@@ -4,8 +4,7 @@ from sklearn.neighbors import NearestNeighbors
 import numpy as np
 
 class Rcomendaror:
-    def __init__(self, id):
-        self.id = id
+    def __init__(self):
         self.audio = []
         self.video = []
         self.article = []
