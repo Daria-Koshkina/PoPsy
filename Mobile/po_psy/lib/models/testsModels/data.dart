@@ -1,6 +1,7 @@
 import 'package:po_psy/models/testsModels/Category.dart';
 import 'package:po_psy/models/testsModels/Test.dart';
 import 'package:po_psy/models/testsModels/TestHandler.dart';
+import 'package:po_psy/models/testsModels/AnswerScores.dart';
 import 'package:po_psy/models/testsModels/TestResult.dart';
 import 'package:po_psy/models/testsModels/TestStep.dart';
 
@@ -24,7 +25,7 @@ class TestData {
       Answer('This is answer', 3),
       Answer('This is answer', 4),
     ];
-    TestStep step1 = new TestStep(Question('This is question'), answers);
+    TestStep step1 = new TestStep(Question('This is question'), answers, 'https://picsum.photos/250?image=9');
     List<TestStep> steps = [
       step1,
       step1,
@@ -42,11 +43,14 @@ class TestData {
       Score(9, 12, 'Result Result 3'),
     ];
 
-    TestResult result = new TestResult(scores);
-    TestResult result2 = new TestResult(scores2);
+    AnswerScores result = new AnswerScores(scores);
+    AnswerScores result2 = new AnswerScores(scores2);
 
-    Test test1 = new Test(categories, steps, result, 'Test title 1', 'https://picsum.photos/250?image=9', DateTime.now());
-    Test test2 = new Test(categories2, steps, result2, 'Test title 2', 'https://picsum.photos/250?image=9', DateTime.now());
+    TestResult testResult = TestResult(null, DateTime.now());
+    String desc = '    The Stanford-Binet test is a examination meant to gauge intelligence through five factors of cognitive ability. These five factors include fluid reasoning, knowledge, quantitative reasoning, visual-spatial processing and working memory. Both verbal and nonverbal responses are measured. ';
+
+    Test test1 = new Test(categories, steps, result, 'Test title 1', desc, 'https://picsum.photos/250?image=9', testResult);
+    Test test2 = new Test(categories2, steps, result2, 'Test title 2', desc, 'https://picsum.photos/250?image=9', testResult);
 
 
     List<Test> tests = [

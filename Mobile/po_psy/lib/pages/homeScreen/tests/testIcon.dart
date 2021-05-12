@@ -4,6 +4,7 @@ import 'package:po_psy/constants/UIConstants/TextStyles.dart';
 import 'package:po_psy/models/testsModels/Category.dart';
 import 'package:po_psy/models/testsModels/Test.dart';
 import 'package:po_psy/pages/homeScreen/tests/categoryWidget.dart';
+import 'package:po_psy/pages/homeScreen/tests/startTestPage.dart';
 
 class TestIconWidget extends StatelessWidget {
   final Test test;
@@ -58,7 +59,13 @@ class TestIconWidget extends StatelessWidget {
                   Spacer(),
                   IconButton(
                       icon: Icon(Icons.arrow_forward, color: Colors.white,),
-                      onPressed: () {})
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) =>
+                              StartTestPage(test: test)),
+                        );
+                      })
                 ],
               )
           )

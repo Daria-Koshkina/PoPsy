@@ -108,4 +108,26 @@ class TextStyles {
     color: Color(0xFF878787),
   );
 
+  static TextStyle backButtonTextStyle = TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: ColorPallet.redBlockColor,
+  );
+
+  static TextStyle backStartTextStyle = TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: ColorPallet.mainColor,
+  );
+
+  static TextStyle restartTestButtonTextStyle = TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+    decoration: TextDecoration.underline,
+  );
+
 }
