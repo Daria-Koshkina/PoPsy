@@ -1,7 +1,6 @@
-from apis.models import  UserEmotions, ArticleView, VideoListView, AudioListView, Article, AudioList, VideoList
+from .. import models
 from sklearn.neighbors import NearestNeighbors
 import numpy as np
-
 
 class Rcomendaror:
     def __init__(self):
