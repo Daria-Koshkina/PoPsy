@@ -30,18 +30,11 @@ class ApiManager {
     return responce;
   }
 
-  Future<User> signIn (String email, String password) async{
+  Future<http.Response> signIn (String email, String password) async{
     User user;
     var url = Uri.parse(urls.Strings.signIn_url);
     var responce = await http.post(url, body: {"email" : email, "password" : password});
-    if (responce.statusCode == 200){
-      var data = json.decode(responce.body);
-      user = User.fromJson(data);
-      //user = data((json) => User.fromJson(json));
-      return user;
-    }
-    else
-    return null;
+    return responce;
   }
 
 }

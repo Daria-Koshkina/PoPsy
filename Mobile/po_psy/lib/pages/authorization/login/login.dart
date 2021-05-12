@@ -178,12 +178,13 @@ class _LoginPageState extends State<LoginPage> {
                                   onPressed: () {
                                     setState(() {
                                       ApiManager().signIn(_email, _pass).then((value){
-                                        if (value != null) {
-                                          print("Success");
-                                          print(value.name);
+                                        if (value.statusCode == 200) {
+                                          var data = json.decode(value.body);
+                                          User user = User.fromJson(data);
+                                          print("Success"); //вот тут должно перебрасывать на домашнюю страницу
                                         }
                                         else
-                                          print("Error");
+                                          print("Error"); //пользователь не найден
                                       });
                                     });
                                   },
