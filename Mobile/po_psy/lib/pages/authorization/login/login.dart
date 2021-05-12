@@ -5,6 +5,7 @@ import 'package:http/http.dart';
 import 'package:po_psy/api/api.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
+import 'package:po_psy/models/recommendationsModels/MusicPlaylist.dart';
 import 'package:po_psy/widgets/LogoElement.dart';
 import 'package:po_psy/pages/authorization/registration/registration.dart';
 import 'package:po_psy/models/User.dart';
@@ -153,10 +154,10 @@ class _LoginPageState extends State<LoginPage> {
                   child: TextButton(
                     child: Text("Sign in", style: TextStyles.lightHeader2TextStyle),
                     onPressed: (){
-                     Response response =  ApiManager().register(_email, _pass) as Response;
+                     Response response =  ApiManager().signIn(_email, _pass) as Response;
                  if (response.statusCode == 200){
                    var data = json.decode(response.body) as User;
-                 //  User newUser = data.map<MusicPlaylist>((json) => MusicPlaylist.fromJson(json)).toList();
+                  // User newUser = data.map<User>((json) => User.fromJson(json));
                   }
                     },
                   )

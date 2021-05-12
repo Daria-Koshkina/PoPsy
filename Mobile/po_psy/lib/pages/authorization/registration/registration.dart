@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
 import 'package:po_psy/pages/authorization/login/login.dart';
@@ -377,9 +376,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       _key.currentState.save();
                       User newUser = User(5, _registrationData.name, null, null,
                           _registrationData.email, "", 18, _registrationData.password, new List<String>());
-                          Response response =  ApiManager().register(newUser) as Response;
+                          http.Response response =  ApiManager().register(newUser) as http.Response;
                           if (response.statusCode == 200){
-                        Text x = Text("You successfully registered",
+                            Text x = Text("You successfully registered",
                             style: TextStyles.articleTitleTextStyle);
                         _showDialog(x);
                         Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage()));
