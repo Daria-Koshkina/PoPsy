@@ -5,28 +5,13 @@ import 'package:po_psy/models/recommendationsModels/MusicPlaylist.dart';
 import '../models/recommendationsModels/Song.dart';
 import 'package:http/http.dart' as http;
 import '../constants/ApiConstants/Strings.dart' as urls;
+import '../models/User.dart';
 
-class User{
-  String email;
-  String password;
-
-  User(this.email, this.password);
-
-  Map<String,String> toPost(){
-    final paramDic = {
-      "email": email,
-      "password": password,
-    };
-    return paramDic;
-  }
-}
 
 class ApiManager {
 
   Future<List<MusicPlaylist>> getPlayLists() async {
     List<MusicPlaylist> playlists = null;
-    User user = new User('123@test.com','12345');
-    var resp = await register(user);
 
     var url = Uri.parse(urls.Strings.get_playlists_url);
     var responce = await http.get(url);
@@ -44,9 +29,9 @@ class ApiManager {
     return responce;
   }
 
-  Future<http.Response> signIn (User user) async{
-    var url = Uri.parse(urls.Strings.signIn_url);
-    var responce = await http.post(url, body: user.toPost());
+  Future<http.Response> signIn (String email, String password) async{
+    var url = Uri.parse(urls.Strings.signIn_url_local);
+    var responce = await http.post(url, body: {"email" : email, "password" : password});
     return responce;
   }
 

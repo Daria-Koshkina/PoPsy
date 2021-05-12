@@ -30,11 +30,21 @@ def getMusicPlayLists(request):
     return JsonResponse(jsonpickle.decode(jsonpickle.encode(list(musiclists),unpicklable=False)),safe = False)
 
 def register(request):
+    name = request.POST.get("name")
+    surname = request.POST.get("surname")
+    image = request.POST.get("image")
     email = request.POST.get("email")
+    phone = request.POST.get("phone")
+    age = request.POST.get("age")
     password = request.POST.get("password")
     if models.User.objects.get(email=email).DoesNotExist:
         user = models.User()
+        user.name = name
+        user.surname = surname
+        user.photo = image
         user.email = email
+        user.phone = phone
+        user.age = age
         user.password = password
         user.save()
         return HttpResponse()
@@ -50,6 +60,7 @@ def singIn(request):
         user = models.User.objects.get(email=email)
         if user.password == password:
             user_exp = helpModels.User_exp()
+            user_exp.id = user.id
             user_exp.name = user.name
             user_exp.surname = user.surname
             user_exp.email = user.email

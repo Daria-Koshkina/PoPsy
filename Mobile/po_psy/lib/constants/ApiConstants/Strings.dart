@@ -6,4 +6,5 @@ class Strings{
   static String get_playlists_url_local = 'http://10.0.2.2:8000/apis/getMusicPlayLists/';
   static String register_url = 'https://immense-atoll-09215.herokuapp.com/apis/register/';
   static String signIn_url = 'https://immense-atoll-09215.herokuapp.com/apis/signIn/';
+  static String signIn_url_local = 'http://10.0.2.2:8000/apis/signIn/';
 }
