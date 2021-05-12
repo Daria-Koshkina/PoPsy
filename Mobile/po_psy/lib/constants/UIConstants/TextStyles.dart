@@ -108,4 +108,20 @@ class TextStyles {
     color: Color(0xFF878787),
   );
 
+  static TextStyle linkTextStyle = TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 16,
+    fontWeight: FontWeight.normal,
+    color: ColorPallet.subsidiaryTextColor,
+    decoration: TextDecoration.underline,
+  );
+
+  static TextStyle linkTextStyle2 = TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: ColorPallet.subsidiaryTextColor,
+    decoration: TextDecoration.underline,
+  );
+
 }

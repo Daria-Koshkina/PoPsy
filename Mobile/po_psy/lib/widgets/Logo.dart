@@ -6,19 +6,44 @@ class Logo extends StatelessWidget {
     colors: <Color>[ColorPallet.mainColor, ColorPallet.lightBlueColor,],
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
-  ).createShader(Rect.fromLTWH(0.0, 0.0, 299, 131));
+  ).createShader(Rect.fromLTWH(0.0, 0.0, 299, 189));
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text(
-        'PoPsy',
+      child: Text('PoPsy',
         style: new TextStyle(
-            fontSize: 144,
+            shadows: [
+              Shadow(
+                blurRadius: 15.0,
+                color: Colors.white,
+                offset: Offset(0.0, 0.0),
+              ),
+              Shadow(
+                blurRadius: 3.0,
+                color: Colors.white,
+                offset: Offset(-1.0, -1.0),
+              ),
+              Shadow(
+                blurRadius: 3.0,
+                color: Colors.white,
+                offset: Offset(1.0, -1.0),
+              ),
+              Shadow(
+                blurRadius: 3.0,
+                color: Colors.white,
+                offset: Offset(1.0, 1.0),
+              ),
+              Shadow(
+                blurRadius: 3.0,
+                color: Colors.white,
+                offset: Offset(-1.0, 1.0),
+              )
+            ],
+            fontSize: 180,
             fontFamily: 'Qwigley',
             foreground: Paint()..shader = linearGradient),
       ),
     );
   }
-  
 }
