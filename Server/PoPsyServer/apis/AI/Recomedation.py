@@ -1,7 +1,7 @@
-#from .TextAI import TextAI
 from apis.models import  UserEmotions, ArticleView, VideoListView, AudioListView, Article, AudioList, VideoList
 from sklearn.neighbors import NearestNeighbors
 import numpy as np
+
 
 class Rcomendaror:
     def __init__(self):
@@ -19,7 +19,7 @@ class Rcomendaror:
             return
         neighbors = NearestNeighbors(n_neighbors=1)
         neighbors.fit(other_data)
-        self.nearest = neighbors.kneighbors(user_data,1, return_distance=False)[0]
+        self.nearest = neighbors.kneighbors(user_data,1, return_distance=False)[0][0]
         return self.nearest
 
     def fill_recomendatioms(self, view, general, recomedations):

@@ -5,3 +5,7 @@ psycopg2==2.8.6
 whitenoise==5.2.0
 djangorestframework==3.12.4
 mysqlclient==2.0.3
+tensorflow~=2.5.0rc3
+googletrans~=3.0.0
+numpy~=1.19.5
+scikit-learn~=0.24.2
