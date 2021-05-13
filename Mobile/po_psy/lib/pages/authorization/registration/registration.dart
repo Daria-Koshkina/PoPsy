@@ -442,7 +442,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             onPressed: () {
               if (_key.currentState.validate()) {
                 _key.currentState.save();
-                User newUser = User(5, _registrationData.name, 'Ivan', ' ', _registrationData.email, '', 18, _registrationData.password, new List<String>());
+                User newUser = User(0, _registrationData.name, 'Surname', ' ', _registrationData.email, _registrationData.phone, _registrationData.age, _registrationData.password, new List<String>());
                 ApiManager().register(newUser).then((value) {
                   if (value.statusCode == 200) {
                     Text x = Text("You successfully registered",
