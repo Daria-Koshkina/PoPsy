@@ -4,9 +4,9 @@ from .. import models, helpModels
 import jsonpickle
 import json
 from django.views.decorators.csrf import csrf_exempt
-from apis.AI.Recomedation import  Rcomendaror
 import numpy as np
-
+import requests
+from apis.views import urlStrings
 
 def UserEmotionToList(userEmotion:models.UserEmotions):
     emotions = []
@@ -38,17 +38,31 @@ def ArticleViewToList(articleView:models.ArticleView):
     return articleView.articleId
 
 def PrepareContent(userId):
-    recomendator = Rcomendaror()
     currentUserEmotions = UserEmotionToList(models.UserEmotions.objects.filter(userId=userId).first())
     otherUserEmotions = [UserEmotionToList(i) for i in models.UserEmotions.objects.all()]
-    nearestUserEmotion = recomendator.get_nearest(currentUserEmotions, otherUserEmotions)
+
+    responce = requests.post(urlStrings.nearestUserEmotion, {"currentUserEmotions" : jsonpickle.encode(currentUserEmotions), "otherUserEmotions" : jsonpickle.encode(otherUserEmotions)})
+    nearestUserEmotion = jsonpickle.decode(jsonpickle.decode(responce.content.decode('utf-8')))
+
     playlists = [ContentToList(i) for i in models.AudioList.objects.all()]
     videolists = [ContentToList(i) for i in models.VideoList.objects.all()]
     articles = [ContentToList(i) for i in models.Article.objects.all()]
     playlistsView = [AudioListViewToList(i) for i in models.AudioListView.objects.filter(userId=nearestUserEmotion)]
     videolistsView = [VideoListViewToList(i) for i in models.VideoListView.objects.filter(userId=nearestUserEmotion)]
     articlesView = [ArticleViewToList(i) for i in models.ArticleView.objects.filter(userId=nearestUserEmotion)]
-    audioRecomndations, videoRecomendations, articleRecomendations = recomendator.generate_recomendations(playlists, videolists, articles, playlistsView, videolistsView, articlesView)
+
+    responce = requests.post(urlStrings.generateRecomendations,
+                             {"playlists": jsonpickle.encode(playlists),
+                              "videolists": jsonpickle.encode(videolists),
+                              "articles": jsonpickle.encode(articles),
+                              "playlistsView": jsonpickle.encode(playlistsView),
+                              "videolistsView": jsonpickle.encode(videolistsView),
+                              "articlesView": jsonpickle.encode(articlesView)})
+    map = responce.content.decode('utf-8')
+    map = jsonpickle.decode(map)
+    audioRecomndations = jsonpickle.decode(map["audioRecomndations"])
+    videoRecomendations = jsonpickle.decode(map["videoRecomendations"])
+    articleRecomendations = jsonpickle.decode(map["articleRecomendations"])
     audios = [models.AudioList.objects.filter(id=i).first() for i in audioRecomndations]
     videos = [models.VideoList.objects.filter(id=i).first() for i in videoRecomendations]
     articles = [models.Article.objects.filter(id=i).first() for i in articleRecomendations]
@@ -113,31 +127,6 @@ def getContent(request):
     return JsonResponse(jsonpickle.decode(jsonpickle.encode(list(content),unpicklable=False)),safe = False)
 
 
-
-
-def getMusicPlayLists(request):
-    musiclists = []
-    playlists = models.AudioList.objects.all()
-    for playlist in playlists:
-        musiclist = helpModels.MusicPlaylist()
-        musiclist.title = playlist.title
-        musiclist.image = playlist.image
-        musiclist.status = 'Songs'
-        musiclist.songs = []
-        songconnecters = models.AudioHasAudioList.objects.filter(audioListId=playlist.id)
-        for songconnecter in songconnecters:
-            audio = models.Audio.objects.filter(id=songconnecter.audioId).first()
-            song = helpModels.Music()
-            song.title = audio.title
-            song.image = audio.image
-            song.author = audio.author
-            song.time = audio.time
-            song.url = audio.url
-            musiclist.songs.append(song)
-        musiclists.append(musiclist)
-
-    return JsonResponse(jsonpickle.decode(jsonpickle.encode(list(musiclists),unpicklable=False)),safe = False)
-
 @csrf_exempt
 def register(request):
     name = request.POST.get("name")
@@ -159,6 +148,21 @@ def register(request):
         user.age = age
         user.password = password
         user.save()
+        useremotions = models.UserEmotions()
+        useremotions.userId = user.id
+        useremotions.empty = 0
+        useremotions.sadness = 0
+        useremotions.enthusiasm = 0
+        useremotions.worry = 0
+        useremotions.surprise = 0
+        useremotions.love = 0
+        useremotions.fun = 0
+        useremotions.hate = 0
+        useremotions.happiness = 0
+        useremotions.boredom = 0
+        useremotions.relief = 0
+        useremotions.anger = 0
+        useremotions.save()
         return HttpResponse()
 
 @csrf_exempt

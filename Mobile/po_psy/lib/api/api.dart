@@ -13,7 +13,7 @@ class ApiManager {
   Future<List<Content>> getContent() async {
     List<Content> content = null;
 
-    var url = Uri.parse(urls.Strings.get_content_url_local);
+    var url = Uri.parse(urls.Strings.get_content_url);
     Map<String, dynamic> userId = {"userId": '1'};
     var responce = await http.post(url, body: userId);
     //var responce = await http.get(url);
