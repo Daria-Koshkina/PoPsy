@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
 import 'package:po_psy/pages/authorization/login/login.dart';
+import 'package:po_psy/pages/homeScreen/homePage.dart';
+import 'package:po_psy/pages/homeScreen/recommendations/recommendationsPage.dart';
 import 'RegistrationRequestData.dart';
 import 'validation.dart';
 import 'package:po_psy/models/User.dart';
@@ -24,6 +26,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   bool _validate = false;
   RegistrationRequestData _registrationData = RegistrationRequestData();
   final passwordControler = TextEditingController();
+  String _pass = '';
 
   void initState() {
     passwordControler.addListener(_savePassword);
@@ -31,7 +34,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   }
 
   _savePassword() {
-    _registrationData.password = passwordControler.text;
+    _pass = passwordControler.text;
   }
 
   @override
@@ -242,6 +245,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
           },
         ),
       ),
+
       Container(
         margin: EdgeInsets.only(top: 20, left: 20, right: 20),
         decoration: BoxDecoration(
@@ -254,8 +258,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
         ),
         child: TextFormField(
             autofocus: false,
-            controller: passwordControler,
             obscureText: _obscureText1,
+            controller: passwordControler,
             decoration: InputDecoration(
               fillColor: Colors.white,
               filled: true,
@@ -304,7 +308,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
         ),
         child: TextFormField(
             autofocus: false,
-            controller: passwordControler,
             obscureText: _obscureText2,
             decoration: InputDecoration(
               fillColor: Colors.white,
@@ -335,7 +338,89 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 ),
               ),
             ),
-            validator: (value) {}),
+            validator: (value) {
+              print(value);
+              print(_pass);
+              print(identical(_pass, value));
+              if (value.isEmpty) {
+                return "Reapeted password is Required";
+              } else if (0 != _pass.compareTo(value)) {
+                return "Paswords must be the same";
+              }
+              return null;
+            }),
+      ),
+      Container(
+        margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: ColorPallet.placeholderColor,
+              blurRadius: 30,
+            ),
+          ],
+        ),
+        child: TextFormField(
+          keyboardType: TextInputType.phone,
+          autofocus: false,
+          decoration: InputDecoration(
+            fillColor: Colors.white,
+            filled: true,
+            hintText: 'Phone',
+            errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.red),
+                borderRadius: BorderRadius.circular(32.0)),
+            focusedErrorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.red),
+                borderRadius: BorderRadius.circular(32.0)),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+                borderRadius: BorderRadius.circular(32.0)),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: ColorPallet.mainColor),
+                borderRadius: BorderRadius.circular(32.0)),
+          ),
+          validator: FormValidator().validatePhone,
+          onSaved: (String value) {
+            _registrationData.phone = value;
+          },
+        ),
+      ),
+      Container(
+        margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: ColorPallet.placeholderColor,
+              blurRadius: 30,
+            ),
+          ],
+        ),
+        child: TextFormField(
+          keyboardType: TextInputType.number,
+          autofocus: false,
+          decoration: InputDecoration(
+            fillColor: Colors.white,
+            filled: true,
+            hintText: 'Age',
+            errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.red),
+                borderRadius: BorderRadius.circular(32.0)),
+            focusedErrorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.red),
+                borderRadius: BorderRadius.circular(32.0)),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+                borderRadius: BorderRadius.circular(32.0)),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: ColorPallet.mainColor),
+                borderRadius: BorderRadius.circular(32.0)),
+          ),
+          validator: FormValidator().validateAge,
+          onSaved: (String value) {
+            _registrationData.age = int.tryParse(value);
+          },
+        ),
       ),
       Container(
         alignment: Alignment.bottomCenter,
@@ -364,7 +449,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         style: TextStyles.articleTitleTextStyle);
                     _showDialog(x);
                     Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => LoginPage()));
+                        MaterialPageRoute(builder: (context) => HomePage()));
                   } else {
                     Text x = Text(
                         "You are not registered. Check all fields again",
