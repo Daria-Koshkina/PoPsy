@@ -42,6 +42,14 @@ class FormValidator {
     }
     return null;
   }
+  String validateSurname(String value) {
+    if (value.isEmpty) {
+      return "Name is Required";
+    } else if (value.length < 4) {
+      return "Name must minimum tree characters";
+    }
+    return null;
+  }
 
   String validatePhone(String value) {
     if (value.isEmpty) {

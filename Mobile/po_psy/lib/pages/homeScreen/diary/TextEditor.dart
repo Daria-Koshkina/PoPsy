@@ -29,6 +29,9 @@ class _EditorPageState extends State<EditorPage> {
   List<String> _current = ['14', '16', '18', '20', '22', '24'];
   String _currentSelectedValue = '14';
   final textControler = TextEditingController();
+  bool _italic = false;
+  bool _underline = false;
+  bool _bold = false;
   @override
   void initState() {
     textControler.addListener(_saveText);
@@ -97,7 +100,7 @@ class _EditorPageState extends State<EditorPage> {
                       Container(
                           child: new ConstrainedBox(
                               constraints: BoxConstraints(
-                                maxHeight: 400.0,
+                                maxHeight: 350.0,
                               ),
                               child: new Scrollbar(
                                   child: new SingleChildScrollView(
@@ -105,7 +108,10 @@ class _EditorPageState extends State<EditorPage> {
                                       reverse: true,
                                       child: TextField(
                                         style: TextStyle(color: ColorPallet.mainTextColor,
-                                            fontSize: double.tryParse(_currentSelectedValue),                       // высота шрифта 26
+                                            fontSize: double.tryParse(_currentSelectedValue),
+                                            decoration: _underline ? TextDecoration.underline : TextDecoration.none,
+                                            fontStyle: _italic ? FontStyle.italic : FontStyle.normal,
+                                          fontWeight: _bold ? FontWeight.bold : FontWeight.normal,
                                         ),
                                         maxLines: null,
                                       )
@@ -154,11 +160,13 @@ class _EditorPageState extends State<EditorPage> {
                                 child: IconButton(
                                     iconSize: 50.0,
                                     icon: Image.asset(
-                                      "assets/image/bold_letter.png",
+                                      "assets/image/underline_letter.png",
                                       color: ColorPallet.mainColor,
                                       fit: BoxFit.fill,),
                                     onPressed: () {
-                                      //To Doo----------------------------------------------------------------------
+                                      setState(() {
+                                        _underline = !_underline;
+                                      });
                                     }
                                 )
                             ),
@@ -166,11 +174,14 @@ class _EditorPageState extends State<EditorPage> {
                                 child: IconButton(
                                     iconSize: 50.0,
                                     icon: Image.asset(
-                                      "assets/image/underline_letter.png",
+                                      "assets/image/bold_letter.png",
                                       color: ColorPallet.mainColor,
                                       fit: BoxFit.fill,),
                                     onPressed: () {
-                                      //To Doo----------------------------------------------------------------------
+                                      setState(() {
+
+                                      _bold =  !_bold;
+                                       });
                                     }
                                 )
                             ),
@@ -182,7 +193,9 @@ class _EditorPageState extends State<EditorPage> {
                                       color: ColorPallet.mainColor,
                                       fit: BoxFit.fill,),
                                     onPressed: () {
-                                      //To Doo----------------------------------------------------------------------
+                                      setState(() {
+                                        _italic = !_italic;
+                                      });
                                     }
                                 )
                             ),
