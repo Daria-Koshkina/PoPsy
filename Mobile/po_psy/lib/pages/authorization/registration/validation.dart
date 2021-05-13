@@ -42,4 +42,23 @@ class FormValidator {
     }
     return null;
   }
+
+  String validatePhone(String value) {
+    if (value.isEmpty) {
+      return null;
+    } else if (value.length == 10) {
+      return null;
+    }
+    return "Incorect phone";
+  }
+
+  String validateAge(String value) {
+    if (value.isEmpty) {
+      return null;
+    }var numValue = int.tryParse(value);
+    if(numValue > 5 && numValue < 100) {
+      return null;
+    }
+    return "Incorect age";
+  }
 }

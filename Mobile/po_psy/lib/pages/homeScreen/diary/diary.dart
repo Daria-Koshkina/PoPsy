@@ -22,6 +22,12 @@ class _DiaryPageState extends State<DiaryPage> {
  DateTime x = DateTime.now();
   String _text = "";
   String _audio = "";
+ List<String> months = ['January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'];
+ List<String> week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
+    'Saturday', 'Sunday'];
+ List<String> _current = ['14', '16', '18', '20', '22', '24'];
+ String _currentSelectedValue = '14';
   final textControler = TextEditingController();
   @override
   void initState() {
@@ -40,30 +46,7 @@ class _DiaryPageState extends State<DiaryPage> {
         child: Center(
           child: new ListView(
             children: <Widget>[
-              Stack(
-                children: <Widget>[
-                  Container(
-                    height: 15,
-                    margin: EdgeInsets.only(left: 20, right: 20),
-                    decoration: new BoxDecoration(color: ColorPallet.mainColor,),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 10),
-                    child: MaterialButton(
-                      onPressed: () {
-                      //  Navigator.of(context).push(
-                     //     MaterialPageRoute(builder: (context) => LoginPage()));
-                      },
-                      textColor: Colors.white,
-                      child: Icon(
-                        Icons.arrow_back,
-                        size: 30,
-                      ),
-                    )
-                  )
-               ]
-              )
-            ]
+              ]
           )
         )
       )
