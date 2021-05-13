@@ -56,6 +56,10 @@ flutter:
     - assets/image/defolt_user.jpg
     - assets/image/facebook-logo.png
     - assets/image/google-logo.png
+    - assets/image/defolt_diary.jpg
+    - assets/image/bold_letter.png
+    - assets/image/italic_letter.png
+    - assets/image/underline_letter.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
