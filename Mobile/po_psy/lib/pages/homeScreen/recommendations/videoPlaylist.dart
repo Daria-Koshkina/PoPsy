@@ -67,6 +67,7 @@ final Color color;
 
 class _Video extends StatelessWidget {
   final Video video;
+
   const _Video({Key key, this.video}) : super(key: key);
 
   @override
@@ -79,7 +80,6 @@ class _Video extends StatelessWidget {
         color: ColorPallet.lightGreyColor,
         borderRadius: BorderRadius.circular(25),
       ),
-      alignment: Alignment.bottomLeft,
       child: Row(
         children: [
           ClipRRect(
@@ -87,11 +87,24 @@ class _Video extends StatelessWidget {
             child: Image.network(video.imageURL),
           ),
           SizedBox(width: 5,),
-          Column(
+          Expanded(child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(video.title, style: TextStyles.songTitleTextStyle,),
-              Text(video.author, style: TextStyles.authorTitleTextStyle,)
+              Text(
+                video.title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                softWrap: false,
+                style: TextStyles.songTitleTextStyle,
+              ),
+              Text(
+                video.author,
+                style: TextStyles.authorTitleTextStyle,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                softWrap: false,)
             ],
+          )
           )
         ],
       ),

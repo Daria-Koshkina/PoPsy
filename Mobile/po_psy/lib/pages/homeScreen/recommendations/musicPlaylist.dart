@@ -83,7 +83,6 @@ class _Song extends StatelessWidget {
         color: ColorPallet.lightGreyColor,
         borderRadius: BorderRadius.circular(25),
       ),
-      alignment: Alignment.bottomLeft,
       child: Row(
         children: [
           ClipRRect(
@@ -91,15 +90,27 @@ class _Song extends StatelessWidget {
             child: Image.network(song.imageURL),
           ),
           SizedBox(width: 5,),
-          Column(
+          Expanded(child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(song.title, style: TextStyles.songTitleTextStyle,),
-              Text(song.author, style: TextStyles.authorTitleTextStyle,)
+              Text(
+                song.title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                softWrap: false,
+                style: TextStyles.songTitleTextStyle,
+              ),
+              Text(
+                song.author,
+                style: TextStyles.authorTitleTextStyle,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                softWrap: false,)
             ],
+          )
           )
         ],
       ),
     );
   }
-
 }
