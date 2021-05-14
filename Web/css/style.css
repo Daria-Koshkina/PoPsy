@@ -28,6 +28,7 @@ h2+p{
     font-style: italic;
 }
 .tm-banner-text{
+ 
     font-style: italic;
     font-size: 1.7em;
     font-weight: bolder;
@@ -100,7 +101,7 @@ h2+p{
     background-color:rgb(197, 233, 199);
 }
 .tm-banner-inner{
-    background-color: #fff;
+    background-color:rgb(232, 253, 236) ;
 }
 
 .tm-sidebar, .tm-content-box{
@@ -183,7 +184,7 @@ section::before {
 }
 .first_offer,
 .third_offer {
-    background-color: #79c9eb;
+    background-color: rgb(118, 163, 128);
     color: #fff;
     height: 85%;
     width: 300%;
@@ -193,8 +194,8 @@ section::before {
     align-content: center;
 }
 .second_offer {
-    border: 2px solid #79c9eb;
-    color: #0078aa;
+    border: 2px solid rgb(118, 163, 128);
+    color: rgb(118, 163, 128);
     height: 92%;
     width: 310%;
     display: flex;
@@ -223,20 +224,31 @@ section::before {
     font-size: 3.0em;
     margin: -2%;
 }
+#premium_img{
+    margin-top: 10%;
+}
 .offers_button {
-    background-color: #fff;
-    margin-top: 5%;
+
+    margin-top: 20%;
     border-radius: 10px;
-    border: 1.5px solid #0078aa;
+    border: 1.5px solid rgb(118, 163, 128);
     display: inline-block;
     cursor: pointer;
-    color: #0078aa;
+    background-color:rgb(200, 230, 207) ;
+    color: rgb(118, 163, 128);
     font-family: Arial;
     font-size: 19px;
-    padding: 9px 20px;
+    padding: 15px 25px;
     text-decoration: none;
 }
-
+.offers_button:hover{
+    border: 1.5px solid rgb(118, 163, 128);
+    background-color:rgb(118, 163, 128);
+    color:  #fff;
+}
+#pics_desc{
+    margin-left: -0.01%;
+}
 #button_form{
     border:1px solid rgb(124, 156, 129);
     background-color: rgb(118, 163, 128);
@@ -247,5 +259,15 @@ section::before {
     font-size: 1.5em;
     width: 150%;
     margin-left: -25%;
-    
+}
+.help_p{
+    font-size: 3.0em;
+    font-weight: bolder;
+    color: rgb(118, 163, 128);
+}
+.read_more_p{
+    font-size: 1.5em;
+}
+.boxes.gallery-container{
+    margin-left: 15% ;
 }
