@@ -286,5 +286,6 @@ section:before {
 
 .tm-footer {
     color: #666;
-    padding-bottom: 15px
+    padding-bottom: 15px;
+    text-align: center;
 }
