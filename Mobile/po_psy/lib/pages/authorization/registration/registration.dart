@@ -240,6 +240,42 @@ class _RegistrationPageState extends State<RegistrationPage> {
           ],
         ),
         child: TextFormField(
+          keyboardType: TextInputType.name,
+          autofocus: false,
+          decoration: InputDecoration(
+            fillColor: Colors.white,
+            filled: true,
+            hintText: 'Surname',
+            errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.red),
+                borderRadius: BorderRadius.circular(32.0)),
+            focusedErrorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.red),
+                borderRadius: BorderRadius.circular(32.0)),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+                borderRadius: BorderRadius.circular(32.0)),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: ColorPallet.mainColor),
+                borderRadius: BorderRadius.circular(32.0)),
+          ),
+          validator: FormValidator().validateSurname,
+          onSaved: (String value) {
+            _registrationData.surname = value;
+          },
+        ),
+      ),
+      Container(
+        margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: ColorPallet.placeholderColor,
+              blurRadius: 30,
+            ),
+          ],
+        ),
+        child: TextFormField(
           keyboardType: TextInputType.emailAddress,
           autofocus: false,
           decoration: InputDecoration(
@@ -462,7 +498,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             onPressed: () {
               if (_key.currentState.validate()) {
                 _key.currentState.save();
-                User newUser = User(0, _registrationData.name, 'Surname', ' ', _registrationData.email, _registrationData.phone, _registrationData.age, _registrationData.password, new List<String>());
+                User newUser = User(0, _registrationData.name, _registrationData.surname, ' ', _registrationData.email, _registrationData.phone, _registrationData.age, _registrationData.password, new List<String>());
                 ApiManager().register(newUser).then((value) {
                   if (value.statusCode == 200) {
                     Text x = Text("You successfully registered",
