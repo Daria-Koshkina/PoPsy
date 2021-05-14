@@ -1,6 +1,6 @@
 
 h2.tm-section-title {
-    color: rgb(183, 231, 197);
+    color: rgb(124, 156, 129);
 }
 
 a:focus {
@@ -88,8 +88,8 @@ section:before {
 .tm-banner-title,
 .tm-section-title {
     color: rgb(124, 156, 129);
-    font-weight: 300;
-    margin: 0
+    font-weight: 2.0em;
+    margin-top:1%;
 }
 
 .tm-section-title {

@@ -60,7 +60,6 @@ h2+p{
     margin-right:15%;
     font-size: 2.0em;
     letter-spacing: 0.3em;
-    font-style: italic;
     color: cornsilk;
 }
 #logo_img_top{
@@ -75,8 +74,8 @@ h2+p{
 }
 .padding-medium.flex-item.tm-team-description-container.flex-item h2+p:first-letter,
 .padding-medium.flex-item.tm-team-description-container.flex-item h2+p+p:first-letter{
-    color: lightskyblue;
-    font-size: 30px;
+    color: rgb(105, 172, 105);
+    font-size: 2.0em;
     margin-left: 20px
 }
 
@@ -119,7 +118,20 @@ section::before {
     color: gainsboro;
     letter-spacing: 5px;
 }
-
+.tm-section-title{
+    margin-left: 30%;
+    width: 100%;
+    color:rgb(105, 172, 105) ;
+    font-size: 2.0em;
+    
+}
+.tm-section-description{
+    margin-left: 30%;
+    font-style: normal;
+    width: 120%;
+    display: inline-block;
+    vertical-align: middle;
+}
 .tm-content-box div ol li:nth-child(1)::after, .tm-content-box div ol li:nth-child(3)::after{
     content: "New";
     color: red;
@@ -140,8 +152,8 @@ section::before {
 
 .heading.tm-content-box .padding-medium ol li a:hover{
     text-decoration: underline;
-    color:lightskyblue;
-    border-bottom: 1.5px solid lightskyblue;
+    color:rgb(128, 161, 125);
+    border-bottom: 1.5px solid rgb(118, 163, 128);
 }
 
 
