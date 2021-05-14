@@ -33,6 +33,7 @@ dependencies:
   share: ^2.0.1
   intl: ^0.17.0
   grouped_buttons: ^1.0.4
+  shared_preferences: ^0.5.4+8
 
 dev_dependencies:
   flutter_test:

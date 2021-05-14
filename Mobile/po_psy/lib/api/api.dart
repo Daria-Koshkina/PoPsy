@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:po_psy/models/UserHandler.dart';
 import 'package:po_psy/models/recommendationsModels/Content.dart';
 import 'package:http/http.dart' as http;
 import '../constants/ApiConstants/Strings.dart' as urls;
@@ -11,7 +12,7 @@ class ApiManager {
     List<Content> content = null;
 
     var url = Uri.parse(urls.Strings.get_content_url);
-    Map<String, dynamic> userId = {"userId": '1'};
+    Map<String, dynamic> userId = {"userId": UserHandler.instance.getUserId().toString()};
     var responce = await http.post(url, body: userId);
     //var responce = await http.get(url);
     if (responce.statusCode == 200) {
@@ -30,9 +31,14 @@ class ApiManager {
   }
 
   Future<http.Response> signIn (String email, String password) async{
-    User user;
     var url = Uri.parse(urls.Strings.signIn_url);
     var responce = await http.post(url, body: {"email" : email, "password" : password});
+    return responce;
+  }
+
+  Future<http.Response> getUser (String userId) async{
+    var url = Uri.parse(urls.Strings.getUser_url);
+    var responce = await http.post(url, body: {"userId" : userId});
     return responce;
   }
 

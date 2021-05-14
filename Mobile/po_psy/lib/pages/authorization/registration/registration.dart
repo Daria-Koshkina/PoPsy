@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
+import 'package:po_psy/models/UserHandler.dart';
 import 'package:po_psy/pages/authorization/login/login.dart';
 import 'package:po_psy/pages/homeScreen/homePage.dart';
 import 'package:po_psy/pages/homeScreen/recommendations/recommendationsPage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'RegistrationRequestData.dart';
 import 'validation.dart';
 import 'package:po_psy/models/User.dart';
@@ -481,6 +485,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 User newUser = User(0, _registrationData.name, _registrationData.surname, ' ', _registrationData.email, _registrationData.phone, _registrationData.age, _registrationData.password, new List<String>());
                 ApiManager().register(newUser).then((value) {
                   if (value.statusCode == 200) {
+                    var data = json.decode(value.body);
+                    newUser.ID = data;
+                    UserHandler(newUser);
+                    SharedPreferences.getInstance().then((prefs) {
+                      prefs.setString('userId', newUser.ID.toString());
+                    });
                     Text x = Text("You successfully registered",
                         style: TextStyles.articleTitleTextStyle);
                     _showDialog(x);
