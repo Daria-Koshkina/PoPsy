@@ -3,10 +3,14 @@ import 'package:intl/intl.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
 import 'package:po_psy/models/testsModels/Test.dart';
+import 'package:po_psy/models/testsModels/TestSessions.dart';
+import 'package:po_psy/pages/homeScreen/tests/startTestPage.dart';
 
 class CompletedTestsWidget extends StatefulWidget {
   final List<Test> tests;
-  CompletedTestsWidget({this.tests});
+  final List<TestSessions> sessions;
+
+  CompletedTestsWidget({this.tests, this.sessions});
 
   CompletedTestsWidgetState createState() => CompletedTestsWidgetState();
 }
@@ -33,7 +37,7 @@ class CompletedTestsWidgetState extends State<CompletedTestsWidget> {
               child: Column(
                 children: widget.tests.map<Widget>((Test test) {
                   return Padding(padding: EdgeInsets.symmetric(vertical: 5),
-                      child: _completedTestWidget(test: test)
+                      child: _completedTestWidget(test: test, session: _getTestSessions(widget.sessions, test),)
                   );
                 }).toList(),
               )
@@ -45,8 +49,9 @@ class CompletedTestsWidgetState extends State<CompletedTestsWidget> {
 
 class _completedTestWidget extends StatelessWidget {
   final Test test;
+  final TestSessions session;
 
-  _completedTestWidget({this.test});
+  _completedTestWidget({this.test, this.session});
 
   @override
   Widget build(BuildContext context) {
@@ -70,12 +75,27 @@ class _completedTestWidget extends StatelessWidget {
           ),
           IconButton(
             icon: Icon(Icons.arrow_forward, color: Colors.white,),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>
+                  new StartTestPage(test, session))
+              );
+            },
           ),
         ],
       ),
     );
   }
+}
+
+TestSessions _getTestSessions(List<TestSessions> sessions, Test test) {
+  for (int i = 0; i < sessions.length; i++) {
+    if (sessions[i].testId == test.id) {
+      return sessions[i];
+    }
+  }
+  return new TestSessions(test.id, []);
 }
 
 String _getDateString(DateTime date) {

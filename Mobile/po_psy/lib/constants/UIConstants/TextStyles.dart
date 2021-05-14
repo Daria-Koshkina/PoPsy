@@ -145,4 +145,19 @@ class TextStyles {
     decoration: TextDecoration.underline,
   );
 
+  static TextStyle testResultTextStyle = TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 36,
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+  );
+
+  static TextStyle shareTestResultTextStyle = TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 18,
+    fontWeight: FontWeight.normal,
+    color: Colors.white,
+    decoration: TextDecoration.underline,
+  );
+
 }
