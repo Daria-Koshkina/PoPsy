@@ -1,23 +1,33 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
 import 'package:po_psy/models/testsModels/Category.dart';
 import 'package:po_psy/models/testsModels/Test.dart';
 import 'package:po_psy/models/testsModels/TestHandler.dart';
+import 'package:po_psy/models/testsModels/TestResult.dart';
+import 'package:po_psy/models/testsModels/TestSessions.dart';
 import 'package:po_psy/pages/homeScreen/homePage.dart';
+import 'package:po_psy/pages/homeScreen/tests/TestResultPage.dart';
 import 'package:po_psy/pages/homeScreen/tests/TestStepPage.dart';
 import 'package:po_psy/pages/homeScreen/tests/categoryWidget.dart';
 import 'package:po_psy/pages/homeScreen/tests/tests.dart';
 
 class StartTestPage extends StatefulWidget {
   final Test test;
-  StartTestPage({this.test});
+  final TestSessions _testSessions;
+  StartTestPage(this.test, this._testSessions);
 
   StartTestPageState createState() => StartTestPageState();
 }
 
 class StartTestPageState extends State<StartTestPage> {
+
+  @override
+  void initState() {
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,6 +65,8 @@ class StartTestPageState extends State<StartTestPage> {
                   style: TextStyles.lightCommonTextStyle,
                 ),
                 SizedBox(height: 30,),
+                _sessionsWidget(),
+                SizedBox(height: 30,),
                 Row(
                   children: [
                     SizedBox(
@@ -85,15 +97,13 @@ class StartTestPageState extends State<StartTestPage> {
                             Icons.arrow_forward,
                             color: ColorPallet.mainColor,
                           ),
-                          label: Text(
-                            'I`m ready!',
-                            style: TextStyles.backStartTextStyle,),
+                          label: _getButtonText(),
                           style: TextButton.styleFrom(
                             backgroundColor: ColorPallet
                                 .backgroundColor,
                           ),
                           onPressed: (){
-                            _startTest(context, widget.test);
+                            _startTest(context, widget.test, widget._testSessions);
                           },
                         )
                     ),
@@ -106,6 +116,71 @@ class StartTestPageState extends State<StartTestPage> {
       ),
     );
   }
+
+  Widget _getButtonText() {
+    if (widget._testSessions.results.isEmpty) {
+      return Text(
+        'I`m ready!',
+        style: TextStyles.backStartTextStyle,);
+    } else {
+      return Text(
+        'Retake',
+        style: TextStyles.backStartTextStyle,);
+    }
+  }
+
+  Widget _sessionsWidget() {
+    if (widget._testSessions.results.isEmpty) {
+      return Container(width: 0, height: 0,);
+    } else {
+      return SingleChildScrollView(
+          child: Column(
+            children: widget._testSessions.results.map((TestResult testResult) {
+              return _session(testResult);
+            }).toList(),
+          )
+      );
+    }
+  }
+
+  Widget _session(TestResult res) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15)
+      ),
+      padding: EdgeInsets.all(5),
+      height: 45,
+      child: Row(
+        children: [
+          Text(
+            _getDateString(res.date),
+            style: TextStyles.songTitleTextStyle,
+          ),
+          Spacer(),
+          Text(
+            'See more details',
+            style: TextStyles.songTitleTextStyle,
+          ),
+          IconButton(
+              icon: Icon(Icons.arrow_forward, color: ColorPallet.placeholderColor,),
+              onPressed: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) =>
+                    new TestResultPage(res))
+                );
+              })
+        ],
+      ),
+    );
+  }
+}
+
+String _getDateString(DateTime date) {
+  final DateFormat formatter = DateFormat('yyyy-MM-dd');
+  final String formatted = formatter.format(date);
+  return formatted;
 }
 
 Widget _categoriesWidget(List<Category> categories) {
@@ -128,14 +203,14 @@ Widget _categoriesWidget(List<Category> categories) {
   );
 }
 
-void _startTest(BuildContext context, Test test) {
+void _startTest(BuildContext context, Test test, TestSessions testSessions) {
   var testHandler = TestHandler(test);
   var testStep = testHandler.getNext();
   if (testStep != null) {
     Navigator.push(
         context,
         MaterialPageRoute(builder: (context) =>
-        new TestStepPage(testHandler, testStep))
+        new TestStepPage(testStep, testSessions))
     );
   }
 }
