@@ -2,10 +2,11 @@ import "package:flutter/material.dart";
 import 'package:po_psy/assets/my_icons_icons.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
-import 'package:po_psy/pages/homeScreen/account/account.dart';
 import 'package:po_psy/pages/homeScreen/diary/diary.dart';
 import 'package:po_psy/pages/homeScreen/recommendations/recommendationsPage.dart';
 import 'package:po_psy/pages/homeScreen/tests/tests.dart';
+
+import 'account/profile.dart';
 
 class HomePage extends StatefulWidget {
   @override

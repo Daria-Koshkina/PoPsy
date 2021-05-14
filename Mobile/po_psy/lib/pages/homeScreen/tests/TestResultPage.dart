@@ -47,7 +47,7 @@ class TestResultPageState extends State<TestResultPage> {
                   ),
                   child: TextButton(
                     onPressed: () {
-                      Navigator.of(context).popUntil((route) => route.isFirst);
+                      Navigator.of(context).popUntil((route) => route.isCurrent);
                     },
                     child: Text(
                       'Other tests',
