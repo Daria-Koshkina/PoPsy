@@ -40,15 +40,15 @@ h2+p{
     width: 200px;
     margin: 3%;
     font-size: 1.7em;
-    color: rgb(124, 156, 129);
     border-radius: 10%;
-    border: 2px solid rgb(124, 156, 129);
+    border: 1.5px solid rgb(118, 163, 128);
+    background-color:rgb(118, 163, 128);
+    color:  #fff;
 }
 .download:hover{
-    color: rgb(124, 156, 129);
-    border: 2px solid rgb(124, 156, 129);
-    background-color: rgb(226, 241, 241);
-    font-style: italic;
+    border: 1.5px solid rgb(118, 163, 128);
+    color: rgb(118, 163, 128);
+    background-color: #fff;
 }
 .info_top{
     width: 100%;
@@ -56,9 +56,10 @@ h2+p{
     flex-direction: column;
     align-items: flex-end;
     height: 80px;
-    background-color: rgb(124, 156, 129);;
+    background-color: rgb(124, 156, 129);
 }
 .info_top_text{
+    font-style: italic;
     margin-top: 1%;
     align-self: flex-end;
     margin-right:15%;
@@ -231,20 +232,27 @@ section::before {
 
     margin-top: 20%;
     border-radius: 10px;
-    border: 1.5px solid rgb(118, 163, 128);
+
     display: inline-block;
     cursor: pointer;
-    background-color:rgb(200, 230, 207) ;
-    color: rgb(118, 163, 128);
+
     font-family: Arial;
     font-size: 19px;
     padding: 15px 25px;
     text-decoration: none;
-}
-.offers_button:hover{
     border: 1.5px solid rgb(118, 163, 128);
     background-color:rgb(118, 163, 128);
     color:  #fff;
+}
+.offers_button:hover{
+    border: 1.5px solid rgb(118, 163, 128);
+    color: rgb(118, 163, 128);
+    background-color: #fff;
+}
+#button_form:hover{
+    border: 1.5px solid rgb(118, 163, 128);
+    color: rgb(118, 163, 128);
+    background-color: #fff;
 }
 #pics_desc{
     margin-left: -0.01%;
@@ -268,6 +276,6 @@ section::before {
 .read_more_p{
     font-size: 1.5em;
 }
-.boxes.gallery-container{
-    margin-left: 15% ;
+#boxes{
+    margin-left: 10% ;
 }
