@@ -18,7 +18,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: ColorPallet.mainColor,
       ),
-      home: BootPage(),
+      //home: BootPage(),
+      home: HomePage(),
     );
   }
 }

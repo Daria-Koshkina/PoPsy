@@ -1,17 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:grouped_buttons/grouped_buttons.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
 import 'package:po_psy/models/testsModels/TestHandler.dart';
+import 'package:po_psy/models/testsModels/TestSessions.dart';
 import 'package:po_psy/models/testsModels/TestStep.dart';
-import 'package:po_psy/pages/homeScreen/tests/answersWidget.dart';
+import 'package:po_psy/pages/homeScreen/tests/TestResultPage.dart';
 import 'package:po_psy/pages/homeScreen/tests/startTestPage.dart';
 
-class TestStepPage extends StatelessWidget {
-  final TestHandler _testHandler;
+class TestStepPage extends StatefulWidget {
   final TestStep _testStep;
+  final TestSessions _testSessions;
+  const TestStepPage(this._testStep, this._testSessions);
 
-  const TestStepPage(this._testHandler, this._testStep);
+  TestStepPageState createState() => TestStepPageState();
+}
+
+class TestStepPageState extends State<TestStepPage> {
+  List<String> _checked = [];
+  Answer currentAnswer = null;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +34,7 @@ class TestStepPage extends StatelessWidget {
                 children: [
                   SizedBox(height: 5,),
                   Text(
-                    'Question ${_testHandler.getIndex()} of ${_testHandler.test
+                    'Question ${TestHandler.instance.getIndex()} of ${TestHandler.instance.test
                         .steps.length}',
                     style: TextStyles.lightHeader2TextStyle,
                   ),
@@ -35,31 +43,135 @@ class TestStepPage extends StatelessWidget {
                     style: TextStyles.lightHeader2TextStyle,
                   ),
                   TextButton(
-                      onPressed: (){
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) =>
-                            new StartTestPage(test: _testHandler.test,))
-                        );
-                      },
-                      child: Text(
-                        'Restart the test',
-                        style: TextStyles.restartTestButtonTextStyle,
-                      ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) =>
+                          new StartTestPage(TestHandler.instance.test, widget._testSessions))
+                      );
+                    },
+                    child: Text(
+                      'Restart the test',
+                      style: TextStyles.restartTestButtonTextStyle,
+                    ),
                   )
                 ],
               ),
               SizedBox(height: 15,),
               Text(
-                _testStep.question.text,
+                widget._testStep.question.text,
                 style: TextStyles.lightHeader2TextStyle,
               ),
-              _getImage(_testStep.imageURL),
-              AnswersWidget(_testStep.answers),
+              _getImage(widget._testStep.imageURL),
+          Material(
+            color: ColorPallet.mainColor,
+            child: CheckboxGroup(
+              labels: _getAnswersTitles(widget._testStep.answers),
+              activeColor: ColorPallet.mainColor,
+              checked: _checked,
+              itemBuilder: (Checkbox cb, Text txt, int i){
+                return Column(
+                  children: <Widget>[
+                    _checkBoxWidget(cb, txt)
+                  ],
+                );
+              },
+              onChange: (bool isChecked, String label, int index) {
+                currentAnswer = widget._testStep.answers[index];
+                print(currentAnswer.text);
+              },
+              onSelected: (List selected) => setState(() {
+                if (selected.length > 1) {
+                  selected.removeAt(0);
+                  print('selected length  ${selected.length}');
+                } else {
+                  print("only one");
+                }
+                _checked = selected;
+              }),
+            ),
+          ),
+              Spacer(),
+              Padding(padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                          height: 35,
+                          width: 90,
+                          child: TextButton.icon(
+                            label: Text(
+                              'Back',
+                              style: TextStyles.backButtonTextStyle,),
+                            icon: Icon(
+                              Icons.arrow_back,
+                              color: ColorPallet.redBlockColor,
+                            ),
+                            style: TextButton.styleFrom(
+                              backgroundColor: ColorPallet.backgroundColor,
+                            ),
+                            onPressed: () {
+                              //Navigator.pop(context);
+                              _previousStep(widget._testStep, context, widget._testSessions);
+                            },
+                          )
+                      ),
+                      Spacer(),
+                      SizedBox(
+                          height: 35,
+                          width: 90,
+                          child: TextButton.icon(
+                            icon: Icon(
+                              Icons.arrow_forward,
+                              color: ColorPallet.mainColor,
+                            ),
+                            label: Text(
+                              'Next',
+                              style: TextStyles.backStartTextStyle,),
+                            style: TextButton.styleFrom(
+                              backgroundColor: ColorPallet
+                                  .backgroundColor,
+                            ),
+                            onPressed: () {
+                              _nextStep(currentAnswer);
+                            },
+                          )
+                      ),
+                    ],
+                  )
+              ),
             ],
           )
       ),
     );
+  }
+
+  void _nextStep(Answer answer) {
+    if (answer == null) {
+      final String title = 'Invalid input';
+      final String text = 'You have to choose one of answers';
+      _showAlertDialog(context, title, text);
+      return;
+    }
+    TestHandler.instance.setScore(answer);
+    var step = TestHandler.instance.getNext();
+    if (step != null) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) =>
+          new TestStepPage(step, widget._testSessions))
+      );
+    } else {
+      var result = TestHandler.instance.getResult();
+      Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) =>
+          new TestResultPage(result))
+      );
+      setState(() {
+        widget._testSessions.results.add(result);
+      });
+      print(widget._testSessions.results);
+    }
   }
 }
 
@@ -81,4 +193,74 @@ Widget _getImage(String imageURL) {
         )
     );
   }
+}
+
+void _previousStep(TestStep testStep, BuildContext context, TestSessions testSessions) {
+  var step = TestHandler.instance.getPrevious();
+  if (step != null) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) =>
+        new TestStepPage(step, testSessions))
+    );
+  } else {
+    Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) =>
+        new StartTestPage(TestHandler.instance.test, testSessions))
+    );
+    //TestHandler.instance.reset();
+    return;
+  }
+}
+
+List<String> _getAnswersTitles(List<Answer> answers) {
+  var titles = <String>[];
+  for (int i = 0; i < answers.length; i++) {
+    titles.add(answers[i].text);
+  }
+  return titles;
+}
+
+Widget _checkBoxWidget(Checkbox cb, Text txt) {
+  return Container(
+      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: ColorPallet.backgroundColor,
+      ),
+      child: Row(
+        children: [
+          cb,
+          txt
+        ],
+      )
+  );
+}
+
+_showAlertDialog(BuildContext context, String title, String text) {
+  // Create button
+  Widget okButton = TextButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+
+  // Create AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text(title),
+    content: Text(text),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }
