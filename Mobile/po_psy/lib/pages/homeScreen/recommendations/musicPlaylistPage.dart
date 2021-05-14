@@ -103,6 +103,7 @@ class _MusicPlaylistPageState extends State<MusicPlaylistPage> {
 
 class _SongWidget extends StatelessWidget {
   final Song song;
+
   _SongWidget({this.song});
 
   @override
@@ -119,25 +120,30 @@ class _SongWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(5),
                 child: Image.network(song.imageURL),
               ),
-              Padding(padding: new EdgeInsets.only(left: 10),
-                  child: Column(
+              SizedBox(width: 10,),
+              Expanded(child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    song.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: false,
+                    style: TextStyles.songTitleTextStyle,),
+                  Row(
                     children: [
-                      Text(song.title, style: TextStyles.songTitleTextStyle,),
-                      Row(
-                        children: [
-                          Text(
-                            song.author,
-                            style: TextStyles.authorTitleTextStyle,),
-                          Icon(Icons.arrow_left_rounded,
-                              color: ColorPallet.subsidiaryTextColor),
-                          Text(
-                            song.time, style: TextStyles.authorTitleTextStyle,),
-                        ],
-                      ),
+                      Text(
+                        song.author,
+                        style: TextStyles.authorTitleTextStyle,),
+                      Icon(Icons.arrow_left_rounded,
+                          color: ColorPallet.subsidiaryTextColor),
+                      Text(
+                        song.time, style: TextStyles.authorTitleTextStyle,),
                     ],
-                  )
+                  ),
+                ],
+              )
               ),
-              Spacer(),
               IconButton(icon: Icon(
                 MyIcons.more_vert, color: ColorPallet.subsidiaryTextColor,),
                   onPressed: () {}),
@@ -160,6 +166,7 @@ class _PlaingSongWidget extends StatefulWidget {
 class _PlaingSongWidgetState extends State<_PlaingSongWidget> {
   Song song;
   MusicPlaylist musicPlaylist;
+
   _PlaingSongWidgetState({this.song});
 
   Duration duration;
@@ -210,25 +217,31 @@ class _PlaingSongWidgetState extends State<_PlaingSongWidget> {
                 borderRadius: BorderRadius.circular(5),
                 child: Image.network(song.imageURL),
               ),
-              Padding(padding: new EdgeInsets.only(left: 10),
-                  child: Column(
+              SizedBox(width: 10,),
+              Expanded(child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    song.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: false,
+                    style: TextStyles.songTitleTextStyle,),
+                  Row(
                     children: [
-                      Text(song.title, style: TextStyles.songTitleTextStyle,),
-                      Row(
-                        children: [
-                          Text(
-                            song.author,
-                            style: TextStyles.authorTitleTextStyle,),
-                          Icon(Icons.arrow_left_rounded,
-                              color: ColorPallet.subsidiaryTextColor),
-                          Text(
-                            song.time, style: TextStyles.authorTitleTextStyle,),
-                        ],
-                      ),
+                      Text(
+                        song.author,
+                        style: TextStyles.authorTitleTextStyle,),
+                      Icon(Icons.arrow_left_rounded,
+                          color: ColorPallet.subsidiaryTextColor),
+                      Text(
+                        song.time, style: TextStyles.authorTitleTextStyle,),
                     ],
-                  )
+                  ),
+                ],
+              )
               ),
-              Spacer(),
+              //Spacer(),
               InkWell(
                 onTap: () {
                   getAudio(song.URL);
@@ -291,7 +304,7 @@ class _PlaingSongWidgetState extends State<_PlaingSongWidget> {
           });
         }
         flag = true;
-      } else{
+      } else {
         var res = await audioPlayer.resume();
         if (res == 1) {
           setState(() {
@@ -315,7 +328,7 @@ class _PlaingSongWidgetState extends State<_PlaingSongWidget> {
         });
       } else {
         setState(() {
-          song = musicPlaylist.songs[index+1];
+          song = musicPlaylist.songs[index + 1];
           //getAudio(song.URL);
           duration = new Duration();
           position = new Duration();
