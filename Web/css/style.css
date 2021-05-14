@@ -1,6 +1,9 @@
 #logo_img{
    border-radius: 30%;
 }
+html {
+	scroll-behavior: smooth;
+}
 .logoimg{
     width: 70%;
     height: 70%;
