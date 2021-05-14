@@ -160,4 +160,17 @@ class TextStyles {
     decoration: TextDecoration.underline,
   );
 
+  static TextStyle greenHeaderTextStyle = TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 24,
+    fontWeight: FontWeight.bold,
+    color: ColorPallet.mainColor,
+  );
+
+  static TextStyle greyHeader2TextStyle = TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: ColorPallet.placeholderColor,
+  );
 }

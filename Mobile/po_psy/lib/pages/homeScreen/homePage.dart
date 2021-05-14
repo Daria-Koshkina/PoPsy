@@ -5,14 +5,12 @@ import 'package:po_psy/api/api.dart';
 import 'package:po_psy/assets/my_icons_icons.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
-import 'package:po_psy/models/User.dart';
-import 'package:po_psy/models/UserHandler.dart';
-import 'package:po_psy/pages/authorization/bootSplash/boot.dart';
-import 'package:po_psy/pages/homeScreen/account/account.dart';
 import 'package:po_psy/pages/homeScreen/diary/diary.dart';
 import 'package:po_psy/pages/homeScreen/recommendations/recommendationsPage.dart';
 import 'package:po_psy/pages/homeScreen/tests/tests.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'account/profile.dart';
 
 class HomePage extends StatefulWidget {
   @override

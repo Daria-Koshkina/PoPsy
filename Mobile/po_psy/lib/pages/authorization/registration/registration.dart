@@ -1,19 +1,29 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:po_psy/api/GenerateImageUrl.dart';
+import 'package:po_psy/api/UploadFile.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
 import 'package:po_psy/models/UserHandler.dart';
+import 'package:po_psy/models/GalaryItem.dart';
 import 'package:po_psy/pages/authorization/login/login.dart';
 import 'package:po_psy/pages/homeScreen/homePage.dart';
 import 'package:po_psy/pages/homeScreen/recommendations/recommendationsPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:po_psy/widgets/CustomDialog.dart';
+import 'package:uuid/uuid.dart';
 import 'RegistrationRequestData.dart';
 import 'validation.dart';
 import 'package:po_psy/models/User.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:po_psy/api/api.dart';
+import 'dart:io' show File, Platform;
+import 'package:path/path.dart' as path;
+
 
 class RegistrationPage extends StatefulWidget {
   @override
@@ -25,12 +35,19 @@ class RegistrationPage extends StatefulWidget {
 bool _obscureText1 = true;
 bool _obscureText2 = true;
 
+enum PhotoSource { FILE, NETWORK }
+
 class _RegistrationPageState extends State<RegistrationPage> {
   GlobalKey<FormState> _key = new GlobalKey();
   bool _validate = false;
   RegistrationRequestData _registrationData = RegistrationRequestData();
   final passwordControler = TextEditingController();
   String _pass = '';
+
+  File _photo = null;
+  String _photoUrl = "assets/image/defolt_user.jpg";
+  PhotoSource _photoSource = null;
+  GalleryItem _galleryItem = null;
 
   void initState() {
     passwordControler.addListener(_savePassword);
@@ -48,131 +65,134 @@ class _RegistrationPageState extends State<RegistrationPage> {
         body: Container(
             child: Center(
                 child: ListView(children: <Widget>[
-          Stack(children: <Widget>[
-            Container(
-              height: 150,
-              margin: EdgeInsets.only(left: 20, right: 20),
-              decoration: new BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(35.0),
-                    bottomRight: Radius.circular(35.0),
-                    topRight: Radius.circular(
-                      35.0,
+                  Stack(children: <Widget>[
+                    Container(
+                      height: 150,
+                      margin: EdgeInsets.only(left: 20, right: 20),
+                      decoration: new BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(35.0),
+                            bottomRight: Radius.circular(35.0),
+                            topRight: Radius.circular(
+                              35.0,
+                            ),
+                            topLeft: Radius.circular(35.0)),
+                        color: ColorPallet.mainColor,
+                      ),
                     ),
-                    topLeft: Radius.circular(35.0)),
-                color: ColorPallet.mainColor,
-              ),
-            ),
-            Container(
-              height: 100,
-              margin: EdgeInsets.only(left: 20, right: 200, top: 80),
-              decoration: new BoxDecoration(
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.elliptical(150, 70),
-                ),
-                color: ColorPallet.mainColor,
-              ),
-            ),
-            Center(
-              child: Container(
-                  margin: EdgeInsets.only(top: 20),
-                  alignment: Alignment.center,
-                  width: 180.0,
-                  height: 180.0,
-                  decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: ColorPallet.placeholderColor,
-                          blurRadius: 20.0, // soften the shadow
-                          spreadRadius: 5.0, //extend the shadow
-                          offset: Offset(
-                            0.0,
-                            5.0,
+                    Container(
+                      height: 100,
+                      margin: EdgeInsets.only(left: 20, right: 200, top: 80),
+                      decoration: new BoxDecoration(
+                        borderRadius: BorderRadius.vertical(
+                          bottom: Radius.elliptical(150, 70),
+                        ),
+                        color: ColorPallet.mainColor,
+                      ),
+                    ),
+                    Center(
+                      child: InkWell(
+                        child: Container(
+                          margin: EdgeInsets.all(5),
+                          height: 180,
+                          width: 180,
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: ColorPallet.placeholderColor,
+                                blurRadius: 20.0, // soften the shadow
+                                spreadRadius: 5.0, //extend the shadow
+                                offset: Offset(
+                                  0.0,
+                                  5.0,
+                                ),
+                              )
+                            ],
+                            shape: BoxShape.circle,
+                            color: ColorPallet.placeholderColor,
                           ),
-                        )
-                      ],
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                          fit: BoxFit.fitHeight,
-                          image: AssetImage("assets/image/defolt_user.jpg")))),
-            ),
-            Container(
-                margin: EdgeInsets.only(left: 130, top: 140),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: ColorPallet.mainColor,
-                      blurRadius: 1.0, // soften the shadow
-                      spreadRadius: 2.0, //exten
-                    )
-                  ],
-                  shape: BoxShape.circle,
-                ),
-                child: MaterialButton(
-                  onPressed: () {
-                    //ToDoo-------------------------------------------------------------
-                  },
-                  color: Colors.white,
-                  textColor: ColorPallet.mainColor,
-                  child: Icon(
-                    Icons.add,
-                    size: 40,
-                  ),
-                  padding: EdgeInsets.all(4),
-                  shape: CircleBorder(),
-                )),
-            Container(
-                margin: EdgeInsets.only(left: 10),
-                child: MaterialButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => LoginPage()));
-                  },
-                  textColor: Colors.white,
-                  child: Icon(
-                    Icons.arrow_back,
-                    size: 30,
-                  ),
-                ))
-          ]),
-          new Form(
-            key: _key,
-            autovalidate: _validate,
-            child: _getFormUI(),
-          ),
-          Container(
-            alignment: Alignment.bottomCenter,
-            margin: EdgeInsets.only(top: 20),
-            child: Text("Or create account using social media",
-                style: TextStyles.articleTextTextStyle),
-          ),
-          Container(
-            alignment: Alignment.bottomCenter,
-            margin: EdgeInsets.only(top: 10, left: 80, right: 80),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                IconButton(
-                    iconSize: 60.0,
-                    icon: Image.asset("assets/image/google-logo.png"),
-                    onPressed: () {
-                      //To Doo------------------------------------------------------------------------
-                    }),
-                IconButton(
-                    iconSize: 60.0,
-                    icon: Image.asset(
-                      "assets/image/facebook-logo.png",
-                      fit: BoxFit.fill,
+                          child: _getImage(),
+                        ),
+                      ),
                     ),
-                    onPressed: () {
-                      //To Doo----------------------------------------------------------------------
-                    })
-              ],
-            ),
-          ),
-        ]))));
+                    Container(
+                        margin: EdgeInsets.only(left: 130, top: 140),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: ColorPallet.mainColor,
+                              blurRadius: 1.0, // soften the shadow
+                              spreadRadius: 2.0, //exten
+                            )
+                          ],
+                          shape: BoxShape.circle,
+                        ),
+                        child: MaterialButton(
+                          onPressed: () {
+                            _onAddPhotoClicked(context);
+                          },
+                          color: Colors.white,
+                          textColor: ColorPallet.mainColor,
+                          child: Icon(
+                            Icons.add,
+                            size: 40,
+                          ),
+                          padding: EdgeInsets.all(4),
+                          shape: CircleBorder(),
+                        )),
+                    Container(
+                        margin: EdgeInsets.only(left: 10),
+                        child: MaterialButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                                MaterialPageRoute(builder: (context) =>
+                                    LoginPage()));
+                          },
+                          textColor: Colors.white,
+                          child: Icon(
+                            Icons.arrow_back,
+                            size: 30,
+                          ),
+                        ))
+                  ]),
+                  new Form(
+                    key: _key,
+                    autovalidate: _validate,
+                    child: _getFormUI(),
+                  ),
+                  Container(
+                    alignment: Alignment.bottomCenter,
+                    margin: EdgeInsets.only(top: 20),
+                    child: Text("Or create account using social media",
+                        style: TextStyles.articleTextTextStyle),
+                  ),
+                  Container(
+                    alignment: Alignment.bottomCenter,
+                    margin: EdgeInsets.only(top: 10, left: 80, right: 80),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        IconButton(
+                            iconSize: 60.0,
+                            icon: Image.asset("assets/image/google-logo.png"),
+                            onPressed: () {
+                              //To Doo------------------------------------------------------------------------
+                            }),
+                        IconButton(
+                            iconSize: 60.0,
+                            icon: Image.asset(
+                              "assets/image/facebook-logo.png",
+                              fit: BoxFit.fill,
+                            ),
+                            onPressed: () {
+                              //To Doo----------------------------------------------------------------------
+                            })
+                      ],
+                    ),
+                  ),
+                ]))));
   }
 
   Widget _getFormUI() {
@@ -539,4 +559,142 @@ class _RegistrationPageState extends State<RegistrationPage> {
           );
         });
   }
+
+  _onAddPhotoClicked(context) async {
+    Permission permission;
+
+    if (Platform.isIOS) {
+      permission = Permission.photos;
+    } else {
+      permission = Permission.storage;
+    }
+
+    PermissionStatus permissionStatus = await permission.status;
+
+    print(permissionStatus);
+
+    if (permissionStatus == PermissionStatus.restricted) {
+      _showOpenAppSettingsDialog(context);
+
+      permissionStatus = await permission.status;
+
+      if (permissionStatus != PermissionStatus.granted) {
+        //Only continue if permission granted
+        return;
+      }
+    }
+
+    if (permissionStatus == PermissionStatus.permanentlyDenied) {
+      _showOpenAppSettingsDialog(context);
+
+      permissionStatus = await permission.status;
+
+      if (permissionStatus != PermissionStatus.granted) {
+        //Only continue if permission granted
+        return;
+      }
+    }
+
+    if (permissionStatus == PermissionStatus.undetermined) {
+      permissionStatus = await permission.request();
+
+      if (permissionStatus != PermissionStatus.granted) {
+        //Only continue if permission granted
+        return;
+      }
+    }
+
+    if (permissionStatus == PermissionStatus.denied) {
+      if (Platform.isIOS) {
+        _showOpenAppSettingsDialog(context);
+      } else {
+        permissionStatus = await permission.request();
+      }
+
+      if (permissionStatus != PermissionStatus.granted) {
+        //Only continue if permission granted
+        return;
+      }
+    }
+
+    if (permissionStatus == PermissionStatus.granted) {
+      print('Permission granted');
+      File image = await ImagePicker.pickImage(
+        source: ImageSource.gallery,
+      );
+
+      if (image != null) {
+        String fileExtension = path.extension(image.path);
+
+        _galleryItem = GalleryItem(
+          id: Uuid().v1(),
+          resource: image.path,
+          isSvg: fileExtension.toLowerCase() == ".svg",
+        );
+
+        setState(() {
+          _photo = image;
+          _photoSource = PhotoSource.FILE;
+        });
+
+        GenerateImageUrl generateImageUrl = GenerateImageUrl();
+        await generateImageUrl.call(fileExtension);
+
+        String uploadUrl;
+        if (generateImageUrl.isGenerated != null &&
+            generateImageUrl.isGenerated) {
+          uploadUrl = generateImageUrl.uploadUrl;
+        } else {
+          throw generateImageUrl.message;
+        }
+
+        bool isUploaded = await uploadFile(context, uploadUrl, image);
+        if (isUploaded) {
+          setState(() {
+            _photoUrl = generateImageUrl.downloadUrl;
+          });
+        }
+      }
+    }
+  }
+
+  Future<bool> uploadFile(context, String url, File image) async {
+    try {
+      UploadFile uploadFile = UploadFile();
+      await uploadFile.call(url, image);
+
+      if (uploadFile.isUploaded != null && uploadFile.isUploaded) {
+        return true;
+      } else {
+        throw uploadFile.message;
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
+
+
+  Widget _getImage() {
+    if (_photoSource == PhotoSource.FILE) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(100),
+        child: Image.file(_photo, fit: BoxFit.fill),
+      );
+    } else {
+      return ClipRRect(
+          borderRadius: BorderRadius.circular(100),
+          child: Image.asset(_photoUrl, fit: BoxFit.fill,)
+      );
+    }
+  }
+}
+
+_showOpenAppSettingsDialog(context) {
+  return CustomDialog.show(
+    context,
+    'Permission needed',
+    'Photos permission is needed to select photos',
+    'Open settings',
+    openAppSettings,
+  );
 }
