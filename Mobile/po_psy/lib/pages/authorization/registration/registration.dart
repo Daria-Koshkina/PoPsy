@@ -24,7 +24,6 @@ import 'package:po_psy/api/api.dart';
 import 'dart:io' show File, Platform;
 import 'package:path/path.dart' as path;
 
-
 class RegistrationPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -46,6 +45,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   File _photo = null;
   String _photoUrl = "assets/image/defolt_user.jpg";
+  String _photoExtension = null;
   PhotoSource _photoSource = null;
   GalleryItem _galleryItem = null;
 
@@ -65,134 +65,133 @@ class _RegistrationPageState extends State<RegistrationPage> {
         body: Container(
             child: Center(
                 child: ListView(children: <Widget>[
-                  Stack(children: <Widget>[
-                    Container(
-                      height: 150,
-                      margin: EdgeInsets.only(left: 20, right: 20),
-                      decoration: new BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(35.0),
-                            bottomRight: Radius.circular(35.0),
-                            topRight: Radius.circular(
-                              35.0,
-                            ),
-                            topLeft: Radius.circular(35.0)),
-                        color: ColorPallet.mainColor,
-                      ),
+          Stack(children: <Widget>[
+            Container(
+              height: 150,
+              margin: EdgeInsets.only(left: 20, right: 20),
+              decoration: new BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(35.0),
+                    bottomRight: Radius.circular(35.0),
+                    topRight: Radius.circular(
+                      35.0,
                     ),
-                    Container(
-                      height: 100,
-                      margin: EdgeInsets.only(left: 20, right: 200, top: 80),
-                      decoration: new BoxDecoration(
-                        borderRadius: BorderRadius.vertical(
-                          bottom: Radius.elliptical(150, 70),
+                    topLeft: Radius.circular(35.0)),
+                color: ColorPallet.mainColor,
+              ),
+            ),
+            Container(
+              height: 100,
+              margin: EdgeInsets.only(left: 20, right: 200, top: 80),
+              decoration: new BoxDecoration(
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.elliptical(150, 70),
+                ),
+                color: ColorPallet.mainColor,
+              ),
+            ),
+            Center(
+              child: InkWell(
+                child: Container(
+                  margin: EdgeInsets.all(5),
+                  height: 180,
+                  width: 180,
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: ColorPallet.placeholderColor,
+                        blurRadius: 20.0, // soften the shadow
+                        spreadRadius: 5.0, //extend the shadow
+                        offset: Offset(
+                          0.0,
+                          5.0,
                         ),
-                        color: ColorPallet.mainColor,
-                      ),
-                    ),
-                    Center(
-                      child: InkWell(
-                        child: Container(
-                          margin: EdgeInsets.all(5),
-                          height: 180,
-                          width: 180,
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: ColorPallet.placeholderColor,
-                                blurRadius: 20.0, // soften the shadow
-                                spreadRadius: 5.0, //extend the shadow
-                                offset: Offset(
-                                  0.0,
-                                  5.0,
-                                ),
-                              )
-                            ],
-                            shape: BoxShape.circle,
-                            color: ColorPallet.placeholderColor,
-                          ),
-                          child: _getImage(),
-                        ),
-                      ),
-                    ),
-                    Container(
-                        margin: EdgeInsets.only(left: 130, top: 140),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: ColorPallet.mainColor,
-                              blurRadius: 1.0, // soften the shadow
-                              spreadRadius: 2.0, //exten
-                            )
-                          ],
-                          shape: BoxShape.circle,
-                        ),
-                        child: MaterialButton(
-                          onPressed: () {
-                            _onAddPhotoClicked(context);
-                          },
-                          color: Colors.white,
-                          textColor: ColorPallet.mainColor,
-                          child: Icon(
-                            Icons.add,
-                            size: 40,
-                          ),
-                          padding: EdgeInsets.all(4),
-                          shape: CircleBorder(),
-                        )),
-                    Container(
-                        margin: EdgeInsets.only(left: 10),
-                        child: MaterialButton(
-                          onPressed: () {
-                            Navigator.of(context).push(
-                                MaterialPageRoute(builder: (context) =>
-                                    LoginPage()));
-                          },
-                          textColor: Colors.white,
-                          child: Icon(
-                            Icons.arrow_back,
-                            size: 30,
-                          ),
-                        ))
-                  ]),
-                  new Form(
-                    key: _key,
-                    autovalidate: _validate,
-                    child: _getFormUI(),
+                      )
+                    ],
+                    shape: BoxShape.circle,
+                    color: ColorPallet.placeholderColor,
                   ),
-                  Container(
-                    alignment: Alignment.bottomCenter,
-                    margin: EdgeInsets.only(top: 20),
-                    child: Text("Or create account using social media",
-                        style: TextStyles.articleTextTextStyle),
+                  child: _getImage(),
+                ),
+              ),
+            ),
+            Container(
+                margin: EdgeInsets.only(left: 130, top: 140),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: ColorPallet.mainColor,
+                      blurRadius: 1.0, // soften the shadow
+                      spreadRadius: 2.0, //exten
+                    )
+                  ],
+                  shape: BoxShape.circle,
+                ),
+                child: MaterialButton(
+                  onPressed: () {
+                    _onAddPhotoClicked(context);
+                  },
+                  color: Colors.white,
+                  textColor: ColorPallet.mainColor,
+                  child: Icon(
+                    Icons.add,
+                    size: 40,
                   ),
-                  Container(
-                    alignment: Alignment.bottomCenter,
-                    margin: EdgeInsets.only(top: 10, left: 80, right: 80),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        IconButton(
-                            iconSize: 60.0,
-                            icon: Image.asset("assets/image/google-logo.png"),
-                            onPressed: () {
-                              //To Doo------------------------------------------------------------------------
-                            }),
-                        IconButton(
-                            iconSize: 60.0,
-                            icon: Image.asset(
-                              "assets/image/facebook-logo.png",
-                              fit: BoxFit.fill,
-                            ),
-                            onPressed: () {
-                              //To Doo----------------------------------------------------------------------
-                            })
-                      ],
+                  padding: EdgeInsets.all(4),
+                  shape: CircleBorder(),
+                )),
+            Container(
+                margin: EdgeInsets.only(left: 10),
+                child: MaterialButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => LoginPage()));
+                  },
+                  textColor: Colors.white,
+                  child: Icon(
+                    Icons.arrow_back,
+                    size: 30,
+                  ),
+                ))
+          ]),
+          new Form(
+            key: _key,
+            autovalidate: _validate,
+            child: _getFormUI(),
+          ),
+          Container(
+            alignment: Alignment.bottomCenter,
+            margin: EdgeInsets.only(top: 20),
+            child: Text("Or create account using social media",
+                style: TextStyles.articleTextTextStyle),
+          ),
+          Container(
+            alignment: Alignment.bottomCenter,
+            margin: EdgeInsets.only(top: 10, left: 80, right: 80),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                IconButton(
+                    iconSize: 60.0,
+                    icon: Image.asset("assets/image/google-logo.png"),
+                    onPressed: () {
+                      //To Doo------------------------------------------------------------------------
+                    }),
+                IconButton(
+                    iconSize: 60.0,
+                    icon: Image.asset(
+                      "assets/image/facebook-logo.png",
+                      fit: BoxFit.fill,
                     ),
-                  ),
-                ]))));
+                    onPressed: () {
+                      //To Doo----------------------------------------------------------------------
+                    })
+              ],
+            ),
+          ),
+        ]))));
   }
 
   Widget _getFormUI() {
@@ -305,7 +304,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
           },
         ),
       ),
-
       Container(
         margin: EdgeInsets.only(top: 20, left: 20, right: 20),
         decoration: BoxDecoration(
@@ -501,28 +499,21 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 Text("Create account", style: TextStyles.lightHeader2TextStyle),
             onPressed: () {
               if (_key.currentState.validate()) {
-                _key.currentState.save();
-                User newUser = User(0, _registrationData.name, _registrationData.surname, ' ', _registrationData.email, _registrationData.phone, _registrationData.age, _registrationData.password, new List<String>());
-                ApiManager().register(newUser).then((value) {
-                  if (value.statusCode == 200) {
-                    var data = json.decode(value.body);
-                    newUser.ID = data;
-                    UserHandler(newUser);
-                    SharedPreferences.getInstance().then((prefs) {
-                      prefs.setString('userId', newUser.ID.toString());
-                    });
-                    Text x = Text("You successfully registered",
-                        style: TextStyles.articleTitleTextStyle);
-                    _showDialog(x);
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => HomePage()));
-                  } else {
-                    Text x = Text(
-                        "You are not registered. Check all fields again",
-                        style: TextStyles.articleTitleTextStyle);
-                    _showDialog(x);
-                  }
-                });
+                if (_photo != null) {
+                  setState(() {
+                    ApiManager()
+                        .uploadImage(context, _photoExtension, _photo)
+                        .then((value) {
+                          if (value != null){
+                            _photoUrl = value;
+                            register();
+                          }
+                        });
+                  });
+                }
+                else{
+                  register();
+                }
               } else {
                 setState(() {
                   _validate = true;
@@ -635,44 +626,45 @@ class _RegistrationPageState extends State<RegistrationPage> {
         setState(() {
           _photo = image;
           _photoSource = PhotoSource.FILE;
+          _photoExtension = fileExtension;
         });
-
-        GenerateImageUrl generateImageUrl = GenerateImageUrl();
-        await generateImageUrl.call(fileExtension);
-
-        String uploadUrl;
-        if (generateImageUrl.isGenerated != null &&
-            generateImageUrl.isGenerated) {
-          uploadUrl = generateImageUrl.uploadUrl;
-        } else {
-          throw generateImageUrl.message;
-        }
-
-        bool isUploaded = await uploadFile(context, uploadUrl, image);
-        if (isUploaded) {
-          setState(() {
-            _photoUrl = generateImageUrl.downloadUrl;
-          });
-        }
       }
     }
   }
 
-  Future<bool> uploadFile(context, String url, File image) async {
-    try {
-      UploadFile uploadFile = UploadFile();
-      await uploadFile.call(url, image);
-
-      if (uploadFile.isUploaded != null && uploadFile.isUploaded) {
-        return true;
+  register(){
+    _key.currentState.save();
+    User newUser = User(
+        0,
+        _registrationData.name,
+        _registrationData.surname,
+        _photoUrl,
+        _registrationData.email,
+        _registrationData.phone,
+        _registrationData.age,
+        _registrationData.password,
+        new List<String>());
+    ApiManager().register(newUser).then((value) {
+      if (value.statusCode == 200) {
+        var data = json.decode(value.body);
+        newUser.ID = data;
+        UserHandler(newUser);
+        SharedPreferences.getInstance().then((prefs) {
+          prefs.setString('userId', newUser.ID.toString());
+        });
+        Text x = Text("You successfully registered",
+            style: TextStyles.articleTitleTextStyle);
+        _showDialog(x);
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => HomePage()));
       } else {
-        throw uploadFile.message;
+        Text x = Text(
+            "You are not registered. Check all fields again",
+            style: TextStyles.articleTitleTextStyle);
+        _showDialog(x);
       }
-    } catch (e) {
-      throw e;
-    }
+    });
   }
-
 
   Widget _getImage() {
     if (_photoSource == PhotoSource.FILE) {
@@ -683,8 +675,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
     } else {
       return ClipRRect(
           borderRadius: BorderRadius.circular(100),
-          child: Image.asset(_photoUrl, fit: BoxFit.fill,)
-      );
+          child: Image.asset(
+            _photoUrl,
+            fit: BoxFit.fill,
+          ));
     }
   }
 }
