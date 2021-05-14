@@ -89,7 +89,7 @@ h2+p{
 
 #about :hover{
     color: #f5f5f5;
-    background-color:rgb(121, 209, 125);
+    background-color:rgb(124, 156, 129);
     font-weight: bold;
 }
 
@@ -237,5 +237,7 @@ section::before {
     padding: 9px 20px;
     text-decoration: none;
 }
-
+#pics_desc{
+    margin-left: -0.5%;
+}
 
