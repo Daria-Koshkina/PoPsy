@@ -1,16 +1,11 @@
-/* 
-
-please don't edit this styles
-
-*/
 
 h2.tm-section-title {
     color: rgb(183, 231, 197);
 }
 
 a:focus {
-    color: #666;
-    outline: 0
+    color: rgb(124, 156, 129);
+    outline: 0;
 }
 
 ul {
@@ -20,7 +15,7 @@ ul {
 
 body {
     background-color: #ddffdd;
-    color: #000;
+    color: rgb(124, 156, 129);
     font-family: 'Open Sans', Helvetica, Arial, sans-serif;
     font-size: 16px;
     font-weight: 300;
@@ -65,7 +60,7 @@ section:before {
 
 .tm-nav-item-link {
     border: 1px solid transparent;
-    color: #666;
+    color: rgb(124, 156, 129);
     display: block;
     padding: 10px;
     width: 100%;
@@ -81,7 +76,7 @@ section:before {
 
 .tm-nav-item-link.active,
 .tm-nav-item-link:hover {
-    color: #666;
+    color: rgb(124, 156, 129);
     text-decoration: none;
 }
 
@@ -92,7 +87,7 @@ section:before {
 .tm-banner-text,
 .tm-banner-title,
 .tm-section-title {
-    color: #666;
+    color: rgb(124, 156, 129);
     font-weight: 300;
     margin: 0
 }
@@ -163,12 +158,6 @@ section:before {
     display: -ms-flexbox
 }
 
-/*.flex-item {*/
-    /*-webkit-box-flex: 0 1 auto;*/
-    /*-webkit-flex: 0 1 auto;*/
-    /*-ms-flex: 0 1 auto;*/
-    /*flex: 0 1 auto*/
-/*}*/
 
 .section-description {
     line-height: 1.8;
@@ -242,7 +231,7 @@ section:before {
 }
 
 .carousel-content {
-    color: #000;
+    color: rgb(124, 156, 129);
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;

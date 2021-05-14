@@ -1,4 +1,6 @@
-
+#logo_img{
+   border-radius: 30%;
+}
 .logoimg{
     width: 70%;
     height: 70%;
@@ -22,7 +24,55 @@
 h2+p{
     font-style: italic;
 }
+.tm-banner-text{
+    font-style: italic;
+    font-size: 1.7em;
+    font-weight: bolder;
+    color: rgb(124, 156, 129);
+}
+.download{
+    text-align: center;
+    height: 50px;
+    width: 200px;
+    margin: 3%;
+    font-size: 1.7em;
+    color: rgb(124, 156, 129);
+    border-radius: 10%;
+    border: 2px solid rgb(124, 156, 129);
+}
+.download:hover{
+    color: rgb(124, 156, 129);
+    border: 2px solid rgb(124, 156, 129);
+    background-color: rgb(226, 241, 241);
+    font-style: italic;
+}
+.info_top{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    height: 80px;
+    background-color: rgb(124, 156, 129);;
+}
+.info_top_text{
+    margin-top: 1%;
+    align-self: flex-end;
+    margin-right:15%;
+    font-size: 2.0em;
+    letter-spacing: 0.3em;
+    font-style: italic;
+    color: cornsilk;
+}
+#logo_img_top{
+    border-radius: 40%;
+    margin-top: -4%;
+    align-self: flex-end;
+    margin-right: 5%;
 
+}
+.tm-main-content{
+    margin-top: 10%;
+}
 .padding-medium.flex-item.tm-team-description-container.flex-item h2+p:first-letter,
 .padding-medium.flex-item.tm-team-description-container.flex-item h2+p+p:first-letter{
     color: lightskyblue;
@@ -44,7 +94,9 @@ h2+p{
 #home{
     background-color: transparent;
 }
-
+.tm-nav-item:hover{
+    background-color:rgb(197, 233, 199);
+}
 .tm-banner-inner{
     background-color: #fff;
 }
