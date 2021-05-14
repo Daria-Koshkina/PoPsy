@@ -114,7 +114,7 @@ section::before {
     height: 0;
     border: 30px solid transparent;
     border-top: 0 solid transparent;
-    border-left: 245px solid rgb(135, 250, 169);;
+    border-left: 245px solid  rgb(124, 156, 129);
 }
 
 .carousel-item.active .carousel-content .flex-item h2{
@@ -158,6 +158,84 @@ section::before {
     color:rgb(128, 161, 125);
     border-bottom: 1.5px solid rgb(118, 163, 128);
 }
-
+.prices {
+    margin-top: 8%;
+    background-image: url("../img/pricing_bg.jpg");
+    width: 100%;
+    height: 710px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+}
+#special_offers {
+    margin-top: -2%;
+}
+.offers {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    height: 90%;
+    width: 68%;
+}
+.first_offer,
+.third_offer {
+    background-color: #79c9eb;
+    color: #fff;
+    height: 85%;
+    width: 300%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+}
+.second_offer {
+    border: 2px solid #79c9eb;
+    color: #0078aa;
+    height: 92%;
+    width: 310%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+}
+.title_offer {
+    margin-top: 10%;
+    font-weight: bold;
+    font-size: 1.4em;
+}
+#second_title_offer {
+    margin-top: 18%;
+}
+.price {
+    font-weight: bold;
+    font-size: 3.2em;
+    margin: -2%;
+}
+.italic_property {
+    font-style: italic;
+    margin-top: 5%;
+}
+.× {
+    font-size: 3.0em;
+    margin: -2%;
+}
+.offers_button {
+    background-color: #fff;
+    margin-top: 5%;
+    border-radius: 10px;
+    border: 1.5px solid #0078aa;
+    display: inline-block;
+    cursor: pointer;
+    color: #0078aa;
+    font-family: Arial;
+    font-size: 19px;
+    padding: 9px 20px;
+    text-decoration: none;
+}
 
 
