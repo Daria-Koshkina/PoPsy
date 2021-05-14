@@ -1,9 +1,9 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:po_psy/api/api.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
+import 'package:po_psy/models/Record.dart';
 import 'package:po_psy/widgets/LogoElement.dart';
 import 'package:po_psy/pages/authorization/registration/registration.dart';
 import 'package:po_psy/models/User.dart';
@@ -11,36 +11,39 @@ import 'dart:async';
 
 
 class EditorPage extends StatefulWidget {
+  Record record;
+
+  EditorPage({this.record});
 
   @override
-  State<StatefulWidget> createState() {
-    return new _EditorPageState();
-  }
+  _EditorPageState createState() => _EditorPageState(record: record);
 }
 
 class _EditorPageState extends State<EditorPage> {
-  DateTime x = DateTime.now();
-  String _text = "";
-  String _audio = "";
+  Record record;
+  _EditorPageState({this.record});
+  String _text = '';
+  DateTime _dateTime = DateTime.now();
+  String _audio = '';
   List<String> months = ['January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'];
   List<String> week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
     'Saturday', 'Sunday'];
   List<String> _current = ['14', '16', '18', '20', '22', '24'];
   String _currentSelectedValue = '14';
-  final textControler = TextEditingController();
   bool _italic = false;
   bool _underline = false;
   bool _bold = false;
+  final textControler = TextEditingController();
   @override
   void initState() {
     textControler.addListener(_saveText);
     super.initState();
   }
+
   _saveText(){
     _text = textControler.text;
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,9 +61,7 @@ class _EditorPageState extends State<EditorPage> {
                             Container(
                                 child: MaterialButton(
                                   onPressed: () {
-                                    //  Navigator.of(context).push(
-                                    //     MaterialPageRoute(builder: (context) => LoginPage()));
-                                  },
+                                      Navigator.of(context).pop();                      },
                                   textColor: Colors.white,
                                   child: Icon(
                                     Icons.arrow_back,
@@ -72,7 +73,9 @@ class _EditorPageState extends State<EditorPage> {
                               alignment: Alignment.topCenter,
                               margin: EdgeInsets.only(top: 15),
                               child: Text(
-                                  "${week[x.weekday]}, ${months[x.month]} ${x.day}, ${x.year}",
+                                  record == null ?
+                                  "${week[_dateTime.weekday]}, ${months[_dateTime.month]} ${_dateTime.day}, ${_dateTime.year}"
+                                      :"${week[record.Date.weekday]}, ${months[record.Date.month]} ${record.Date.day}, ${record.Date.year}",
                                   style: TextStyles.lightHeader2TextStyle
                               ),
                             ),
@@ -83,7 +86,10 @@ class _EditorPageState extends State<EditorPage> {
                                 child: Text('Done',
                                     style: TextStyles.lightHeader2TextStyle),
                                 onTap: () {
-                                  //TO DO-----------------------------------------------
+                                  if(record != null)
+                                    _dateTime = record.Date;
+                                  Record newRecord = Record(_dateTime, _text);
+                                  //to do------------------------------------------------------------------
                                 },
                               ),
                             )
@@ -107,7 +113,15 @@ class _EditorPageState extends State<EditorPage> {
                                       scrollDirection: Axis.vertical,
                                       reverse: true,
                                       child: TextField(
-                                        style: TextStyle(color: ColorPallet.mainTextColor,
+                                        controller: textControler,
+                                        onChanged: (String value) {
+                                          _text = value;
+                                        },
+                                        onTap: (){
+                                          textControler.text = record == null ? '' : record.type;
+                                        },
+                                        style: TextStyle(
+                                          color: ColorPallet.mainTextColor,
                                             fontSize: double.tryParse(_currentSelectedValue),
                                             decoration: _underline ? TextDecoration.underline : TextDecoration.none,
                                             fontStyle: _italic ? FontStyle.italic : FontStyle.normal,
