@@ -643,7 +643,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         _registrationData.phone,
         _registrationData.age,
         _registrationData.password,
-        new List<String>());
+        []);
     ApiManager().register(newUser).then((value) {
       if (value.statusCode == 200) {
         var data = json.decode(value.body);
