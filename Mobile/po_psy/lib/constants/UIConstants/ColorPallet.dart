@@ -9,6 +9,7 @@ class ColorPallet {
   static final MaterialColor subsidiaryTextColor = _createMaterialColor(Color(0xFF878787));
   static final MaterialColor lightGreyColor = _createMaterialColor(Color(0xFFE9E9E9));
   static final MaterialColor lightBlueColor = _createMaterialColor(Color(0xFF00D1FF));
+  static final MaterialColor darkGreenColor = _createMaterialColor(Color(0xFF6FBE9D));
 
 // blocks colors
   static final MaterialColor blueBlockColor = _createMaterialColor(Color(0xFF769CFF));

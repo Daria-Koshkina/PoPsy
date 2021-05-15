@@ -11,9 +11,6 @@ import 'models/Record.dart';
 void main() {
   runApp(MyApp());
 }
-var now = DateTime.now();
-var sixtyDaysFromNow = now.add(const Duration(days: 60));
-Record record = Record(sixtyDaysFromNow, "qwertyuiop");
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -23,7 +20,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: ColorPallet.mainColor,
       ),
-      home: EditorPage(record: record),
+      //home: EditorPage(record: record),
+      home: BootPage(),
     );
   }
 }
