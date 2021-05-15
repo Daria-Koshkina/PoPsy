@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:po_psy/api/api.dart';
+import 'package:po_psy/blocs/authBlock.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
 import 'package:po_psy/models/UserHandler.dart';
@@ -10,6 +11,7 @@ import 'package:po_psy/pages/authorization/registration/registration.dart';
 import 'package:po_psy/models/User.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -49,6 +51,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final AuthBlock authBlock = Provider.of(context);
     return Scaffold(
         backgroundColor: ColorPallet.backgroundColor,
         body: Container(
@@ -218,9 +221,7 @@ class _LoginPageState extends State<LoginPage> {
                                   IconButton(iconSize: 60.0,
                                       icon: Image.asset(
                                           "assets/image/google-logo.png"),
-                                      onPressed: () {
-                                        //To Doo------------------------------------------------------------------------
-                                      }
+                                      onPressed: () => authBlock.loginGoogle(context),
                                   ),
                                   IconButton(
                                       iconSize: 60.0,

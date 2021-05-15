@@ -64,7 +64,7 @@ class TestResult(models.Model):
     testId = models.IntegerField()
     userId = models.IntegerField()
     result = models.CharField(max_length=200)
-    date = models.DateTimeField()
+    date = models.DateTimeField(default=datetime.now)
     photo = models.CharField(max_length=200, default='defaultphoto.png')
 
     def __str__(self):
@@ -73,6 +73,7 @@ class TestResult(models.Model):
 
 class Test(models.Model):
     title = models.CharField(max_length=200)
+    description = models.CharField(max_length=500)
     photo = models.CharField(max_length=200, default='defaultphoto.png')
 
     def __str__(self):
@@ -106,7 +107,7 @@ class Question(models.Model):
 class Variant(models.Model):
     questionId = models.IntegerField()
     text = models.CharField(max_length=200)
-    weight = models.FloatField()
+    weight = models.FloatField(default=0)
 
     def __str__(self):
         return self.text

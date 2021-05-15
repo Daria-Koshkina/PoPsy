@@ -35,6 +35,7 @@ def PrepareTests(testsQ):
         test = helpModels.Test()
         test.id = i.id
         test.title = i.title
+        test.description = i.description
         test.photo = i.photo
         questionsQ= models.Question.objects.filter(testId=i.id)
         for j in questionsQ:
@@ -50,7 +51,7 @@ def PrepareTests(testsQ):
             test.questions.append(question)
         categories = models.TestHasCategories.objects.filter(testId=i.id)
         for j in categories:
-            category = models.TestHasCategories.objects.filter(id=j.categotyId).first()
+            category = models.Category.objects.filter(id=j.categotyId).first()
             cat = helpModels.Category()
             cat.text = category.text
             test.categories.append(cat)
@@ -72,15 +73,30 @@ def PrepareTests(testsQ):
 def allTests(request):
     testsQ = models.Test.objects.all
     tests = PrepareTests(testsQ)
+    return JsonResponse(jsonpickle.decode(jsonpickle.encode(list(tests), unpicklable=False)), safe=False)
+
+@csrf_exempt
+def getCategories(request):
+    categories_exp = []
+    categories = models.Category.objects.all
+    for j in categories:
+        cat = helpModels.Category()
+        cat.text = j.text
+        categories_exp.append(cat)
+    return JsonResponse(jsonpickle.decode(jsonpickle.encode(list(categories_exp), unpicklable=False)), safe=False)
+
+
 @csrf_exempt
 def usedTests(request):
     currentUserId = int(request.POST.get("userId"))
     testsResQ = models.TestResult.objects.filter(userId=currentUserId)
     testsQ  = [models.Test.objects.filter(id=i.testId).first() for i in testsResQ]
     tests = PrepareTests(testsQ)
+    return JsonResponse(jsonpickle.decode(jsonpickle.encode(list(tests), unpicklable=False)), safe=False)
+
 
 @csrf_exempt
-def PrepareSession(request):
+def prepareSession(request):
     currentUserId = int(request.POST.get("userId"))
     sessionsQ = models.TestResult.objects.filter(userId=currentUserId)
     session = []
@@ -99,7 +115,7 @@ def PrepareSession(request):
             session.append(ses)
         else:
             session[used.index(i.testId)].Sessions.append(res)
-
+    return JsonResponse(jsonpickle.decode(jsonpickle.encode(list(session), unpicklable=False)), safe=False)
 
 
 def PrepareContent(userId):
@@ -263,6 +279,24 @@ def getUser(request):
     userId = int(userId)
     if models.User.objects.filter(id=userId).exists():
         user = models.User.objects.get(id=userId)
+        user_exp = helpModels.User_exp()
+        user_exp.id = user.id
+        user_exp.name = user.name
+        user_exp.surname = user.surname
+        user_exp.email = user.email
+        user_exp.password = user.password
+        user_exp.age = user.age
+        user_exp.phone = user.phone
+        user_exp.photo = user.photo
+        return JsonResponse(jsonpickle.decode(jsonpickle.encode(user_exp,unpicklable=False)),safe = False)
+    else:
+        return HttpResponseBadRequest()
+
+@csrf_exempt
+def getUserByEmail(request):
+    email = request.POST.get("email")
+    if models.User.objects.filter(email=email).exists():
+        user = models.User.objects.get(email=email)
         user_exp = helpModels.User_exp()
         user_exp.id = user.id
         user_exp.name = user.name

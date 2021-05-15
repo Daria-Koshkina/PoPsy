@@ -441,15 +441,6 @@ class _MyFirstAppState extends State<EditAccountPage> {
       }
     }
 
-    if (permissionStatus == PermissionStatus.undetermined) {
-      permissionStatus = await permission.request();
-
-      if (permissionStatus != PermissionStatus.granted) {
-        //Only continue if permission granted
-        return;
-      }
-    }
-
     if (permissionStatus == PermissionStatus.denied) {
       if (Platform.isIOS) {
         _showOpenAppSettingsDialog(context);

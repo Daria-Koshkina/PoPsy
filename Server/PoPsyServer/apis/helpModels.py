@@ -1,5 +1,6 @@
 import json
 from json import JSONEncoder
+from datetime import datetime
 
 
 class Question:
@@ -32,6 +33,7 @@ class TestSession:
 class Test:
     id = 0
     title = ''
+    description = ''
     photo = ''
     questions = []
     categories = []
