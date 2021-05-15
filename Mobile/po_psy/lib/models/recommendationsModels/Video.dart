@@ -6,4 +6,14 @@ class Video {
   final String URL;
 
   Video(this.title, this.author, this.time, this.imageURL, this.URL);
+
+  factory Video.fromJson(Map<String, dynamic> json){
+    return Video(
+        json['title'],
+        json['author'],
+        json['time'],
+        json['image'],
+        json['url']
+    );
+  }
 }

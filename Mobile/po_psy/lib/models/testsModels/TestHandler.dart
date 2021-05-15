@@ -7,9 +7,7 @@ class TestHandler {
   int index;
 
   static final TestHandler _instance = TestHandler._internal();
-  TestHandler._internal() {
-
-  }
+  TestHandler._internal() {}
 
   factory TestHandler(Test test) {
     _instance.test = test;
@@ -27,11 +25,15 @@ class TestHandler {
     }
   }
 
+  int getIndex() {
+    return index;
+  }
+
   void setScore(Answer answer) {
     sum += answer.weight;
   }
 
   String getResult() {
-    return test.result.getResult(sum);
+    return test.scores.getResult(sum);
   }
 }

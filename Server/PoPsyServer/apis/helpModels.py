@@ -8,6 +8,14 @@ class Music:
     time = ''
     url = ''
 
+class Video:
+    title = ''
+    author = ''
+    image = ''
+    time = ''
+    url = ''
+
+
 class Content:
     title = ''
     status = ''

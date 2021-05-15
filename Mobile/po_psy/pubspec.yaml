@@ -32,6 +32,7 @@ dependencies:
   url_launcher: ^6.0.3
   share: ^2.0.1
   intl: ^0.17.0
+  grouped_buttons: ^1.0.4
 
 dev_dependencies:
   flutter_test:
@@ -56,6 +57,10 @@ flutter:
     - assets/image/defolt_user.jpg
     - assets/image/facebook-logo.png
     - assets/image/google-logo.png
+    - assets/image/defolt_diary.jpg
+    - assets/image/bold_letter.png
+    - assets/image/italic_letter.png
+    - assets/image/underline_letter.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

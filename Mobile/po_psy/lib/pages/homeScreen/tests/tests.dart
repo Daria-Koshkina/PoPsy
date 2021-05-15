@@ -37,8 +37,6 @@ class TestsPageState extends State<TestsPage> {
 
   @override
   Widget build(BuildContext context) {
-    var data = TestData().testSingleton(tests[0]);
-    var data1 = TestData().testSingleton(tests[1]);
     return AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: Scaffold(
@@ -79,6 +77,7 @@ Widget _categoriesWidget(List<Category> categories) {
       height: 100,
       child:
       GridView.count(
+        physics: new NeverScrollableScrollPhysics(),
         crossAxisCount: 3,
         childAspectRatio: (90 / 25),
         padding: const EdgeInsets.all(4.0),
