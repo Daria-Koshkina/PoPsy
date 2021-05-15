@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:po_psy/assets/my_icons_icons.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
 import 'package:po_psy/models/User.dart';
@@ -8,20 +9,21 @@ import 'package:po_psy/pages/homeScreen/account/editProfile.dart';
 
 
 class AccountPage extends StatelessWidget {
-  final User user = UserHandler.instance.getUser();
+  final User _user = UserHandler.instance.getUser();
 
   AccountPage();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorPallet.placeholderColor,
-        body:  _profilePage(user,context)
+        body:  _profilePage(_user,context)
     );
   }
 }
 
 
-Widget _profilePage(User user,BuildContext context) {
+Widget _profilePage(User user, BuildContext context) {
+  print(user.imageURL);
   return ListView(
     children: <Widget>[
       _editIcon(user,context),
@@ -40,7 +42,7 @@ Widget _profilePage(User user,BuildContext context) {
       _line(),
       _phoneNumber(user.phone),
       _line(),
-      _useremail(user.email),
+      _userEmail(user.email),
       SizedBox(height: 7,),
       _profileButtons(),
       SizedBox(
@@ -65,7 +67,7 @@ Widget _editIcon(User user,BuildContext context){
     width: double.infinity,
     child: IconButton(
       icon: Icon(
-        Icons.account_balance_outlined,
+      MyIcons.edit,
         color: Colors.white,
       ),
       onPressed: (){
@@ -79,7 +81,7 @@ Widget _editIcon(User user,BuildContext context){
 }
 
 Widget _avatar(String imageURL) {
-  if (imageURL == null) {
+  if (imageURL == null || imageURL == '') {
     return new Container(
       padding: const EdgeInsets.only(top: 7.0, bottom: 7.0),
       color: ColorPallet.mainColor,
@@ -106,9 +108,6 @@ Widget _avatar(String imageURL) {
     );
   }
 }
-
-
-
 
 Widget _usernameTitle(String name) {
   return ListTile(
@@ -141,7 +140,7 @@ Widget _userSurnameTitle(String surname) {
 }
 
 Widget _usersAge(int age) {
-  if(age == null){
+  if(age == null || age == ''){
     return ListTile(
       tileColor: ColorPallet.backgroundColor,
       title: Text(
@@ -161,7 +160,7 @@ Widget _usersAge(int age) {
 }
 
 Widget _phoneNumber(String phone) {
-  if(phone == null){
+  if(phone == null || phone == ''){
     return ListTile(
       tileColor: ColorPallet.backgroundColor,
       title: Text(
@@ -180,7 +179,7 @@ Widget _phoneNumber(String phone) {
   }
 }
 
-Widget _useremail(String email) {
+Widget _userEmail(String email) {
   if(email == null || email == ''){
     return ListTile(
       tileColor: ColorPallet.backgroundColor,
