@@ -128,6 +128,7 @@ CREATE TABLE IF NOT EXISTS `popsy`.`Test` (
   `ID` INT NOT NULL AUTO_INCREMENT,
   `Title` VARCHAR(45) NULL,
   `Photo` VARCHAR(150) NULL,
+  `ResultTextLink` VARCHAR(200) NULL,
   PRIMARY KEY (`ID`))
 ENGINE = InnoDB;
 
@@ -158,7 +159,7 @@ CREATE TABLE IF NOT EXISTS `popsy`.`Variant` (
   `QuestionID` INT NOT NULL,
   `Text` VARCHAR(240) NULL,
   `Photo` VARCHAR(150) NULL,
-  `Value` VARCHAR(45) NULL,
+  `Value` FLOAT NULL,
   PRIMARY KEY (`ID`, `QuestionID`),
   INDEX `fk_Variant_Question1_idx` (`QuestionID` ASC) VISIBLE,
   CONSTRAINT `fk_Variant_Question1`
@@ -208,7 +209,7 @@ CREATE TABLE IF NOT EXISTS `popsy`.`Test_result` (
   `ID` INT NOT NULL AUTO_INCREMENT,
   `TestID` INT NOT NULL,
   `UserID` INT NOT NULL,
-  `TestResult` VARCHAR(240) NULL,
+  `Score` FLOAT NULL,
   PRIMARY KEY (`ID`, `TestID`, `UserID`),
   INDEX `fk_Test_result_Test1_idx` (`TestID` ASC) VISIBLE,
   INDEX `fk_Test_result_User1_idx` (`UserID` ASC) VISIBLE,
