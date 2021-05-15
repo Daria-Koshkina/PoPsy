@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 import 'package:po_psy/api/GenerateImageUrl.dart';
 import 'package:po_psy/models/UserHandler.dart';
@@ -130,6 +132,18 @@ class ApiManager {
       content = data.map<Category>((json) => Category.fromJson(json)).toList();
     }
     return content;
+  }
+
+  Future<void> postTestSessions(TestSessions testSessions, String userId) async{
+    // TODO: push testSession to server
+    List<TestSessions> content = null;
+    var url = Uri.parse(urls.Strings.prepareSession_url);
+    var responce = await http.post(url, body: {"userId" : userId, "testSession" : testSessions});
+    if (responce.statusCode == 200) {
+      var data = json.decode(responce.body) as List;
+      content = data.map<TestSessions>((json) => TestSessions.fromJson(json)).toList();
+    }
+    //return content;
   }
 
 }

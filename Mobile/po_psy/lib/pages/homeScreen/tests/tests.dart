@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:po_psy/api/api.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
+import 'package:po_psy/models/UserHandler.dart';
 import 'package:po_psy/models/testsModels/Category.dart';
 import 'package:po_psy/models/testsModels/Test.dart';
 import 'package:po_psy/models/testsModels/TestHandler.dart';
@@ -17,8 +19,8 @@ class TestsPage extends StatefulWidget {
   final List<Category> categories = TestData().getCategories();
   final List<Test> tests = TestData().getTests();
   final List<Test> completed = TestData().getCompletedTest();
-  final List<TestSessions> sessions = TestData().getSessions();
-  //final List<TestSessions> sessions = [];
+  //final Future<List<TestSessions>> sessions = ApiManager().prepareSession(UserHandler.instance.getUserId().toString());
+  List<TestSessions> sessions = [];
 
   TestsPageState createState() => TestsPageState();
 }
@@ -27,10 +29,26 @@ class TestsPageState extends State<TestsPage> {
   List<Category> categories;
   List<Test> tests;
   List<Test> completed;
-  CompletedTestsWidget bottomSheetWidget;
+  Widget bottomSheetWidget;
 
   @override
   void initState() {
+    // ApiManager().getCategories().then((value) {
+    //   categories = value;
+    // });
+    // ApiManager().allTests().then((value) {
+    //   tests = value;
+    // });
+    // ApiManager().usedTests(UserHandler.instance.getUserId().toString()).then((value) {
+    //   completed = value;
+    // });
+    // ApiManager().prepareSession(UserHandler.instance.getUserId().toString()).then((value) {
+    //   widget.sessions = value;
+    //   bottomSheetWidget = new CompletedTestsWidget(tests: completed, sessions: value,);
+    // });
+
+    // TODO: for testing server uncomment lines above and comment lines below
+
     categories = widget.categories;
     tests = widget.tests;
     completed = widget.completed;
@@ -66,10 +84,14 @@ class TestsPageState extends State<TestsPage> {
   CompletedTestsWidget _getBottomSheetWidget() {
     setState(() {
       if (bottomSheetWidget == null) {
-        bottomSheetWidget = new CompletedTestsWidget(
-          tests: completed,
-          sessions: widget.sessions,
-        );
+        if (completed.isEmpty) {
+          bottomSheetWidget = new Container(width: 0, height: 0,);
+        } else {
+          bottomSheetWidget = new CompletedTestsWidget(
+            tests: completed,
+            sessions: widget.sessions,
+          );
+        }
       }
     });
     return bottomSheetWidget;
