@@ -11,18 +11,11 @@ from apis.views import urlStrings
 def UserEmotionToList(userEmotion:models.UserEmotions):
     emotions = []
     emotions.append(userEmotion.userId)
-    emotions.append(userEmotion.empty)
     emotions.append(userEmotion.sadness)
-    emotions.append(userEmotion.enthusiasm)
     emotions.append(userEmotion.worry)
-    emotions.append(userEmotion.surprise)
     emotions.append(userEmotion.love)
-    emotions.append(userEmotion.fun)
     emotions.append(userEmotion.hate)
     emotions.append(userEmotion.happiness)
-    emotions.append(userEmotion.boredom)
-    emotions.append(userEmotion.relief)
-    emotions.append(userEmotion.anger)
     return  emotions
 
 def ContentToList(content):
@@ -37,6 +30,80 @@ def VideoListViewToList(videoListView:models.VideoListView):
 def ArticleViewToList(articleView:models.ArticleView):
     return articleView.articleId
 
+def PrepareTests(testsQ):
+
+    tests = []
+    for i in testsQ:
+        test = helpModels.Test()
+        test.id = i.id
+        test.title = i.title
+        test.photo = i.photo
+        questionsQ= models.Question.objects.filter(testId=i.id)
+        for j in questionsQ:
+            question = helpModels.Question()
+            question.photo = j.photo
+            question.text = j.text
+            variantsQ= models.Variant.objects.filter(questionId=j.id)
+            for k in variantsQ:
+                variant = helpModels.Variant()
+                variant.text = k.text
+                variant.weight = k.weight
+                question.variants.append(variant)
+            test.questions.append(question)
+        categories = models.TestHasCategories.objects.filter(testId=i.id)
+        for j in categories:
+            category = models.TestHasCategories.objects.filter(id=j.categotyId).first()
+            cat = helpModels.Category()
+            cat.text = category.text
+            test.categories.append(cat)
+
+        scores = models.Score.objects.filter(testId=i.id)
+        sc = helpModels.Scores()
+        for j in scores:
+            score = helpModels.Score()
+            score.text = j.text
+            score.start = j.start
+            score.end = j.end
+            sc.score.append(score)
+        test.scores = sc
+        test.testResault = helpModels.TestResult()
+        tests.append(test)
+    return tests
+
+@csrf_exempt
+def allTests(request):
+    testsQ = models.Test.objects.all
+    tests = PrepareTests(testsQ)
+@csrf_exempt
+def usedTests(request):
+    currentUserId = int(request.POST.get("userId"))
+    testsResQ = models.TestResult.objects.filter(userId=currentUserId)
+    testsQ  = [models.Test.objects.filter(id=i.testId).first() for i in testsResQ]
+    tests = PrepareTests(testsQ)
+
+@csrf_exempt
+def PrepareSession(request):
+    currentUserId = int(request.POST.get("userId"))
+    sessionsQ = models.TestResult.objects.filter(userId=currentUserId)
+    session = []
+    used = []
+    for i in sessionsQ:
+        res = helpModels.TestResult()
+        res.result = i.result
+        res.date = i.date
+        res.photo = i.photo
+
+        if not i.testId in used:
+            ses = helpModels.TestSession()
+            used.append(i.testId)
+            ses.id = i.testId
+            ses.Sessions.append(res)
+            session.append(ses)
+        else:
+            session[used.index(i.testId)].Sessions.append(res)
+
+
+
 def PrepareContent(userId):
     currentUserEmotions = UserEmotionToList(models.UserEmotions.objects.filter(userId=userId).first())
     otherUserEmotions = [UserEmotionToList(i) for i in models.UserEmotions.objects.all()]
@@ -47,6 +114,7 @@ def PrepareContent(userId):
     playlists = [ContentToList(i) for i in models.AudioList.objects.all()]
     videolists = [ContentToList(i) for i in models.VideoList.objects.all()]
     articles = [ContentToList(i) for i in models.Article.objects.all()]
+
     playlistsView = [AudioListViewToList(i) for i in models.AudioListView.objects.filter(userId=nearestUserEmotion)]
     videolistsView = [VideoListViewToList(i) for i in models.VideoListView.objects.filter(userId=nearestUserEmotion)]
     articlesView = [ArticleViewToList(i) for i in models.ArticleView.objects.filter(userId=nearestUserEmotion)]

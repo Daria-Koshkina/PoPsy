@@ -1,6 +1,43 @@
 import json
 from json import JSONEncoder
 
+
+class Question:
+    text = ''
+    photo = ''
+    variants = []
+
+class Variant:
+    text = ''
+    weight = 0
+
+class Category:
+    text = ''
+
+class Scores:
+    score = []
+
+class Score:
+    start = 0
+    end = 0
+    text = ''
+
+class TestResult:
+    result = ''
+    date = ''
+    photo = ''
+class TestSession:
+    id = 0
+    Sessions = []
+class Test:
+    id = 0
+    title = ''
+    photo = ''
+    questions = []
+    categories = []
+    scores = Scores()
+    testResault = TestResult()
+
 class Music:
     title = ''
     author = ''
