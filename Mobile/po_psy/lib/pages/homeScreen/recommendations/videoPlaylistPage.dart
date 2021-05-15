@@ -100,10 +100,16 @@ class _VideoWidget extends StatelessWidget {
                 ]
             ),
           ),
-          Padding(padding: new EdgeInsets.all(20),
-              child: Column(
+          SizedBox(width: 7,),
+              Expanded(child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(video.title, style: TextStyles.songTitleTextStyle,),
+                  Text(
+                    video.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: false,
+                    style: TextStyles.songTitleTextStyle,),
                   Row(
                     children: [
                       Text(
@@ -117,8 +123,9 @@ class _VideoWidget extends StatelessWidget {
                   ),
                 ],
               )
+
           ),
-          Spacer(),
+          //Spacer(),
           IconButton(icon: Icon(
             MyIcons.more_vert, color: ColorPallet.subsidiaryTextColor,),
               onPressed: () {}),

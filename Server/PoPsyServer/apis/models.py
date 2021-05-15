@@ -7,8 +7,8 @@ class User(models.Model):
     surname = models.CharField(max_length=200)
     photo = models.CharField(max_length=200, default='defaultphoto.png')
     email = models.CharField(max_length=200)
-    phone = models.CharField(max_length=200, blank=True)
-    age = models.IntegerField()
+    phone = models.CharField(max_length=200, blank=True, null=True)
+    age = models.IntegerField(blank=True, null=True)
     password = models.CharField(max_length=200)
 
     def __str__(self):

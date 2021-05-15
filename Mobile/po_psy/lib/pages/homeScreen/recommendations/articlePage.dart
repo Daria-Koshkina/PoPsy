@@ -21,6 +21,7 @@ class ArticlePage extends StatelessWidget {
             ),
           ),
           body: new Container(
+            width: double.infinity,
               color: ColorPallet.yellowBlockColor,
               padding: new EdgeInsets.fromLTRB(20, 20, 20, 20),
               height: MediaQuery.of(context).size.height,

@@ -1,11 +1,19 @@
+import 'dart:convert';
+
 import "package:flutter/material.dart";
+import 'package:po_psy/api/api.dart';
 import 'package:po_psy/assets/my_icons_icons.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
-import 'package:po_psy/pages/homeScreen/account/account.dart';
+import 'package:po_psy/models/User.dart';
+import 'package:po_psy/models/UserHandler.dart';
+import 'package:po_psy/pages/authorization/bootSplash/boot.dart';
 import 'package:po_psy/pages/homeScreen/diary/diary.dart';
 import 'package:po_psy/pages/homeScreen/recommendations/recommendationsPage.dart';
 import 'package:po_psy/pages/homeScreen/tests/tests.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'account/profile.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -38,6 +46,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
   
   @override
   Widget build(BuildContext context) {
+    _checkUser(context);
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(_myHandler.title, style: TextStyles.topBarTextStyle,),
@@ -60,6 +69,28 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
         }).toList(),
       ),
     );
+  }
+ _checkUser(BuildContext context) {
+    if (UserHandler.instance.getUser() == null) {
+      SharedPreferences.getInstance().then((prefs) {
+        var userId = prefs.getString('userId');
+        if (userId == null)
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => BootPage()));
+        else {
+          ApiManager().getUser(userId).then((value) {
+            if (value.statusCode == 200) {
+              var data = json.decode(value.body);
+              User user = User.fromJson(data);
+              UserHandler(user);
+            } else{
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => BootPage()));
+            }
+          });
+        }
+      });
+    }
   }
 }
 

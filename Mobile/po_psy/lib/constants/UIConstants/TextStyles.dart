@@ -145,4 +145,32 @@ class TextStyles {
     decoration: TextDecoration.underline,
   );
 
+  static TextStyle testResultTextStyle = TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 36,
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+  );
+
+  static TextStyle shareTestResultTextStyle = TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 18,
+    fontWeight: FontWeight.normal,
+    color: Colors.white,
+    decoration: TextDecoration.underline,
+  );
+
+  static TextStyle greenHeaderTextStyle = TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 24,
+    fontWeight: FontWeight.bold,
+    color: ColorPallet.mainColor,
+  );
+
+  static TextStyle greyHeader2TextStyle = TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: ColorPallet.placeholderColor,
+  );
 }

@@ -1,15 +1,28 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:po_psy/api/GenerateImageUrl.dart';
+import 'package:po_psy/api/UploadFile.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
+import 'package:po_psy/models/UserHandler.dart';
+import 'package:po_psy/models/GalaryItem.dart';
 import 'package:po_psy/pages/authorization/login/login.dart';
 import 'package:po_psy/pages/homeScreen/homePage.dart';
 import 'package:po_psy/pages/homeScreen/recommendations/recommendationsPage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:po_psy/widgets/CustomDialog.dart';
+import 'package:uuid/uuid.dart';
 import 'RegistrationRequestData.dart';
 import 'validation.dart';
 import 'package:po_psy/models/User.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:po_psy/api/api.dart';
+import 'dart:io' show File, Platform;
+import 'package:path/path.dart' as path;
 
 class RegistrationPage extends StatefulWidget {
   @override
@@ -21,12 +34,20 @@ class RegistrationPage extends StatefulWidget {
 bool _obscureText1 = true;
 bool _obscureText2 = true;
 
+enum PhotoSource { FILE, NETWORK }
+
 class _RegistrationPageState extends State<RegistrationPage> {
   GlobalKey<FormState> _key = new GlobalKey();
   bool _validate = false;
   RegistrationRequestData _registrationData = RegistrationRequestData();
   final passwordControler = TextEditingController();
   String _pass = '';
+
+  File _photo = null;
+  String _photoUrl = "assets/image/defolt_user.jpg";
+  String _photoExtension = null;
+  PhotoSource _photoSource = null;
+  GalleryItem _galleryItem = null;
 
   void initState() {
     passwordControler.addListener(_savePassword);
@@ -70,27 +91,29 @@ class _RegistrationPageState extends State<RegistrationPage> {
               ),
             ),
             Center(
-              child: Container(
-                  margin: EdgeInsets.only(top: 20),
-                  alignment: Alignment.center,
-                  width: 180.0,
-                  height: 180.0,
+              child: InkWell(
+                child: Container(
+                  margin: EdgeInsets.all(5),
+                  height: 180,
+                  width: 180,
                   decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: ColorPallet.placeholderColor,
-                          blurRadius: 20.0, // soften the shadow
-                          spreadRadius: 5.0, //extend the shadow
-                          offset: Offset(
-                            0.0,
-                            5.0,
-                          ),
-                        )
-                      ],
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                          fit: BoxFit.fitHeight,
-                          image: AssetImage("assets/image/defolt_user.jpg")))),
+                    boxShadow: [
+                      BoxShadow(
+                        color: ColorPallet.placeholderColor,
+                        blurRadius: 20.0, // soften the shadow
+                        spreadRadius: 5.0, //extend the shadow
+                        offset: Offset(
+                          0.0,
+                          5.0,
+                        ),
+                      )
+                    ],
+                    shape: BoxShape.circle,
+                    color: ColorPallet.placeholderColor,
+                  ),
+                  child: _getImage(),
+                ),
+              ),
             ),
             Container(
                 margin: EdgeInsets.only(left: 130, top: 140),
@@ -107,7 +130,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 ),
                 child: MaterialButton(
                   onPressed: () {
-                    //ToDoo-------------------------------------------------------------
+                    _onAddPhotoClicked(context);
                   },
                   color: Colors.white,
                   textColor: ColorPallet.mainColor,
@@ -281,7 +304,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
           },
         ),
       ),
-
       Container(
         margin: EdgeInsets.only(top: 20, left: 20, right: 20),
         decoration: BoxDecoration(
@@ -477,22 +499,21 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 Text("Create account", style: TextStyles.lightHeader2TextStyle),
             onPressed: () {
               if (_key.currentState.validate()) {
-                _key.currentState.save();
-                User newUser = User(0, _registrationData.name, _registrationData.surname, ' ', _registrationData.email, _registrationData.phone, _registrationData.age, _registrationData.password, new List<String>());
-                ApiManager().register(newUser).then((value) {
-                  if (value.statusCode == 200) {
-                    Text x = Text("You successfully registered",
-                        style: TextStyles.articleTitleTextStyle);
-                    _showDialog(x);
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => HomePage()));
-                  } else {
-                    Text x = Text(
-                        "You are not registered. Check all fields again",
-                        style: TextStyles.articleTitleTextStyle);
-                    _showDialog(x);
-                  }
-                });
+                if (_photo != null) {
+                  setState(() {
+                    ApiManager()
+                        .uploadImage(context, _photoExtension, _photo)
+                        .then((value) {
+                          if (value != null){
+                            _photoUrl = value;
+                            register();
+                          }
+                        });
+                  });
+                }
+                else{
+                  register();
+                }
               } else {
                 setState(() {
                   _validate = true;
@@ -529,4 +550,145 @@ class _RegistrationPageState extends State<RegistrationPage> {
           );
         });
   }
+
+  _onAddPhotoClicked(context) async {
+    Permission permission;
+
+    if (Platform.isIOS) {
+      permission = Permission.photos;
+    } else {
+      permission = Permission.storage;
+    }
+
+    PermissionStatus permissionStatus = await permission.status;
+
+    print(permissionStatus);
+
+    if (permissionStatus == PermissionStatus.restricted) {
+      _showOpenAppSettingsDialog(context);
+
+      permissionStatus = await permission.status;
+
+      if (permissionStatus != PermissionStatus.granted) {
+        //Only continue if permission granted
+        return;
+      }
+    }
+
+    if (permissionStatus == PermissionStatus.permanentlyDenied) {
+      _showOpenAppSettingsDialog(context);
+
+      permissionStatus = await permission.status;
+
+      if (permissionStatus != PermissionStatus.granted) {
+        //Only continue if permission granted
+        return;
+      }
+    }
+
+    if (permissionStatus == PermissionStatus.undetermined) {
+      permissionStatus = await permission.request();
+
+      if (permissionStatus != PermissionStatus.granted) {
+        //Only continue if permission granted
+        return;
+      }
+    }
+
+    if (permissionStatus == PermissionStatus.denied) {
+      if (Platform.isIOS) {
+        _showOpenAppSettingsDialog(context);
+      } else {
+        permissionStatus = await permission.request();
+      }
+
+      if (permissionStatus != PermissionStatus.granted) {
+        //Only continue if permission granted
+        return;
+      }
+    }
+
+    if (permissionStatus == PermissionStatus.granted) {
+      print('Permission granted');
+      File image = await ImagePicker.pickImage(
+        source: ImageSource.gallery,
+      );
+
+      if (image != null) {
+        String fileExtension = path.extension(image.path);
+
+        _galleryItem = GalleryItem(
+          id: Uuid().v1(),
+          resource: image.path,
+          isSvg: fileExtension.toLowerCase() == ".svg",
+        );
+
+        setState(() {
+          _photo = image;
+          _photoSource = PhotoSource.FILE;
+          _photoExtension = fileExtension;
+        });
+      }
+    }
+  }
+
+  register(){
+    _key.currentState.save();
+    User newUser = User(
+        0,
+        _registrationData.name,
+        _registrationData.surname,
+        _photoUrl,
+        _registrationData.email,
+        _registrationData.phone,
+        _registrationData.age,
+        _registrationData.password,
+        new List<String>());
+    ApiManager().register(newUser).then((value) {
+      if (value.statusCode == 200) {
+        var data = json.decode(value.body);
+        newUser.ID = data;
+        UserHandler(newUser);
+        SharedPreferences.getInstance().then((prefs) {
+          prefs.setString('userId', newUser.ID.toString());
+        });
+        Text x = Text("You successfully registered",
+            style: TextStyles.articleTitleTextStyle);
+        _showDialog(x);
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => HomePage()));
+      } else {
+        Text x = Text(
+            "You are not registered. Check all fields again",
+            style: TextStyles.articleTitleTextStyle);
+        _showDialog(x);
+      }
+    });
+  }
+
+  Widget _getImage() {
+    if (_photoSource == PhotoSource.FILE) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(100),
+        child: Image.file(_photo, fit: BoxFit.fill),
+      );
+    } else {
+      return ClipRRect(
+          borderRadius: BorderRadius.circular(100),
+          child: Image.asset(
+            _photoUrl,
+            fit: BoxFit.fill,
+          ));
+    }
+  }
+}
+
+_showOpenAppSettingsDialog(context) {
+  return CustomDialog.show(
+    context,
+    'Permission needed',
+    'Photos permission is needed to select photos',
+    'Open settings',
+    openAppSettings,
+  );
 }

@@ -3,13 +3,14 @@ import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
 import 'package:po_psy/models/testsModels/Category.dart';
 import 'package:po_psy/models/testsModels/Test.dart';
+import 'package:po_psy/models/testsModels/TestSessions.dart';
 import 'package:po_psy/pages/homeScreen/tests/categoryWidget.dart';
 import 'package:po_psy/pages/homeScreen/tests/startTestPage.dart';
 
 class TestIconWidget extends StatelessWidget {
   final Test test;
-
-  const TestIconWidget({Key key, this.test}) : super(key: key);
+  final TestSessions _testSessions;
+  const TestIconWidget(this.test, this._testSessions);
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +64,7 @@ class TestIconWidget extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) =>
-                              StartTestPage(test: test)),
+                              StartTestPage(test, _testSessions)),
                         );
                       })
                 ],

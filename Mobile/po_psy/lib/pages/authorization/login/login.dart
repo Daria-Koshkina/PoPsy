@@ -1,16 +1,17 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:po_psy/api/api.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
+import 'package:po_psy/models/UserHandler.dart';
 import 'package:po_psy/pages/homeScreen/homePage.dart';
 import 'package:po_psy/widgets/LogoElement.dart';
 import 'package:po_psy/pages/authorization/registration/registration.dart';
 import 'package:po_psy/models/User.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 
 class LoginPage extends StatefulWidget {
@@ -185,6 +186,10 @@ class _LoginPageState extends State<LoginPage> {
                                         if (value.statusCode == 200) {
                                           var data = json.decode(value.body);
                                           User user = User.fromJson(data);
+                                          UserHandler(user);
+                                          SharedPreferences.getInstance().then((prefs) {
+                                            prefs.setString('userId', user.ID.toString());
+                                          });
                                           Navigator.of(context).push(
                                               MaterialPageRoute(builder: (context) => HomePage()));
                                           print("Success"); //вот тут должно перебрасывать на домашнюю страницу

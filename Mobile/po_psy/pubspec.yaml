@@ -33,6 +33,11 @@ dependencies:
   share: ^2.0.1
   intl: ^0.17.0
   grouped_buttons: ^1.0.4
+  shared_preferences: ^2.0.5
+  permission_handler: ^5.0.0+hotfix.3
+  image_picker: ^0.6.4
+  uuid: ^3.0.4
+  path: ^1.6.4
 
 dev_dependencies:
   flutter_test:

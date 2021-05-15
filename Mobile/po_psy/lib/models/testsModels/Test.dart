@@ -4,6 +4,7 @@ import 'package:po_psy/models/testsModels/TestResult.dart';
 import 'package:po_psy/models/testsModels/TestStep.dart';
 
 class Test {
+  final int id;
   final List<Category> categories;
   final List<TestStep> steps;
   final AnswerScores scores;
@@ -12,5 +13,5 @@ class Test {
   final String imageURL;
   final TestResult result;
 
-  Test(this.categories, this.steps, this.scores, this.title, this.description, this.imageURL, this.result);
+  Test(this.id, this.categories, this.steps, this.scores, this.title, this.description, this.imageURL, this.result);
 }
