@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'dart:math';
+import 'dart:io' as io;
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:po_psy/api/api.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
@@ -8,11 +11,15 @@ import 'package:po_psy/widgets/LogoElement.dart';
 import 'package:po_psy/pages/authorization/registration/registration.dart';
 import 'package:po_psy/models/User.dart';
 import 'dart:async';
+import 'package:file/file.dart';
+import 'package:file/local.dart';
+import 'package:path_provider/path_provider.dart';
 
 
 class EditorPage extends StatefulWidget {
   Record record;
 
+  LocalFileSystem localFileSystem = LocalFileSystem();
   EditorPage({this.record});
 
   @override
@@ -140,8 +147,6 @@ class _EditorPageState extends State<EditorPage> {
                               width: 50,
                                 child: MaterialButton(
                                   onPressed: () {
-                                    //  Navigator.of(context).push(
-                                    //     MaterialPageRoute(builder: (context) => LoginPage()));
                                   },
                                   textColor: ColorPallet.mainColor,
                                   child: Icon(
@@ -155,8 +160,6 @@ class _EditorPageState extends State<EditorPage> {
                               width: 50,
                                 child: MaterialButton(
                                   onPressed: () {
-                                    //  Navigator.of(context).push(
-                                    //     MaterialPageRoute(builder: (context) => LoginPage()));
                                   },
                                   textColor: ColorPallet.mainColor,
                                   child: Icon(

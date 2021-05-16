@@ -7,9 +7,6 @@ import 'package:po_psy/constants/UIConstants/TextStyles.dart';
 import 'package:po_psy/models/Record.dart';
 import 'package:po_psy/pages/homeScreen/diary/dayWidget.dart';
 import 'package:po_psy/widgets/LogoElement.dart';
-import 'package:po_psy/pages/homeScreen/diary/monthWidget.dart';
-import 'dart:async';
-import 'package:intl/intl.dart';
 
 import 'editor.dart';
 

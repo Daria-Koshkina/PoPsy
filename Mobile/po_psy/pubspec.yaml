@@ -28,6 +28,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   audioplayers:
+  audio_recorder: ^1.0.0
   provider:
   url_launcher: ^6.0.3
   share: ^2.0.1
@@ -35,7 +36,7 @@ dependencies:
   grouped_buttons: ^1.0.4
   shared_preferences: ^2.0.5
   permission_handler: ^5.0.0+hotfix.3
-  image_picker: ^0.6.4
+  image_picker: ^0.6.5+3
   uuid: ^3.0.4
   path: ^1.6.4
 

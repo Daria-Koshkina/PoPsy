@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: ColorPallet.mainColor,
       ),
-      home: HomePage(),
+      home: EditorPage(),
     );
   }
 }
