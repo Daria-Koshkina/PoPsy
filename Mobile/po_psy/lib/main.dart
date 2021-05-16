@@ -18,9 +18,6 @@ void main() {
   runApp(MyApp());
 }
 
-var now = DateTime.now();
-var sixtyDaysFromNow = now.add(const Duration(days: 60));
-Record record = Record(sixtyDaysFromNow, "qwertyuiop");
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -34,7 +31,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: ColorPallet.mainColor,
           ),
-          home: HomePage(),
+          home: EditorPage(),
         ));
   }
 }
