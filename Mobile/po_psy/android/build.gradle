@@ -1,17 +1,11 @@
-
-
 buildscript {
-    ext.kotlin_version = '1.3.50'
     repositories {
         google()
         jcenter()
-        //++++maven { url 'https://jitpack.io' }
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.0-rc01'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        //+++++implementation 'com.github.Canardoux:tau_core:Tag'
+        classpath 'com.android.tools.build:gradle:4.1.0'
     }
 }
 
@@ -19,7 +13,6 @@ allprojects {
     repositories {
         google()
         jcenter()
-        //++++maven { url 'https://jitpack.io' }
     }
 }
 
@@ -30,8 +23,6 @@ subprojects {
 subprojects {
     project.evaluationDependsOn(':app')
 }
-
-//ext.flutterFFmpegPackage = 'full-lts'
 
 task clean(type: Delete) {
     delete rootProject.buildDir
