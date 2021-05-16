@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:js';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -58,16 +57,12 @@ class AuthBlock{
         });
       }
       print('${result.user.displayName}');
-
     }
     catch(e){
       print(e);
     }
-
-
-    logout() {
-      authService.logout();
-    }
   }
-
+  logout() {
+    authService.logout();
+  }
 }
