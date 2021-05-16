@@ -6,4 +6,9 @@ urlpatterns = [
     path('register/', views.register),
     path('signIn/', views.singIn),
     path('getUser/', views.getUser),
+    path('getUserById/', views.getUserByEmail),
+    path('allTests/', views.allTests),
+    path('getCategories/', views.getCategories),
+    path('usedTests/', views.usedTests),
+    path('prepareSession/', views.prepareSession),
 ]

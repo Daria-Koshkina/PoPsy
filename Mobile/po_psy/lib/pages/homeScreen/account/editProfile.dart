@@ -1,13 +1,19 @@
-import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:po_psy/api/api.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
+import 'package:po_psy/models/GalaryItem.dart';
 import 'package:po_psy/models/User.dart';
 import 'package:po_psy/models/UserHandler.dart';
-import 'package:po_psy/pages/homeScreen/account/profile.dart';
-import 'package:image_picker/image_picker.dart';
+import 'dart:io' show File, Platform;
+import 'package:path/path.dart' as path;
+import 'package:po_psy/widgets/CustomDialog.dart';
+import 'package:uuid/uuid.dart';
+
 
 
 class EditAccountPage extends StatefulWidget{
@@ -16,10 +22,10 @@ class EditAccountPage extends StatefulWidget{
   State<StatefulWidget> createState() => _MyFirstAppState();
 }
 
+enum PhotoSource { FILE, NETWORK }
+
 class _MyFirstAppState extends State<EditAccountPage> {
   User _user;
-  final _picker = ImagePicker();
-  File _image;
   String _name;
   String _surname;
   String _imageURL;
@@ -29,6 +35,13 @@ class _MyFirstAppState extends State<EditAccountPage> {
   String _password;
   String _oldPassword;
   String _repeatedPassword;
+
+  File _photo = null;
+  //String _photoUrl = '';
+  String _photoExtension = null;
+  PhotoSource _photoSource = null;
+  GalleryItem _galleryItem = null;
+
   @override
   void initState() {
     super.initState();
@@ -49,7 +62,7 @@ class _MyFirstAppState extends State<EditAccountPage> {
     return Scaffold(
       // backgroundColor: ColorPallet.placeholderColor,
         appBar: _appBar(_user, context),
-        body: _editprofilePage(_user, _image)
+        body: _editprofilePage()
     );
   }
 
@@ -60,6 +73,19 @@ class _MyFirstAppState extends State<EditAccountPage> {
       actions: [
         TextButton(
           onPressed: () {
+            if (_photo != null) {
+              setState(() {
+                ApiManager()
+                    .uploadImage(context, _photoExtension, _photo)
+                    .then((value) {
+                  if (value != null){
+                    _imageURL = value;
+                    //register();
+                  }
+                });
+              });
+            }
+            bool passwordsAreValid = _validatePasswords();
             var newUser = new User(
                 UserHandler.instance.getUserId(),
                 _name,
@@ -73,8 +99,9 @@ class _MyFirstAppState extends State<EditAccountPage> {
             );
             bool emailValid = newUser.email.isValidEmail();
             bool fieldsAreValid = !newUser.name.isEmpty && newUser.age != null && emailValid;
-            if (fieldsAreValid) {
+            if (fieldsAreValid && passwordsAreValid) {
               UserHandler.instance.setUser(newUser);
+              print('Success');
               Navigator.pop(context);
             }
             //Navigator.pop(context);
@@ -96,67 +123,87 @@ class _MyFirstAppState extends State<EditAccountPage> {
     );
   }
 
-  Widget _editprofilePage(User user, File _image) {
+  Widget _editprofilePage() {
     return SafeArea(
         child: ListView(
           children: [
-            _avatar(null, _image),
-            _changeAvatarButton(),
-            _editUserData(user),
+            Container(
+                color: ColorPallet.mainColor,
+                width: double.infinity,
+                child: Column(
+                    children: [
+                      _avatar(_imageURL),
+                      _changeAvatarButton(),
+                    ]
+                )
+            ),
+            _editUserData(_user),
             SizedBox(height: 7,
               child: Container(
                 color: ColorPallet.subsidiaryTextColor,
               ),
             ),
-            _editPassword(user),
+            _editPassword(_user),
           ],
         )
     );
   }
 
-  Widget _avatar(String imageURL, File _image) {
-    if (imageURL == null) {
-      return new Container(
-        padding: const EdgeInsets.only(top: 7.0, bottom: 7.0),
-        color: ColorPallet.mainColor,
-        width: double.infinity,
-        child: CircleAvatar(
-          backgroundColor: ColorPallet.placeholderColor,
-          radius: 70,
-          child: Icon(Icons.person,
-            size: 50,
-            color: ColorPallet.lightGreyColor,
+  Widget _avatar(String imageURL) {
+    // if (imageURL == null) {
+    //   return new Container(
+    //     padding: const EdgeInsets.only(top: 7.0, bottom: 7.0),
+    //     color: ColorPallet.mainColor,
+    //     width: double.infinity,
+    //     child: CircleAvatar(
+    //       backgroundColor: ColorPallet.placeholderColor,
+    //       radius: 70,
+    //       child: Icon(Icons.person,
+    //         size: 50,
+    //         color: ColorPallet.lightGreyColor,
+    //       ),
+    //     ),
+    //   );
+    // } else {
+    //   return new Container(
+    //     padding: const EdgeInsets.only(top: 7.0, bottom: 7.0),
+    //     color: ColorPallet.mainColor,
+    //     width: double.infinity,
+    //     /*child: ClipRRect(
+    //     borderRadius: BorderRadius.circular(20),
+    //     child: Image.network(imageURL),
+    //   ),*/
+    //     child: CircleAvatar(
+    //       radius: 70,
+    //       backgroundColor: ColorPallet.lightGreyColor,
+    //       backgroundImage: NetworkImage(imageURL),
+    //     ),
+    //   );
+    // }
+    return Center(
+      child: InkWell(
+        child: Container(
+          margin: EdgeInsets.all(5),
+          height: 180,
+          width: 180,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: ColorPallet.placeholderColor,
           ),
+          child: _getImage(),
         ),
-      );
-    } else {
-      return new Container(
-        padding: const EdgeInsets.only(top: 7.0, bottom: 7.0),
-        color: ColorPallet.mainColor,
-        width: double.infinity,
-        /*child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Image.network(imageURL),
-      ),*/
-        child: CircleAvatar(
-          radius: 70,
-          backgroundColor: ColorPallet.lightGreyColor,
-          backgroundImage: NetworkImage(imageURL),
-        ),
-      );
-    }
+      ),
+    );
   }
 
   Widget _changeAvatarButton() {
-    return Container(
-      color: ColorPallet.mainColor,
-      width: double.infinity,
-      child: TextButton(
-        onPressed: () {}, //getImage,
-        child: Text(
-            'Change photo',
-            style: TextStyles.lightHeader2TextStyle
-        ),
+    return TextButton(
+      onPressed: () {
+        _onAddPhotoClicked(context);
+      }, //getImage,
+      child: Text(
+          'Change photo',
+          style: TextStyles.lightHeader2TextStyle
       ),
     );
   }
@@ -328,7 +375,134 @@ class _MyFirstAppState extends State<EditAccountPage> {
         return true;
       }
     }
+    _showDialog(Text('Please check password and try again'));
     return false;
+  }
+
+  Widget _getImage() {
+    if (_photoSource == PhotoSource.FILE) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(100),
+        child: Image.file(_photo, fit: BoxFit.fill),
+      );
+    } else {
+      // return ClipRRect(
+      //     borderRadius: BorderRadius.circular(100),
+      //     child: Image.asset(
+      //       _photoUrl,
+      //       fit: BoxFit.fill,
+      //     ));
+      return new Container(
+        padding: const EdgeInsets.only(top: 7.0, bottom: 7.0),
+        child: CircleAvatar(
+          backgroundColor: ColorPallet.placeholderColor,
+          radius: 70,
+          child: Icon(Icons.person,
+            size: 50,
+            color: ColorPallet.lightGreyColor,
+          ),
+        ),
+      );
+    }
+  }
+
+  _onAddPhotoClicked(context) async {
+    Permission permission;
+
+    if (Platform.isIOS) {
+      permission = Permission.photos;
+    } else {
+      permission = Permission.storage;
+    }
+
+    PermissionStatus permissionStatus = await permission.status;
+
+    print(permissionStatus);
+
+    if (permissionStatus == PermissionStatus.restricted) {
+      _showOpenAppSettingsDialog(context);
+
+      permissionStatus = await permission.status;
+
+      if (permissionStatus != PermissionStatus.granted) {
+        //Only continue if permission granted
+        return;
+      }
+    }
+
+    if (permissionStatus == PermissionStatus.permanentlyDenied) {
+      _showOpenAppSettingsDialog(context);
+
+      permissionStatus = await permission.status;
+
+      if (permissionStatus != PermissionStatus.granted) {
+        //Only continue if permission granted
+        return;
+      }
+    }
+
+    if (permissionStatus == PermissionStatus.denied) {
+      if (Platform.isIOS) {
+        _showOpenAppSettingsDialog(context);
+      } else {
+        permissionStatus = await permission.request();
+      }
+
+      if (permissionStatus != PermissionStatus.granted) {
+        //Only continue if permission granted
+        return;
+      }
+    }
+
+    if (permissionStatus == PermissionStatus.granted) {
+      print('Permission granted');
+      File image = await ImagePicker.pickImage(
+        source: ImageSource.gallery,
+      );
+
+      if (image != null) {
+        String fileExtension = path.extension(image.path);
+
+        _galleryItem = GalleryItem(
+          id: Uuid().v1(),
+          resource: image.path,
+          isSvg: fileExtension.toLowerCase() == ".svg",
+        );
+
+        setState(() {
+          _photo = image;
+          _photoSource = PhotoSource.FILE;
+          _photoExtension = fileExtension;
+        });
+      }
+    }
+  }
+
+  Future<Null> _showDialog(Text x) async {
+    await showDialog<String>(
+        context: context,
+        builder: (BuildContext context) {
+          return new AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+            backgroundColor: ColorPallet.backgroundColor,
+            title: x,
+            contentPadding: EdgeInsets.all(5.0),
+            actions: <Widget>[
+              new FlatButton(
+                child: new Text("Ok",
+                    style: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 22,
+                        fontWeight: FontWeight.w600)),
+                onPressed: () async {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        });
   }
 }
 
@@ -346,5 +520,15 @@ Widget _line(){
     thickness: 1,
     indent: 10,
     endIndent: 10,
+  );
+}
+
+_showOpenAppSettingsDialog(context) {
+  return CustomDialog.show(
+    context,
+    'Permission needed',
+    'Photos permission is needed to select photos',
+    'Open settings',
+    openAppSettings,
   );
 }

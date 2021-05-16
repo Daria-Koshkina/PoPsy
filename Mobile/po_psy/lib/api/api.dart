@@ -4,6 +4,9 @@ import 'package:po_psy/api/GenerateImageUrl.dart';
 import 'package:po_psy/models/UserHandler.dart';
 import 'package:po_psy/models/recommendationsModels/Content.dart';
 import 'package:http/http.dart' as http;
+import 'package:po_psy/models/testsModels/Category.dart';
+import 'package:po_psy/models/testsModels/Test.dart';
+import 'package:po_psy/models/testsModels/TestSessions.dart';
 import '../constants/ApiConstants/Strings.dart' as urls;
 import '../models/User.dart';
 import 'package:po_psy/api/UploadFile.dart';
@@ -45,6 +48,12 @@ class ApiManager {
     return responce;
   }
 
+  Future<http.Response> getUserByEmail (String email) async{
+    var url = Uri.parse(urls.Strings.getUserByEmail_url);
+    var responce = await http.post(url, body: {"email" : email});
+    return responce;
+  }
+
   Future<String> uploadImage (context, String fileExtension, image) async {
     GenerateImageUrl generateImageUrl = GenerateImageUrl();
     await generateImageUrl.call(fileExtension);
@@ -79,5 +88,48 @@ class ApiManager {
     }
   }
 
+  Future<List<Test>> allTests() async{
+    List<Test> content = null;
+    var url = Uri.parse(urls.Strings.allTests_url);
+    var responce = await http.get(url);
+    if (responce.statusCode == 200) {
+      var data = json.decode(responce.body) as List;
+      content = data.map<Test>((json) => Test.fromJson(json)).toList();
+    }
+    return content;
+  }
+
+  Future<List<Test>> usedTests(String userId) async{
+    List<Test> content = null;
+    var url = Uri.parse(urls.Strings.usedTests_url);
+    var responce = await http.post(url, body: {"userId" : userId});
+    if (responce.statusCode == 200) {
+      var data = json.decode(responce.body) as List;
+      content = data.map<Test>((json) => Test.fromJson(json)).toList();
+    }
+    return content;
+  }
+
+  Future<List<TestSessions>> prepareSession(String userId) async{
+    List<TestSessions> content = null;
+    var url = Uri.parse(urls.Strings.prepareSession_url);
+    var responce = await http.post(url, body: {"userId" : userId});
+    if (responce.statusCode == 200) {
+      var data = json.decode(responce.body) as List;
+      content = data.map<TestSessions>((json) => TestSessions.fromJson(json)).toList();
+    }
+    return content;
+  }
+
+  Future<List<Category>> getCategories() async{
+    List<Category> content = null;
+    var url = Uri.parse(urls.Strings.getCategories_url);
+    var responce = await http.get(url);
+    if (responce.statusCode == 200) {
+      var data = json.decode(responce.body) as List;
+      content = data.map<Category>((json) => Category.fromJson(json)).toList();
+    }
+    return content;
+  }
 
 }

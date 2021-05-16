@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1029452629879",
+    "project_id": "popsy-95eb1",
+    "storage_bucket": "popsy-95eb1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1029452629879:android:53ff3a53e1f5429f0c4372",
+        "android_client_info": {
+          "package_name": "com.example.po_psy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1029452629879-18m4m4d5rqhqdh0dbt2f87bteptst0bf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.po_psy",
+            "certificate_hash": "e1e3934c2b8b2726a151bc6f458e50b9f4820947"
+          }
+        },
+        {
+          "client_id": "1029452629879-r6ecpgbv44autk846rfptsh72lgoq4p5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxX6z7hlgDmrg4omrIAmh-O8fD36MJbvA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1029452629879-r6ecpgbv44autk846rfptsh72lgoq4p5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

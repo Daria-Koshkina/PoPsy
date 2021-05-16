@@ -5,4 +5,11 @@ class TestSessions {
   List<TestResult> results;
 
   TestSessions(this.testId, this.results);
+
+  factory TestSessions.fromJson(Map<String, dynamic> json){
+    return TestSessions(
+      json['id'],
+      json['Sessions'].map<TestResult>((json) => TestResult.fromJson(json)).toList(),
+    );
+  }
 }

@@ -586,14 +586,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
       }
     }
 
-    if (permissionStatus == PermissionStatus.undetermined) {
+    /*if (permissionStatus == PermissionStatus.undetermined) {
       permissionStatus = await permission.request();
 
       if (permissionStatus != PermissionStatus.granted) {
         //Only continue if permission granted
         return;
       }
-    }
+    }*/
 
     if (permissionStatus == PermissionStatus.denied) {
       if (Platform.isIOS) {
@@ -643,7 +643,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         _registrationData.phone,
         _registrationData.age,
         _registrationData.password,
-        new List<String>());
+        []);
     ApiManager().register(newUser).then((value) {
       if (value.statusCode == 200) {
         var data = json.decode(value.body);
