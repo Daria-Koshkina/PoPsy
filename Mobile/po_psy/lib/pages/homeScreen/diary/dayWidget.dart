@@ -32,10 +32,13 @@ class DayWidget extends StatelessWidget {
           Container(
             alignment: Alignment.centerLeft,
               margin: EdgeInsets.only(top: 30, left: 80),
+             padding: EdgeInsets.symmetric(horizontal: 15),
              child: InkWell(
               child: Text(
-                record.type.length < 35 ? record.type : record.type.substring(0, 35) + "...",
-                textAlign: TextAlign.center,
+                record.type,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                softWrap: false,
                 style: TextStyles.lightHeader2TextStyle,
               ),
             onTap: (){

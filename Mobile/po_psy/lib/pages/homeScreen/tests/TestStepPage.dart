@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_buttons/grouped_buttons.dart';
+import 'package:po_psy/api/api.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
+import 'package:po_psy/models/UserHandler.dart';
 import 'package:po_psy/models/testsModels/TestHandler.dart';
 import 'package:po_psy/models/testsModels/TestSessions.dart';
 import 'package:po_psy/models/testsModels/TestStep.dart';
@@ -167,9 +169,14 @@ class TestStepPageState extends State<TestStepPage> {
           MaterialPageRoute(builder: (context) =>
           new TestResultPage(result))
       );
+      ApiManager().postTestResult(
+          widget._testSessions.testId.toString(),
+          result,
+          UserHandler.instance.getUserId().toString());
       setState(() {
         widget._testSessions.results.add(result);
       });
+      //ApiManager().postTestSessions(widget._testSessions, UserHandler.instance.getUserId().toString());
       print(widget._testSessions.results);
     }
   }

@@ -38,7 +38,6 @@ class Test:
     questions = []
     categories = []
     scores = Scores()
-    testResault = TestResult()
 
 class Music:
     title = ''

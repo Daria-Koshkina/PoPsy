@@ -18,7 +18,7 @@ class User {
       "surname" : surname,
       "image" : imageURL,
       "email": email,
-      "phone" : phone,
+      "phone" : phone!=null? phone:'',
       "age" : age.toString(),
       "password": password,
     };
