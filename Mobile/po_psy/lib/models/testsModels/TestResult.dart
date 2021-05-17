@@ -16,7 +16,7 @@ class TestResult {
   }
 
   Map<String,dynamic> toPost(){
-    var currentTime = new DateTime(date.year, date.month, date.day, date.hour, date.minute, date.timeZoneOffset.inMinutes);
+    var currentTime = new DateTime(date.year, date.month, date.day, date.hour, date.minute);
     final paramDic = {
       "result" : result,
       "date": '${currentTime}',

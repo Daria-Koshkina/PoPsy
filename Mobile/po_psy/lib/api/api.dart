@@ -152,8 +152,9 @@ class ApiManager {
   Future<void> postTestResult(String testId, TestResult testResult, String userId) async{
     // TODO: push testSession to server
     var url = Uri.parse(urls.Strings.postTestResult_url);
-    Map<String,dynamic> responceBody = testResult.toPost();
-    responceBody.addAll({"userId" : userId, "testId": testId});
+    final Map<String,dynamic> responceBody = testResult.toPost();
+    responceBody["userId"] = userId;
+    responceBody["testId"] = testId;
     var responce = await http.post(url, body: responceBody);
     if (responce.statusCode == 200) {
       print('Posted successfully');

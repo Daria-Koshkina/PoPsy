@@ -23,6 +23,7 @@ class Strings{
   static String usedTests_url_local = 'http://10.0.2.2:8000/apis/usedTests/';
   static String prepareSession_url_local = 'http://10.0.2.2:8000/apis/prepareSession/';
   static String getCategories_url_local = 'http://10.0.2.2:8000/apis/getCategories/';
+  static String postTestResult_url_local = 'http://10.0.2.2:8000/apis/postTestResult/';
 
 
   static String sign_s3_url = 'https://secret-ravine-07865.herokuapp.com/generatePresignedUrl/';
