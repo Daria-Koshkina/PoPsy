@@ -3,10 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:po_psy/assets/my_icons_icons.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
+import 'package:po_psy/models/User.dart';
+import 'package:po_psy/models/UserHandler.dart';
+import 'package:po_psy/pages/consultations/Consultations.dart';
+import 'package:po_psy/pages/homeScreen/account/editProfile.dart';
+import 'package:po_psy/pages/homeScreen/account/settings.dart';
 import 'package:po_psy/widgets/Logo.dart';
+import 'package:share/share.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+class PremiumPage extends StatefulWidget {
+  @override
+  _PremiumPageState createState() => _PremiumPageState();
+}
 
-class PremiumPage extends StatelessWidget {
+class _PremiumPageState extends State<PremiumPage> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +28,7 @@ class PremiumPage extends StatelessWidget {
           children: <Widget>[
             _logoElem(context),
             _premium(),
-            _pay(),
+            _pay(context),
           ],
         )
     );
@@ -50,14 +62,14 @@ Widget _logoElem(BuildContext context){
           ),
         ),
         Container(
-            child: MaterialButton(
+            child: IconButton(
               onPressed: () {
                 Navigator.of(context).pop;
               },
-              textColor: Colors.white,
-              child: Icon(
+              icon: Icon(
                 Icons.arrow_back,
                 size: 25,
+                color: Colors.white,
               ),
             )
         ),
@@ -84,7 +96,7 @@ Widget _logoElem(BuildContext context){
   );
 }
 
-Widget _pay(){
+Widget _pay(BuildContext context){
   return Stack(
       children : <Widget> [
         Container(
@@ -115,28 +127,15 @@ Widget _pay(){
           alignment: Alignment.bottomCenter,
           margin: EdgeInsets.only(
               top: 50, left: 90, right: 90),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              IconButton(iconSize: 80.0,
-                icon: Image.asset(
-                    "assets/image/PayPal.png"),
-                onPressed: () {
-                //todo----------------------------------------------------------------
-                },
-              ),
+          child:
               IconButton(
                   iconSize: 70.0,
                   icon: Image.asset(
                     "assets/image/GooglePay.png",
                     fit: BoxFit.fill,),
                   onPressed: () {
-                    //To Doo----------------------------------------------------------------------
                   }
               )
-            ],
-          ),
         ),
     ]
   );
