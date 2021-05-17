@@ -1,4 +1,3 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/public/flutter_sound_player.dart';
@@ -30,13 +29,13 @@ class EditorPage extends StatefulWidget {
 
 class _EditorPageState extends State<EditorPage> {
   FlutterSoundPlayer _mPlayer = FlutterSoundPlayer();
-FlutterSoundRecorder _mRecorder = FlutterSoundRecorder();
-bool _mPlayerIsInited = false;
-bool _mRecorderIsInited = false;
-bool _mplaybackReady = false;
-final String _mPath = 'flutter_sound_example.aac';
+  FlutterSoundRecorder _mRecorder = FlutterSoundRecorder();
+  bool _mPlayerIsInited = false;
+  bool _mRecorderIsInited = false;
+  bool _mplaybackReady = false;
+  final String _mPath = 'flutter_sound_example.aac';
 
-Record record;
+  Record record;
   _EditorPageState({this.record});
   String _text = '';
 
@@ -230,114 +229,114 @@ Record record;
                           mainAxisAlignment: MainAxisAlignment.end,
                           children:[
                             Container(
-                                width: 60,
-                                height: 60,
-                                child: ElevatedButton(
-                                  onPressed: getRecorderFn(),
-                                  child: Icon(_mRecorder.isRecording ? Icons.crop_square : Icons.mic,
-                                  color: Colors.white),
-                                  style: ElevatedButton.styleFrom(shape: new RoundedRectangleBorder(
-                                    borderRadius: new BorderRadius.circular(30.0),
-                                  ),
-                                  ),
+                              width: 60,
+                              height: 60,
+                              child: ElevatedButton(
+                                onPressed: getRecorderFn(),
+                                child: Icon(_mRecorder.isRecording ? Icons.crop_square : Icons.mic,
+                                    color: Colors.white),
+                                style: ElevatedButton.styleFrom(shape: new RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(30.0),
                                 ),
+                                ),
+                              ),
                             ),
                             Container(
-                                margin: EdgeInsets.only(right: 15, left: 15),
-                                width: 60,
-                                height: 60,
-                                child: ElevatedButton(
-                              onPressed: getPlaybackFn(),
-                              child: Icon(_mPlayer.isPlaying ? Icons.pause : Icons.play_arrow,
-                                color: Colors.white),
-                                  style: ElevatedButton.styleFrom(shape: new RoundedRectangleBorder(
+                              margin: EdgeInsets.only(right: 15, left: 15),
+                              width: 60,
+                              height: 60,
+                              child: ElevatedButton(
+                                onPressed: getPlaybackFn(),
+                                child: Icon(_mPlayer.isPlaying ? Icons.pause : Icons.play_arrow,
+                                    color: Colors.white),
+                                style: ElevatedButton.styleFrom(shape: new RoundedRectangleBorder(
                                   borderRadius: new BorderRadius.circular(30.0),
                                 ),),
-                            ),
+                              ),
                             ),
                           ]
                       ),
-                       Padding(
-                       padding: EdgeInsets.all(10),
-                       child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Container(
-                                child: IconButton(
-                                    iconSize: 50.0,
-                                    icon: Image.asset(
-                                      "assets/image/underline_letter.png",
-                                      color: ColorPallet.mainColor,
-                                      fit: BoxFit.fill,),
-                                    onPressed: () {
-                                      setState(() {
-                                        _underline = !_underline;
-                                      });
-                                    }
-                                )
-                            ),
-                            Container(
-                                child: IconButton(
-                                    iconSize: 50.0,
-                                    icon: Image.asset(
-                                      "assets/image/bold_letter.png",
-                                      color: ColorPallet.mainColor,
-                                      fit: BoxFit.fill,),
-                                    onPressed: () {
-                                      setState(() {
+                      Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                Container(
+                                    child: IconButton(
+                                        iconSize: 50.0,
+                                        icon: Image.asset(
+                                          "assets/image/underline_letter.png",
+                                          color: ColorPallet.mainColor,
+                                          fit: BoxFit.fill,),
+                                        onPressed: () {
+                                          setState(() {
+                                            _underline = !_underline;
+                                          });
+                                        }
+                                    )
+                                ),
+                                Container(
+                                    child: IconButton(
+                                        iconSize: 50.0,
+                                        icon: Image.asset(
+                                          "assets/image/bold_letter.png",
+                                          color: ColorPallet.mainColor,
+                                          fit: BoxFit.fill,),
+                                        onPressed: () {
+                                          setState(() {
 
-                                        _bold =  !_bold;
-                                      });
-                                    }
+                                            _bold =  !_bold;
+                                          });
+                                        }
+                                    )
+                                ),
+                                Container(
+                                    child: IconButton(
+                                        iconSize: 50.0,
+                                        icon: Image.asset(
+                                          "assets/image/italic_letter.png",
+                                          color: ColorPallet.mainColor,
+                                          fit: BoxFit.fill,),
+                                        onPressed: () {
+                                          setState(() {
+                                            _italic = !_italic;
+                                          });
+                                        }
+                                    )
+                                ),
+                                Container(
+                                    width: 100,
+                                    child: FormField<String>(
+                                      builder: (FormFieldState<String> state) {
+                                        return InputDecorator(
+                                          decoration: InputDecoration(
+                                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0))),
+                                          isEmpty: _current == '14',
+                                          child: DropdownButtonHideUnderline(
+                                            child: DropdownButton<String>(
+                                              value: _currentSelectedValue,
+                                              isDense: true,
+                                              onChanged: (String newValue) {
+                                                setState(() {
+                                                  _currentSelectedValue = newValue;
+                                                  state.didChange(newValue);
+                                                });
+                                              },
+                                              items: _current.map((String value) {
+                                                return DropdownMenuItem<String>(
+                                                  value: value,
+                                                  child: Text(value),
+                                                );
+                                              }).toList(),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    )
                                 )
-                            ),
-                            Container(
-                                child: IconButton(
-                                    iconSize: 50.0,
-                                    icon: Image.asset(
-                                      "assets/image/italic_letter.png",
-                                      color: ColorPallet.mainColor,
-                                      fit: BoxFit.fill,),
-                                    onPressed: () {
-                                      setState(() {
-                                        _italic = !_italic;
-                                      });
-                                    }
-                                )
-                            ),
-                            Container(
-                                width: 100,
-                                child: FormField<String>(
-                                  builder: (FormFieldState<String> state) {
-                                    return InputDecorator(
-                                      decoration: InputDecoration(
-                                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0))),
-                                      isEmpty: _current == '14',
-                                      child: DropdownButtonHideUnderline(
-                                        child: DropdownButton<String>(
-                                          value: _currentSelectedValue,
-                                          isDense: true,
-                                          onChanged: (String newValue) {
-                                            setState(() {
-                                              _currentSelectedValue = newValue;
-                                              state.didChange(newValue);
-                                            });
-                                          },
-                                          items: _current.map((String value) {
-                                            return DropdownMenuItem<String>(
-                                              value: value,
-                                              child: Text(value),
-                                            );
-                                          }).toList(),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                )
-                            )
-                          ]
+                              ]
+                          )
                       )
-            )
                     ]
                 )
             )

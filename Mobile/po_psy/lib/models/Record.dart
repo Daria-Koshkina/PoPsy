@@ -5,9 +5,9 @@ class Record {
 
 
   Record(this.Date, this.type,/* this.content, */);
-@override
+  @override
   bool isSameDate(Record other) {
     return this.Date.year == other.Date.year && this.Date.month == other.Date.month
-      && this.Date.day == other.Date.day;
+        && this.Date.day == other.Date.day;
   }
 }

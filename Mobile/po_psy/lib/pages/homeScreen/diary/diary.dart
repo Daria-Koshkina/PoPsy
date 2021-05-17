@@ -32,40 +32,40 @@ class _DiaryPageState extends State<DiaryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorPallet.backgroundColor,
-      body: Container(
-        child: Center(
-        child: new Stack(
-        children: <Widget>[
-          ListView(
-        children: <Widget>[
-            _sort(),
-          for(var i = 0; i< records.length; i += _number(records, i))
-            _oneDay(records, i, _number(records, i)),
-          ]
-          ),
-          Container(
-            alignment: Alignment.bottomRight,
-              margin: EdgeInsets.only(right: 15, bottom: 50),
-              child: MaterialButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => EditorPage()));
-                },
-                color: Colors.white,
-                textColor: ColorPallet.mainColor,
-                child: Icon(
-                  Icons.add,
-                  size: 40,
-                ),
-                padding: EdgeInsets.all(4),
-                shape: CircleBorder(),
-              )
-          )
-          ]
+        backgroundColor: ColorPallet.backgroundColor,
+        body: Container(
+            child: Center(
+                child: new Stack(
+                    children: <Widget>[
+                      ListView(
+                          children: <Widget>[
+                            _sort(),
+                            for(var i = 0; i< records.length; i += _number(records, i))
+                              _oneDay(records, i, _number(records, i)),
+                          ]
+                      ),
+                      Container(
+                          alignment: Alignment.bottomRight,
+                          margin: EdgeInsets.only(right: 15, bottom: 50),
+                          child: MaterialButton(
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context) => EditorPage()));
+                            },
+                            color: Colors.white,
+                            textColor: ColorPallet.mainColor,
+                            child: Icon(
+                              Icons.add,
+                              size: 40,
+                            ),
+                            padding: EdgeInsets.all(4),
+                            shape: CircleBorder(),
+                          )
+                      )
+                    ]
+                )
+            )
         )
-        )
-      )
     );
   }
   Widget _sort() {
@@ -98,20 +98,20 @@ class _DiaryPageState extends State<DiaryPage> {
               topLeft: Radius.circular(20.0)),
         ),
         child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Container(
-                    alignment: Alignment.topRight,
-                      margin: EdgeInsets.only(right: 20),
-                      child: Text(
-                   "${recs[i].Date.day} ${months[recs[i].Date.month]}",
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Container(
+                  alignment: Alignment.topRight,
+                  margin: EdgeInsets.only(right: 20),
+                  child: Text(
+                    "${recs[i].Date.day} ${months[recs[i].Date.month]}",
                     style: TextStyles.lightHeader2TextStyle,
-                      )
-                  ),
-                  for(int k = 0; k < n; k++)
-                    DayWidget(record: recs[i + k])
-                ]
-            )
+                  )
+              ),
+              for(int k = 0; k < n; k++)
+                DayWidget(record: recs[i + k])
+            ]
+        )
     );
   }
 }
