@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:po_psy/assets/my_icons_icons.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
+import 'package:po_psy/pages/homeScreen/account/premium.dart';
 
 
 class SettingsPage extends StatefulWidget {
@@ -22,47 +23,12 @@ class _SettingsPageState extends State<SettingsPage> {
         backgroundColor: ColorPallet.lightGreyColor,
         body:  ListView(
           children: <Widget>[
-        Stack(
-        children: <Widget>[
-          Container(
-          height: 45,
-          decoration: new BoxDecoration(color: ColorPallet.mainColor,),
-        ),
-        Container(
-            child: MaterialButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              textColor: Colors.white,
-              child: Icon(
-                Icons.arrow_back,
-                size: 25,
-              ),
-            )
-        ),
-        Container(
-          alignment: Alignment.topCenter,
-          margin: EdgeInsets.only(top: 15),
-          child: Text(
-              "Settings",
-              style: TextStyles.lightHeader2TextStyle
-          ),
-        ),
-        ]
-    ),
-            Container(
-                margin: EdgeInsets.only(top: 15, left: 20, bottom: 5),
-                child: Text("Account",
-                    style: TextStyles.articleAuthorTextStyle)
-            ),
+            _upLine(context),
+            _header("Account"),
             _line(),
-            _premium(),
+            _premium(context),
+            _header("Main"),
             _line(),
-            Container(
-                margin: EdgeInsets.only(top: 15, left: 20, bottom: 5),
-                child: Text("Main",
-                    style: TextStyles.articleAuthorTextStyle)
-            ),
             _line(),
             ListTile(
               tileColor: ColorPallet.backgroundColor,
@@ -136,7 +102,7 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 }
 
-Widget _premium() {
+Widget _premium(BuildContext context) {
   return ListTile(
     tileColor: ColorPallet.backgroundColor,
     title: InkWell(
@@ -144,9 +110,51 @@ Widget _premium() {
           style: TextStyles.header2TextStyle,
         ),
       onTap: (){
-
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => PremiumPage()),
+        );
       }
     ),
+  );
+}
+
+Widget _upLine(BuildContext context){
+  return Stack(
+      children: <Widget>[
+        Container(
+          height: 45,
+          decoration: new BoxDecoration(color: ColorPallet.mainColor,),
+        ),
+        Container(
+            child: MaterialButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              textColor: Colors.white,
+              child: Icon(
+                Icons.arrow_back,
+                size: 25,
+              ),
+            )
+        ),
+        Container(
+          alignment: Alignment.topCenter,
+          margin: EdgeInsets.only(top: 15),
+          child: Text(
+              "Settings",
+              style: TextStyles.lightHeader2TextStyle
+          ),
+        ),
+      ]
+  );
+}
+
+Widget _header(String str){
+  return Container(
+      margin: EdgeInsets.only(top: 15, left: 20, bottom: 5),
+      child: Text(str,
+          style: TextStyles.articleAuthorTextStyle)
   );
 }
 
