@@ -101,9 +101,10 @@ class _PremiumPageState extends State<PremiumPage> {
                       child:
                       IconButton(
                           iconSize: 70.0,
-                          icon: Image.asset(
-                            "assets/image/GooglePay.png",
-                            fit: BoxFit.fill,),
+                          icon: Icon(
+                          Icons.payment,
+                            color: Colors.white
+                          ),
                           onPressed: () {
 
                             if (Platform.isIOS) {
@@ -120,7 +121,7 @@ class _PremiumPageState extends State<PremiumPage> {
                                 items: [
                                   ApplePayItem(
                                     label: 'Test',
-                                    amount: '13',
+                                    amount: '0',
                                   )
                                 ],
                               ),
