@@ -130,21 +130,23 @@ class StartTestPageState extends State<StartTestPage> {
   }
 
   Widget _sessionsWidget() {
-    if (widget._testSessions.results.isEmpty) {
+    if (widget._testSessions.results == null) {
       return Container(width: 0, height: 0,);
     } else {
-      return SingleChildScrollView(
+      return Flexible(child: SingleChildScrollView(
           child: Column(
             children: widget._testSessions.results.map((TestResult testResult) {
               return _session(testResult);
             }).toList(),
           )
+      )
       );
     }
   }
 
   Widget _session(TestResult res) {
     return Container(
+      margin: EdgeInsets.symmetric(vertical: 4),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15)

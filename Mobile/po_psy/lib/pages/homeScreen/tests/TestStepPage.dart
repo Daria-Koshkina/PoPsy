@@ -169,10 +169,14 @@ class TestStepPageState extends State<TestStepPage> {
           MaterialPageRoute(builder: (context) =>
           new TestResultPage(result))
       );
+      ApiManager().postTestResult(
+          widget._testSessions.testId.toString(),
+          result,
+          UserHandler.instance.getUserId().toString());
       setState(() {
         widget._testSessions.results.add(result);
       });
-      ApiManager().postTestSessions(widget._testSessions, UserHandler.instance.getUserId().toString());
+      //ApiManager().postTestSessions(widget._testSessions, UserHandler.instance.getUserId().toString());
       print(widget._testSessions.results);
     }
   }

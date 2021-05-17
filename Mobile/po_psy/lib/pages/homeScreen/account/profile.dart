@@ -8,6 +8,8 @@ import 'package:po_psy/models/UserHandler.dart';
 import 'package:po_psy/pages/consultations/Consultations.dart';
 import 'package:po_psy/pages/homeScreen/account/editProfile.dart';
 import 'package:po_psy/pages/homeScreen/account/settings.dart';
+import 'package:share/share.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 class AccountPage extends StatelessWidget {
@@ -251,7 +253,9 @@ Widget _profileButtons(BuildContext context) {
         _line(),
 
         TextButton.icon(
-          onPressed: () {},
+          onPressed: () {
+            _launchURL('http://popsyapp.me/');
+          },
           label: Text(
             'FAQ',
             style: TextStyles.header2TextStyle,
@@ -265,8 +269,9 @@ Widget _profileButtons(BuildContext context) {
         _line(),
 
         TextButton.icon(
-          onPressed: () {},
-
+          onPressed: () {
+            _launchURL('http://popsyapp.me/');
+          },
           label: Text(
             'Contact us',
             style: TextStyles.header2TextStyle,
@@ -280,7 +285,9 @@ Widget _profileButtons(BuildContext context) {
         _line(),
 
         TextButton.icon(
-          onPressed: () {},
+          onPressed: () {
+            _launchURL('http://popsyapp.me/');
+          },
           label: Text(
             'Private policy',
             style: TextStyles.header2TextStyle,
@@ -308,6 +315,14 @@ Widget _profileButtons(BuildContext context) {
       ],
     ),
   );
+}
+
+void _launchURL(String url) async {
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
 }
 
 

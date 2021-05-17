@@ -115,7 +115,7 @@ TestSessions _getTestSessions(List<TestSessions> sessions, Test test) {
       return sessions[i];
     }
   }
-  return new TestSessions(test.id, []);
+  return new TestSessions(test.id, null);
 }
 
 String _getDateString(DateTime date) {

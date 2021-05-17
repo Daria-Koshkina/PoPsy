@@ -16,9 +16,10 @@ class TestResult {
   }
 
   Map<String,dynamic> toPost(){
+    var currentTime = new DateTime(date.year, date.month, date.day, date.hour, date.minute, date.timeZoneOffset.inMinutes);
     final paramDic = {
       "result" : result,
-      "date": DateFormat('yyyy-MM-ddTHH:mm:ssZ').format(date),
+      "date": '${currentTime}',
       "image": imageURL
     };
     return paramDic;

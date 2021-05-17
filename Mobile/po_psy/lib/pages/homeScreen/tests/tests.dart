@@ -16,11 +16,6 @@ import 'package:po_psy/pages/homeScreen/tests/testIcon.dart';
 import 'completedTestsWidget.dart';
 
 class TestsPage extends StatefulWidget {
-  // final List<Category> categories = TestData().getCategories();
-  // final List<Test> tests = TestData().getTests();
-  // final List<Test> completed = TestData().getCompletedTest();
-  //final Future<List<TestSessions>> sessions = ApiManager().prepareSession(UserHandler.instance.getUserId().toString());
-  //List<TestSessions> sessions = [];
   List<Category> chosenCategories = [];
 
   @override
@@ -28,9 +23,6 @@ class TestsPage extends StatefulWidget {
 }
 
 class TestsPageState extends State<TestsPage> {
-  // List<Category> categories;
-  // List<Test> tests;
-  // List<Test> completed;
   Widget bottomSheetWidget;
   Future<List<Category>> categories;
   Future<List<Test>> tests;
@@ -40,27 +32,12 @@ class TestsPageState extends State<TestsPage> {
 
   @override
   void initState() {
-    // ApiManager().getCategories().then((value) {
-    //   categories = value;
-    // });
-    // ApiManager().allTests().then((value) {
-    //   tests = value;
-    // });
-    // ApiManager().usedTests(UserHandler.instance.getUserId().toString()).then((value) {
-    //   completed = value;
-    // });
-    // ApiManager().prepareSession(UserHandler.instance.getUserId().toString()).then((value) {
-    //   widget.sessions = value;
-    //   bottomSheetWidget = new CompletedTestsWidget(tests: completed, sessions: value,);
-    // });
-    //chosenCategories = [];
     categories = ApiManager().getCategories();
     tests = ApiManager().allTests(widget.chosenCategories);
     completed =
         ApiManager().usedTests(UserHandler.instance.getUserId().toString());
     sessions = ApiManager()
         .prepareSession(UserHandler.instance.getUserId().toString());
-    //bottomSheetWidget = new CompletedTestsWidget(tests: completed, sessions: sessions,);
     super.initState();
   }
 
@@ -135,19 +112,6 @@ class TestsPageState extends State<TestsPage> {
 
 
   Widget _getBottomSheetWidget(Future<List<Test>> completed) {
-    // setState(() {
-    //   if (bottomSheetWidget == null) {
-    //     if (completed.isEmpty) {
-    //       bottomSheetWidget = new Container(width: 0, height: 0,);
-    //     } else {
-    //       bottomSheetWidget = new CompletedTestsWidget(
-    //         tests: completed,
-    //         sessions: widget.sessions,
-    //       );
-    //     }
-    //   }
-    // });
-    // return bottomSheetWidget;
     return FutureBuilder(
         future: completed,
         builder: (context, snapshot) {
