@@ -2,6 +2,13 @@ import json
 from json import JSONEncoder
 from datetime import datetime
 
+class Diary:
+    records = []
+
+class Record:
+    Date = ''
+    type = ''
+    content = ''
 
 class Question:
     text = ''
