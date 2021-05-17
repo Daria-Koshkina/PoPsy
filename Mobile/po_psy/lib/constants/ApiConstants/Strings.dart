@@ -12,6 +12,7 @@ class Strings{
   static String usedTests_url = 'https://immense-atoll-09215.herokuapp.com/apis/usedTests/';
   static String prepareSession_url = 'https://immense-atoll-09215.herokuapp.com/apis/prepareSession/';
   static String getCategories_url = 'https://immense-atoll-09215.herokuapp.com/apis/getCategories/';
+  static String postTestResult_url = 'https://immense-atoll-09215.herokuapp.com/apis/postTestResult/';
 
 
   static String get_content_url_local = 'http://10.0.2.2:8000/apis/getContent/';
