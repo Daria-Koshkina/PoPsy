@@ -7,7 +7,7 @@ import 'package:po_psy/models/User.dart';
 import 'package:po_psy/models/UserHandler.dart';
 import 'package:po_psy/pages/consultations/Consultations.dart';
 import 'package:po_psy/pages/homeScreen/account/editProfile.dart';
-import 'package:po_psy/pages/homeScreen/account/premium.dart';
+import 'package:po_psy/pages/homeScreen/account/premiumPage.dart';
 import 'package:po_psy/pages/homeScreen/account/settings.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
