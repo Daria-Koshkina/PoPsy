@@ -7,4 +7,11 @@ class Category {
         json['text']
     );
   }
+
+  Map<String,dynamic> toPost(){
+    final paramDic = {
+      "title" : title,
+    };
+    return paramDic;
+  }
 }

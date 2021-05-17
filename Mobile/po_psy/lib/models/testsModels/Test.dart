@@ -11,9 +11,8 @@ class Test {
   final String title;
   final String description;
   final String imageURL;
-  final TestResult result;
 
-  Test(this.id, this.categories, this.steps, this.scores, this.title, this.description, this.imageURL, this.result);
+  Test(this.id, this.categories, this.steps, this.scores, this.title, this.description, this.imageURL);
 
   factory Test.fromJson(Map<String, dynamic> json){
     return Test(
@@ -23,8 +22,7 @@ class Test {
       AnswerScores.fromJson(json['scores']),
       json['title'],
       json['description'],
-      json['photo'],
-      TestResult.fromJson(json['testResult']),
+      json['photo']
     );
   }
 }

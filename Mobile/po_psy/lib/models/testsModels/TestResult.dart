@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class TestResult {
   final String result;
   final DateTime date;
@@ -8,8 +10,17 @@ class TestResult {
   factory TestResult.fromJson(Map<String, dynamic> json){
     return TestResult(
       json['result'],
-      json['date'],
+      DateTime.parse(json['date']),
       json['photo'],
     );
+  }
+
+  Map<String,dynamic> toPost(){
+    final paramDic = {
+      "result" : result,
+      "date": DateFormat('yyyy-MM-ddTHH:mm:ssZ').format(date),
+      "image": imageURL
+    };
+    return paramDic;
   }
 }

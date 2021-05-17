@@ -5,6 +5,8 @@ from django.views.decorators.csrf import csrf_exempt
 import numpy as np
 import requests
 from apis.views import urlStrings
+from datetime import datetime
+
 
 def UserEmotionToList(userEmotion:models.UserEmotions):
     emotions = []
@@ -38,50 +40,75 @@ def PrepareTests(testsQ):
         test.description = i.description
         test.photo = i.photo
         questionsQ= models.Question.objects.filter(testId=i.id)
+        questions_exp = []
         for j in questionsQ:
             question = helpModels.Question()
             question.photo = j.photo
             question.text = j.text
             variantsQ= models.Variant.objects.filter(questionId=j.id)
+            variants_exp = []
             for k in variantsQ:
                 variant = helpModels.Variant()
                 variant.text = k.text
                 variant.weight = k.weight
-                question.variants.append(variant)
-            test.questions.append(question)
+                variants_exp.append(variant)
+            question.variants = jsonpickle.decode(jsonpickle.encode(list(variants_exp), unpicklable=False))
+            questions_exp.append(question)
         categories = models.TestHasCategories.objects.filter(testId=i.id)
+        categories_exp = []
         for j in categories:
             category = models.Category.objects.filter(id=j.categotyId).first()
             cat = helpModels.Category()
-            cat.text = category.text
-            test.categories.append(cat)
-
+            cat.text = category.title
+            categories_exp.append(cat)
         scores = models.Score.objects.filter(testId=i.id)
         sc = helpModels.Scores()
+        scores_exp = []
         for j in scores:
             score = helpModels.Score()
             score.text = j.text
             score.start = j.start
             score.end = j.end
-            sc.score.append(score)
+            scores_exp.append(score)
+        sc.score = jsonpickle.decode(jsonpickle.encode(list(scores_exp), unpicklable=False))
         test.scores = sc
-        test.testResault = helpModels.TestResult()
+        test.categories = jsonpickle.decode(jsonpickle.encode(list(categories_exp), unpicklable=False))
+        test.questions = jsonpickle.decode(jsonpickle.encode(list(questions_exp), unpicklable=False))
         tests.append(test)
     return tests
 
 @csrf_exempt
 def allTests(request):
-    testsQ = models.Test.objects.all
+    categories= request.POST.get("categories")
+    if categories == '[]':
+        testsQ = models.Test.objects.all()
+    else:
+        categories = jsonpickle.decode(categories)
+        categoryTitles = []
+        for category in categories:
+            categoryTitles.append(category['title'])
+        categories = models.Category.objects.filter(title__in=categoryTitles)
+        categoryIds = []
+        for category in categories:
+            categoryIds.append(category.id)
+        category_tests = models.TestHasCategories.objects.filter(categotyId__in=categoryIds)
+        testIds = []
+        for category_test in category_tests:
+            idc = category_test.testId
+            if idc not in testIds:
+                testIds.append(idc)
+        testsQ = models.Test.objects.filter(id__in=testIds)
     tests = PrepareTests(testsQ)
-    return JsonResponse(jsonpickle.decode(jsonpickle.encode(list(tests), unpicklable=False)), safe=False)
+    jasonstr = jsonpickle.decode(jsonpickle.encode(list(tests), unpicklable=False))
+    return JsonResponse(jasonstr, safe=False)
 
 @csrf_exempt
 def getCategories(request):
     categories_exp = []
-    categories = models.Category.objects.all
+    categories = models.Category.objects.all()
     for j in categories:
         cat = helpModels.Category()
-        cat.text = j.text
+        cat.text = j.title
         categories_exp.append(cat)
     return JsonResponse(jsonpickle.decode(jsonpickle.encode(list(categories_exp), unpicklable=False)), safe=False)
 
@@ -112,10 +139,23 @@ def prepareSession(request):
             used.append(i.testId)
             ses.id = i.testId
             ses.Sessions.append(res)
+            ses.Sessions = jsonpickle.decode(jsonpickle.encode(list(ses.Sessions), unpicklable=False))
             session.append(ses)
         else:
             session[used.index(i.testId)].Sessions.append(res)
     return JsonResponse(jsonpickle.decode(jsonpickle.encode(list(session), unpicklable=False)), safe=False)
+
+
+@csrf_exempt
+def postTestResult(request):
+    testResult = models.TestResult()
+    testResult.testId = int(request.POST.get("testId"))
+    testResult.userId = int(request.POST.get("userId"))
+    testResult.date = datetime.strptime(request.POST.get("testResult")["date"],'%y-%m-YdT%H:%M:%S%z')
+    testResult.result = request.POST.get("testResult")["result"]
+    testResult.image = request.POST.get("testResult")["image"]
+    testResult.save()
+    return HttpResponse()
 
 
 def PrepareContent(userId):

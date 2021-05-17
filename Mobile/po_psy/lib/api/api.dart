@@ -8,6 +8,7 @@ import 'package:po_psy/models/recommendationsModels/Content.dart';
 import 'package:http/http.dart' as http;
 import 'package:po_psy/models/testsModels/Category.dart';
 import 'package:po_psy/models/testsModels/Test.dart';
+import 'package:po_psy/models/testsModels/TestResult.dart';
 import 'package:po_psy/models/testsModels/TestSessions.dart';
 import '../constants/ApiConstants/Strings.dart' as urls;
 import '../models/User.dart';
@@ -90,10 +91,11 @@ class ApiManager {
     }
   }
 
-  Future<List<Test>> allTests() async{
+  Future<List<Test>> allTests(List<Category> categories) async{
     List<Test> content = null;
-    var url = Uri.parse(urls.Strings.allTests_url);
-    var responce = await http.get(url);
+    var url = Uri.parse(urls.Strings.allTests_url_local);
+    Map<String,dynamic> responceBody = {'categories': jsonEncode(categories.map<Map<String,dynamic>>((category) => category.toPost()).toList())};
+    var responce = await http.post(url, body: responceBody);
     if (responce.statusCode == 200) {
       var data = json.decode(responce.body) as List;
       content = data.map<Test>((json) => Test.fromJson(json)).toList();
@@ -103,7 +105,7 @@ class ApiManager {
 
   Future<List<Test>> usedTests(String userId) async{
     List<Test> content = null;
-    var url = Uri.parse(urls.Strings.usedTests_url);
+    var url = Uri.parse(urls.Strings.usedTests_url_local);
     var responce = await http.post(url, body: {"userId" : userId});
     if (responce.statusCode == 200) {
       var data = json.decode(responce.body) as List;
@@ -112,9 +114,10 @@ class ApiManager {
     return content;
   }
 
+
   Future<List<TestSessions>> prepareSession(String userId) async{
     List<TestSessions> content = null;
-    var url = Uri.parse(urls.Strings.prepareSession_url);
+    var url = Uri.parse(urls.Strings.prepareSession_url_local);
     var responce = await http.post(url, body: {"userId" : userId});
     if (responce.statusCode == 200) {
       var data = json.decode(responce.body) as List;
@@ -125,7 +128,7 @@ class ApiManager {
 
   Future<List<Category>> getCategories() async{
     List<Category> content = null;
-    var url = Uri.parse(urls.Strings.getCategories_url);
+    var url = Uri.parse(urls.Strings.getCategories_url_local);
     var responce = await http.get(url);
     if (responce.statusCode == 200) {
       var data = json.decode(responce.body) as List;
@@ -137,11 +140,21 @@ class ApiManager {
   Future<void> postTestSessions(TestSessions testSessions, String userId) async{
     // TODO: push testSession to server
     List<TestSessions> content = null;
-    var url = Uri.parse(urls.Strings.prepareSession_url);
+    var url = Uri.parse(urls.Strings.prepareSession_url_local);
     var responce = await http.post(url, body: {"userId" : userId, "testSession" : testSessions});
     if (responce.statusCode == 200) {
       var data = json.decode(responce.body) as List;
       content = data.map<TestSessions>((json) => TestSessions.fromJson(json)).toList();
+    }
+    //return content;
+  }
+
+  Future<void> postTestResult(String testId, TestResult testResult, String userId) async{
+    // TODO: push testSession to server
+    var url = Uri.parse(urls.Strings.prepareSession_url_local);
+    var responce = await http.post(url, body: {"userId" : userId, "testResult" : testResult.toPost(), "testId": testId});
+    if (responce.statusCode == 200) {
+      print('Posted successfully');
     }
     //return content;
   }

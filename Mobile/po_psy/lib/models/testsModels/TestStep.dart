@@ -8,7 +8,7 @@ class TestStep {
   factory TestStep.fromJson(Map<String, dynamic> json){
     return TestStep(
         Question.fromJson(json['text']),
-        json['answers'].map<Answer>((json) => Answer.fromJson(json)).toList(),
+        json['variants'].map<Answer>((json) => Answer.fromJson(json)).toList(),
         json['photo']
     );
   }
