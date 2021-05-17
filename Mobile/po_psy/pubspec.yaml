@@ -71,6 +71,8 @@ flutter:
     - assets/image/bold_letter.png
     - assets/image/italic_letter.png
     - assets/image/underline_letter.png
+    - assets/image/GooglePay.png
+    - assets/image/PayPal.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

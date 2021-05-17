@@ -45,7 +45,7 @@ Widget _profilePage(User user, BuildContext context) {
       _line(),
       _userEmail(user.email),
       SizedBox(height: 7,),
-      _profileButtons(),
+      _profileButtons(context),
       SizedBox(
         height: 31,
         child: Center(
@@ -209,14 +209,19 @@ Widget _line(){
   );
 }
 
-Widget _profileButtons() {
+Widget _profileButtons(BuildContext context) {
   return Container(
     color: ColorPallet.backgroundColor,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextButton.icon(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SettingsPage()),
+            );
+          },
           label: Text(
             'Setting',
             style: TextStyles.header2TextStyle,
