@@ -78,6 +78,22 @@ def PrepareTests(testsQ):
     return tests
 
 @csrf_exempt
+def prepareDiary(request):
+    currentUserId = int(request.POST.get("userId"))
+    diary = models.Diary.objects.filter(userId=currentUserId).first()
+    records = []
+    recordsQ = models.Record.objects.filter(diaryId = diary.id)
+    for i in recordsQ:
+        record = helpModels.Record()
+        record.content = i.content
+        record.Date = i.date
+        record.type = i.type
+        records.append(record)
+    d = helpModels.Diary()
+    d.records = records;
+    return JsonResponse(jsonpickle.decode(jsonpickle.encode(d, unpicklable=False)), safe=False)
+
+@csrf_exempt
 def allTests(request):
     categories= request.POST.get("categories")
     if categories == '[]':
