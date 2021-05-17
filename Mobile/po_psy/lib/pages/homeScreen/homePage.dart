@@ -8,6 +8,7 @@ import 'package:po_psy/constants/UIConstants/TextStyles.dart';
 import 'package:po_psy/models/User.dart';
 import 'package:po_psy/models/UserHandler.dart';
 import 'package:po_psy/pages/authorization/bootSplash/boot.dart';
+import 'package:po_psy/pages/authorization/login/login.dart';
 import 'package:po_psy/pages/homeScreen/diary/diary.dart';
 import 'package:po_psy/pages/homeScreen/recommendations/recommendationsPage.dart';
 import 'package:po_psy/pages/homeScreen/tests/tests.dart';
@@ -76,7 +77,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
         var userId = prefs.getString('userId');
         if (userId == null)
           Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => BootPage()));
+              MaterialPageRoute(builder: (context) => LoginPage()));
         else {
           ApiManager().getUser(userId).then((value) {
             if (value.statusCode == 200) {
@@ -85,7 +86,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
               UserHandler(user);
             } else{
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => BootPage()));
+                  MaterialPageRoute(builder: (context) => LoginPage()));
             }
           });
         }

@@ -17,14 +17,18 @@ class _BootPageState extends State<BootPage> {
   @override
   void initState() {
     super.initState();
-    Timer(
-        Duration(seconds: 3),
-            () => Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => LoginPage())));
+    // Timer(
+    //     Duration(seconds: 3),
+    //         () => Navigator.of(context).pushReplacement(MaterialPageRoute(
+    //         builder: (BuildContext context) => LoginPage())));
   }
 
   @override
   Widget build(BuildContext context) {
+    Timer(
+        Duration(seconds: 3),
+            () => Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (BuildContext context) => LoginPage())));
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
