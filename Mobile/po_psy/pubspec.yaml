@@ -101,6 +101,10 @@ flutter:
       fonts:
         - asset: assets/icons/MyIcons2.ttf
 
+    - family: MyIcons3
+      fonts:
+        - asset: assets/icons/MyIcons3.ttf
+
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

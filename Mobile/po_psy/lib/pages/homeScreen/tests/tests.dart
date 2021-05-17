@@ -16,20 +16,26 @@ import 'package:po_psy/pages/homeScreen/tests/testIcon.dart';
 import 'completedTestsWidget.dart';
 
 class TestsPage extends StatefulWidget {
-  final List<Category> categories = TestData().getCategories();
-  final List<Test> tests = TestData().getTests();
-  final List<Test> completed = TestData().getCompletedTest();
+  // final List<Category> categories = TestData().getCategories();
+  // final List<Test> tests = TestData().getTests();
+  // final List<Test> completed = TestData().getCompletedTest();
   //final Future<List<TestSessions>> sessions = ApiManager().prepareSession(UserHandler.instance.getUserId().toString());
-  List<TestSessions> sessions = [];
+  //List<TestSessions> sessions = [];
 
+  @override
   TestsPageState createState() => TestsPageState();
 }
 
 class TestsPageState extends State<TestsPage> {
-  List<Category> categories;
-  List<Test> tests;
-  List<Test> completed;
+  // List<Category> categories;
+  // List<Test> tests;
+  // List<Test> completed;
   Widget bottomSheetWidget;
+  Future<List<Category>> categories;
+  Future<List<Test>> tests;
+  Future<List<Test>> completed;
+  Future<List<TestSessions>> sessions;
+  List<Category> chosenCategories;
 
   @override
   void initState() {
@@ -47,85 +53,124 @@ class TestsPageState extends State<TestsPage> {
     //   bottomSheetWidget = new CompletedTestsWidget(tests: completed, sessions: value,);
     // });
 
-    // TODO: for testing server uncomment lines above and comment lines below
-
-    categories = widget.categories;
-    tests = widget.tests;
-    completed = widget.completed;
-    bottomSheetWidget = new CompletedTestsWidget(tests: completed, sessions: widget.sessions,);
+    categories = ApiManager().getCategories();
+    tests = ApiManager().allTests();
+    completed = ApiManager().usedTests(UserHandler.instance.getUserId().toString());
+    sessions = ApiManager().prepareSession(UserHandler.instance.getUserId().toString());
+    chosenCategories = [];
+    //bottomSheetWidget = new CompletedTestsWidget(tests: completed, sessions: sessions,);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.light,
-        child: Scaffold(
-            body: Container(
-              color: ColorPallet.backgroundColor,
-              child: ListView(
-                children: [
-                  SizedBox(
-                    height: 10,
+    return FutureBuilder(
+      future: tests,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return AnnotatedRegion<SystemUiOverlayStyle>(
+                value: SystemUiOverlayStyle.light,
+                child: Scaffold(
+                  body: Container(
+                    color: ColorPallet.backgroundColor,
+                    child: ListView(
+                      children: [
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: _categoriesWidget(categories, chosenCategories),
+                        ),
+                        _testsWidget(snapshot.data, sessions),
+                      ],
+                    ),
                   ),
-                  Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: _categoriesWidget(categories)
-                  ),
-                  _testsWidget(tests, widget.sessions),
-                ],
-              ),
-            ),
-          bottomSheet: _getBottomSheetWidget(),
-        )
+                  bottomSheet: _getBottomSheetWidget(completed),
+                )
+            );
+          } else {
+            return CircularProgressIndicator();
+          }
+        }
     );
   }
 
-  CompletedTestsWidget _getBottomSheetWidget() {
-    setState(() {
-      if (bottomSheetWidget == null) {
-        if (completed.isEmpty) {
-          bottomSheetWidget = new Container(width: 0, height: 0,);
-        } else {
-          bottomSheetWidget = new CompletedTestsWidget(
-            tests: completed,
-            sessions: widget.sessions,
-          );
+  Widget _getBottomSheetWidget(Future<List<Test>> completed) {
+    // setState(() {
+    //   if (bottomSheetWidget == null) {
+    //     if (completed.isEmpty) {
+    //       bottomSheetWidget = new Container(width: 0, height: 0,);
+    //     } else {
+    //       bottomSheetWidget = new CompletedTestsWidget(
+    //         tests: completed,
+    //         sessions: widget.sessions,
+    //       );
+    //     }
+    //   }
+    // });
+    // return bottomSheetWidget;
+    return FutureBuilder(
+      future: completed,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return new CompletedTestsWidget(
+              tests: snapshot.data,
+            );
+          } else {
+
+          }
         }
-      }
-    });
-    return bottomSheetWidget;
+    );
   }
 }
 
-Widget _categoriesWidget(List<Category> categories) {
-  return Container(
-      height: 100,
-      child:
-      GridView.count(
-        physics: new NeverScrollableScrollPhysics(),
-        crossAxisCount: 3,
-        childAspectRatio: (90 / 25),
-        padding: const EdgeInsets.all(4.0),
-        mainAxisSpacing: 6.0,
-        crossAxisSpacing: 6.0,
-        children: categories.map((Category category) {
-          return GridTile(
-              child: CategoryWidget(category: category, isEditing: true,)
+Widget _categoriesWidget(Future<List<Category>> categories, List<Category> chosenCategories) {
+  return FutureBuilder(
+      future: categories,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Container(
+              height: 100,
+              child:
+              GridView.count(
+                physics: new NeverScrollableScrollPhysics(),
+                crossAxisCount: 3,
+                childAspectRatio: (90 / 25),
+                padding: const EdgeInsets.all(4.0),
+                mainAxisSpacing: 6.0,
+                crossAxisSpacing: 6.0,
+                children: snapshot.data.map<Widget>((Category category) {
+                  return GridTile(
+                      child: CategoryWidget(
+                        category: category, isEditing: true, chosenCategories: chosenCategories,)
+                  );
+                }).toList(),
+              )
           );
-        }).toList(),
-      )
+        }
+        else {
+          return CircularProgressIndicator();
+        }
+      }
   );
 }
 
-Widget _testsWidget(List<Test> tests, List<TestSessions> sessions) {
-  return Column(
-    children: tests.map<Widget>((Test test) {
-    return Padding(
-        padding: new EdgeInsets.symmetric(vertical: 6, horizontal: 20),
-        child: TestIconWidget(test, _getTestSessions(sessions, test))
-    );
-    }).toList()
+Widget _testsWidget(List<Test> tests, Future<List<TestSessions>> sessions) {
+  return FutureBuilder(
+      future: sessions,
+      builder: (context, snapshot) {
+        return Column(
+            children: tests.map<Widget>((Test test) {
+              return Padding(
+                  padding: new EdgeInsets.symmetric(
+                      vertical: 6, horizontal: 20),
+                  child: TestIconWidget(
+                      test, _getTestSessions(snapshot.data, test))
+              );
+            }).toList()
+        );
+      }
   );
 }
 
