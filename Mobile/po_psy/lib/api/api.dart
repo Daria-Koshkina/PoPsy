@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'dart:ffi';
 import 'dart:io';
 import 'package:po_psy/api/GenerateImageUrl.dart';
+import 'package:po_psy/models/Diary.dart';
+import 'package:po_psy/models/Record.dart';
 import 'package:po_psy/models/UserHandler.dart';
 import 'package:po_psy/models/recommendationsModels/Content.dart';
 import 'package:http/http.dart' as http;
@@ -55,6 +57,17 @@ class ApiManager {
     var url = Uri.parse(urls.Strings.getUserByEmail_url);
     var responce = await http.post(url, body: {"email" : email});
     return responce;
+  }
+
+  Future<http.Response> updateUser(User user) async{
+    var url = Uri.parse(urls.Strings.updateUser_url);
+    final Map<String,dynamic> responceBody = user.toPost();
+    var responce = await http.post(url, body: responceBody);
+    return responce;
+    if (responce.statusCode == 200) {
+      print('Posted successfully');
+    }
+    //return content;
   }
 
   Future<String> uploadImage (context, String fileExtension, image) async {
@@ -137,18 +150,6 @@ class ApiManager {
     return content;
   }
 
-  Future<void> postTestSessions(TestSessions testSessions, String userId) async{
-    // TODO: push testSession to server
-    List<TestSessions> content = null;
-    var url = Uri.parse(urls.Strings.prepareSession_url_local);
-    var responce = await http.post(url, body: {"userId" : userId, "testSession" : testSessions});
-    if (responce.statusCode == 200) {
-      var data = json.decode(responce.body) as List;
-      content = data.map<TestSessions>((json) => TestSessions.fromJson(json)).toList();
-    }
-    //return content;
-  }
-
   Future<void> postTestResult(String testId, TestResult testResult, String userId) async{
     // TODO: push testSession to server
     var url = Uri.parse(urls.Strings.postTestResult_url);
@@ -160,6 +161,28 @@ class ApiManager {
       print('Posted successfully');
     }
     //return content;
+  }
+
+  Future<List<Record>> prepareDiary(String userId) async{
+    List<Record> content = null;
+    var url = Uri.parse(urls.Strings.prepareDiary_url);
+    var responce = await http.post(url, body: {"userId" : userId});
+    if (responce.statusCode == 200) {
+      var data = json.decode(responce.body);
+      content = data.map<Record>((json) => Record.fromJson(json)).toList();
+    }
+    return content;
+  }
+
+  Future<void> postRecord(String userId, Record record) async{
+    // TODO: push testSession to server
+    var url = Uri.parse(urls.Strings.postRecord_url);
+    final Map<String,dynamic> responceBody = record.toPost();
+    responceBody["userId"] = userId;
+    var responce = await http.post(url, body: responceBody);
+    if (responce.statusCode == 200) {
+      print('Posted successfully');
+    }
   }
 
 }

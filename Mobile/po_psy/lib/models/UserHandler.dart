@@ -24,4 +24,8 @@ class UserHandler {
     _user = null;
     _user = user;
   }
+
+  void resetUser(){
+    _user = null;
+  }
 }

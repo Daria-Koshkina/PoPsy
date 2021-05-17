@@ -12,4 +12,6 @@ urlpatterns = [
     path('usedTests/', views.usedTests),
     path('prepareSession/', views.prepareSession),
     path('postTestResult/', views.postTestResult),
+    path('prepareDiary/', views.prepareDiary),
+    path('postRecord/', views.postRecord),
 ]

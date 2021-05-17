@@ -8,22 +8,29 @@ class Strings{
   static String signIn_url = 'https://immense-atoll-09215.herokuapp.com/apis/signIn/';
   static String getUser_url = 'https://immense-atoll-09215.herokuapp.com/apis/getUser/';
   static String getUserByEmail_url = 'https://immense-atoll-09215.herokuapp.com/apis/getUserByEmail/';
+  static String updateUser_url = 'https://immense-atoll-09215.herokuapp.com/apis/updateUser/';
   static String allTests_url = 'https://immense-atoll-09215.herokuapp.com/apis/allTests/';
   static String usedTests_url = 'https://immense-atoll-09215.herokuapp.com/apis/usedTests/';
   static String prepareSession_url = 'https://immense-atoll-09215.herokuapp.com/apis/prepareSession/';
   static String getCategories_url = 'https://immense-atoll-09215.herokuapp.com/apis/getCategories/';
   static String postTestResult_url = 'https://immense-atoll-09215.herokuapp.com/apis/postTestResult/';
+  static String prepareDiary_url = 'https://immense-atoll-09215.herokuapp.com/apis/prepareDiary/';
+  static String postRecord_url = 'https://immense-atoll-09215.herokuapp.com/apis/postRecord/';
+
 
 
   static String get_content_url_local = 'http://10.0.2.2:8000/apis/getContent/';
   static String register_url_local = 'http://10.0.2.2:8000/apis/register/';
   static String signIn_url_local = 'http://10.0.2.2:8000/apis/signIn/';
   static String getUser_url_local = 'http://10.0.2.2:8000/apis/getUser/';
+  static String updateUser_url_local = 'http://10.0.2.2:8000/apis/updateUser/';
   static String allTests_url_local = 'http://10.0.2.2:8000/apis/allTests/';
   static String usedTests_url_local = 'http://10.0.2.2:8000/apis/usedTests/';
   static String prepareSession_url_local = 'http://10.0.2.2:8000/apis/prepareSession/';
   static String getCategories_url_local = 'http://10.0.2.2:8000/apis/getCategories/';
   static String postTestResult_url_local = 'http://10.0.2.2:8000/apis/postTestResult/';
+  static String prepareDiary_url_local = 'http://10.0.2.2:8000/apis/prepareDiary/';
+  static String postRecord_url_local = 'http://10.0.2.2:8000/apis/postRecord/';
 
 
   static String sign_s3_url = 'https://secret-ravine-07865.herokuapp.com/generatePresignedUrl/';

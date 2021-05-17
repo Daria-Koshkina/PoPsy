@@ -14,6 +14,7 @@ class User {
 
   Map<String,dynamic> toPost(){
     final paramDic = {
+      "id" : ID.toString(),
       "name" : name,
       "surname" : surname,
       "image" : imageURL,
@@ -30,7 +31,7 @@ class User {
         json['id'],
         json['name'],
         json['surname'],
-        json['image'],
+        json['photo'],
         json['email'],
         json['phone'],
         json['age'],

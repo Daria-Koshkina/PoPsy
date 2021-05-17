@@ -52,7 +52,7 @@ class _MyFirstAppState extends State<EditAccountPage> {
     _email = widget.user.email;
     _phone = widget.user.phone;
     _age = widget.user.age;
-    _password = widget.user.password;
+    _password = '';
     _oldPassword = '';
     _repeatedPassword = '';
   }
@@ -80,11 +80,34 @@ class _MyFirstAppState extends State<EditAccountPage> {
                     .then((value) {
                   if (value != null){
                     _imageURL = value;
-                    //register();
+                    bool passwordsAreValid = _validatePasswords();
+                    var newUser = new User(
+                        UserHandler.instance.getUserId(),
+                        _name,
+                        _surname,
+                        _imageURL,
+                        _email,
+                        _phone,
+                        _age,
+                        _password,
+                        []
+                    );
+                    bool emailValid = newUser.email.isValidEmail();
+                    bool fieldsAreValid = !newUser.name.isEmpty && newUser.age != null && emailValid;
+                    if (fieldsAreValid && passwordsAreValid) {
+                      ApiManager().updateUser(newUser).then((value){
+                        if (value.statusCode == 200){
+                          UserHandler.instance.setUser(newUser);
+                        }
+                      });
+                      print('Success');
+                      Navigator.pop(context);
+                    }
                   }
                 });
               });
             }
+            else{
             bool passwordsAreValid = _validatePasswords();
             var newUser = new User(
                 UserHandler.instance.getUserId(),
@@ -100,12 +123,16 @@ class _MyFirstAppState extends State<EditAccountPage> {
             bool emailValid = newUser.email.isValidEmail();
             bool fieldsAreValid = !newUser.name.isEmpty && newUser.age != null && emailValid;
             if (fieldsAreValid && passwordsAreValid) {
-              UserHandler.instance.setUser(newUser);
+              ApiManager().updateUser(newUser).then((value){
+                if (value.statusCode == 200){
+                  UserHandler.instance.setUser(newUser);
+                }
+              });
               print('Success');
               Navigator.pop(context);
             }
             //Navigator.pop(context);
-          },
+          }},
           child: Text('Save changes',
               style: TextStyles.greenHeaderTextStyle
           ),
@@ -257,7 +284,7 @@ class _MyFirstAppState extends State<EditAccountPage> {
             }
             return null;
           },
-          initialValue: user.age.toString(),
+          initialValue: user.age != null ? user.age.toString() : "",
           maxLength: 3,
           keyboardType: TextInputType.number,
           inputFormatters: <TextInputFormatter>[
@@ -370,7 +397,11 @@ class _MyFirstAppState extends State<EditAccountPage> {
   }
 
   bool _validatePasswords() {
-    if (!_repeatedPassword.isEmpty && _repeatedPassword == _password) {
+    if (_repeatedPassword == '' && _oldPassword == '' && _password == '') {
+        _password = _user.password;
+      return true;
+    }
+    else if (!_repeatedPassword.isEmpty && _repeatedPassword == _password) {
       if (_oldPassword == _user.password) {
         return true;
       }

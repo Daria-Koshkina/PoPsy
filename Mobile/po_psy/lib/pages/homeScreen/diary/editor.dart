@@ -7,6 +7,7 @@ import 'package:po_psy/api/api.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
 import 'package:po_psy/models/Record.dart';
+import 'package:po_psy/models/UserHandler.dart';
 import 'package:po_psy/widgets/LogoElement.dart';
 import 'package:po_psy/pages/authorization/registration/registration.dart';
 import 'package:po_psy/models/User.dart';
@@ -180,7 +181,8 @@ class _EditorPageState extends State<EditorPage> {
                                   if(record != null)
                                     _dateTime = record.Date;
                                   Record newRecord = Record(_dateTime, _text);
-                                  //to do------------------------------------------------------------------
+                                  ApiManager().postRecord(UserHandler.instance.getUserId().toString(), newRecord).then((value){
+                                  Navigator.pop(context);});
                                 },
                               ),
                             )

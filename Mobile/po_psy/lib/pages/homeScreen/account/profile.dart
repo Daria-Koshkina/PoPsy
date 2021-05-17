@@ -5,11 +5,13 @@ import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
 import 'package:po_psy/models/User.dart';
 import 'package:po_psy/models/UserHandler.dart';
+import 'package:po_psy/pages/authorization/bootSplash/boot.dart';
 import 'package:po_psy/pages/consultations/Consultations.dart';
 import 'package:po_psy/pages/homeScreen/account/editProfile.dart';
 import 'package:po_psy/pages/homeScreen/account/premiumPage.dart';
 import 'package:po_psy/pages/homeScreen/account/settings.dart';
 import 'package:share/share.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
@@ -314,7 +316,14 @@ Widget _profileButtons(BuildContext context) {
             color: ColorPallet.redBlockColor,
             size: 19,
           ),
-          onPressed: () {},
+          onPressed: () {
+            UserHandler.instance.resetUser();
+            SharedPreferences.getInstance().then((prefs) {
+              prefs.remove('userId');
+            });
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => BootPage()));
+          },
         ),
       ],
     ),

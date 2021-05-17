@@ -90,8 +90,22 @@ def prepareDiary(request):
         record.type = i.type
         records.append(record)
     d = helpModels.Diary()
-    d.records = records;
-    return JsonResponse(jsonpickle.decode(jsonpickle.encode(d, unpicklable=False)), safe=False)
+    records = jsonpickle.decode(jsonpickle.encode(list(records), unpicklable=False))
+    return JsonResponse(jsonpickle.decode(jsonpickle.encode(list(records), unpicklable=False)), safe=False)
+
+@csrf_exempt
+def postRecord(request):
+    currentUserId = int(request.POST.get("userId"))
+    diary = models.Diary.objects.filter(userId=currentUserId).first()
+    text = request.POST.get("text")
+    date = datetime.fromisoformat(request.POST.get("Date"))
+    record = models.Record()
+    record.diaryId = diary.id
+    record.content = text
+    record.Date = date
+    record.type = "Text"
+    record.save()
+    return HttpResponse()
 
 @csrf_exempt
 def allTests(request):

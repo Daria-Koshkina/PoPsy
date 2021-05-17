@@ -64,145 +64,127 @@ class _PremiumPageState extends State<PremiumPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: ColorPallet.lightGreyColor,
-        body:  ListView(
+        body: ListView(
           children: <Widget>[
             _logoElem(context),
             _premium(),
-            Stack(
-                children : <Widget> [
-                  Container(
-                    margin: EdgeInsets.only(left: 30, right: 30),
-                    height: 150,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.bottomLeft,
-                        stops: [0, 1],
-                        colors: [ColorPallet.lightBlueColor, ColorPallet.mainColor,],
+            Stack(children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(left: 30, right: 30),
+                height: 150,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    stops: [0, 1],
+                    colors: [
+                      ColorPallet.lightBlueColor,
+                      ColorPallet.mainColor,
+                    ],
+                  ),
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(10.0),
+                      bottomRight: Radius.circular(10.0),
+                      topRight: Radius.circular(
+                        10.0,
                       ),
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(10.0),
-                          bottomRight: Radius.circular(10.0),
-                          topRight: Radius.circular(10.0,),
-                          topLeft: Radius.circular(10.0)),
-                    ),
-                  ),
-                  Container(
-                      alignment: Alignment.center,
-                      margin: EdgeInsets.only(top: 20),
-                      child:
-                      Text("Subscribe",
-                          style: TextStyles.lightHeaderTextStyle)
-                  ),
-                  Container(
-                      alignment: Alignment.bottomCenter,
-                      margin: EdgeInsets.only(
-                          top: 50, left: 90, right: 90),
-                      child:
-                      IconButton(
-                          iconSize: 70.0,
-                          icon: Icon(
-                          Icons.payment,
-                            color: Colors.white
+                      topLeft: Radius.circular(10.0)),
+                ),
+              ),
+              Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(top: 20),
+                  child: Text("Subscribe",
+                      style: TextStyles.lightHeaderTextStyle)),
+              Container(
+                  alignment: Alignment.bottomCenter,
+                  margin: EdgeInsets.only(top: 50, left: 90, right: 90),
+                  child: IconButton(
+                      iconSize: 70.0,
+                      icon: Icon(Icons.payment, color: Colors.white),
+                      onPressed: () {
+                        if (Platform.isIOS) {
+                          _controller.jumpTo(450);
+                        }
+                        StripePayment.paymentRequestWithNativePay(
+                          androidPayOptions: AndroidPayPaymentRequest(
+                            totalPrice: "0",
+                            currencyCode: "EUR",
                           ),
-                          onPressed: () {
-
-                            if (Platform.isIOS) {
-                              _controller.jumpTo(450);
-                            }
-                            StripePayment.paymentRequestWithNativePay(
-                              androidPayOptions: AndroidPayPaymentRequest(
-                                totalPrice: "0",
-                                currencyCode: "EUR",
-                              ),
-                              applePayOptions: ApplePayPaymentOptions(
-                                countryCode: 'DE',
-                                currencyCode: 'EUR',
-                                items: [
-                                  ApplePayItem(
-                                    label: 'Test',
-                                    amount: '0',
-                                  )
-                                ],
-                              ),
-                            ).then((token) {
-                              setState(() {
-                                _scaffoldKey.currentState.showSnackBar(
-                                    SnackBar(content: Text('Received ${token.tokenId}')));
-                                _paymentToken = token;
-                              });
-                            }).catchError(setError);
-                          }
-                      )
-                  ),
-                ]
-            ),
+                          applePayOptions: ApplePayPaymentOptions(
+                            countryCode: 'DE',
+                            currencyCode: 'EUR',
+                            items: [
+                              ApplePayItem(
+                                label: 'Test',
+                                amount: '0',
+                              )
+                            ],
+                          ),
+                        ).then((token) {
+                          setState(() {
+                            _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                content: Text('Received ${token.tokenId}')));
+                            _paymentToken = token;
+                          });
+                        }).catchError(setError);
+                      })),
+            ]),
           ],
-        )
-    );
+        ));
   }
 }
 
 Widget _premium() {
   return ListTile(
     title: Container(
-      margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
-      child:
-      Text("Premium version grants users an opportunity to find their psychologist of choice, contact them and organize private consultations where they can talk over their issues with a highly qualified specialist and receive meaningful tips from them.",
-      style: TextStyles.articleAuthorTextStyle
-      )
+        margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+        child: Text(
+            "Premium version grants users an opportunity to find their psychologist of choice, contact them and organize private consultations where they can talk over their issues with a highly qualified specialist and receive meaningful tips from them.",
+            style: TextStyles.articleAuthorTextStyle)),
+  );
+}
+
+Widget _logoElem(BuildContext context) {
+  return Stack(children: <Widget>[
+    Container(
+      height: 320,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          stops: [0, 1],
+          colors: [
+            ColorPallet.lightBlueColor,
+            ColorPallet.mainColor,
+          ],
+        ),
+      ),
     ),
-  );
+    Container(
+        child: IconButton(
+      onPressed: () {
+        Navigator.pop(context);
+      },
+      icon: Icon(
+        Icons.arrow_back,
+        size: 25,
+        color: Colors.white,
+      ),
+    )),
+    Center(
+      child: Logo(),
+    ),
+    Container(
+      alignment: Alignment.topCenter,
+      margin: EdgeInsets.only(top: 15),
+      child: Text("Premium", style: TextStyles.lightHeaderTextStyle),
+    ),
+    Container(
+      alignment: Alignment.bottomLeft,
+      margin: EdgeInsets.only(left: 25, top: 220),
+      child: Text("Additional feature \nselection starting with \n&5.00",
+          style: TextStyles.lightHeaderTextStyle),
+    ),
+  ]);
 }
-
-Widget _logoElem(BuildContext context){
-  return Stack(
-      children: <Widget>[
-        Container(
-          height: 320,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              stops: [0, 1],
-              colors: [ColorPallet.lightBlueColor, ColorPallet.mainColor,],
-            ),
-          ),
-        ),
-        Container(
-            child: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: Icon(
-                Icons.arrow_back,
-                size: 25,
-                color: Colors.white,
-              ),
-            )
-        ),
-        Center(
-          child: Logo(),
-        ),
-        Container(
-          alignment: Alignment.topCenter,
-          margin: EdgeInsets.only(top: 15),
-          child: Text(
-              "Premium",
-              style: TextStyles.lightHeaderTextStyle
-          ),
-        ),
-        Container(
-          alignment: Alignment.bottomLeft,
-          margin: EdgeInsets.only(left: 25, top: 220),
-          child: Text(
-              "Additional feature \nselection starting with \n&5.00",
-              style: TextStyles.lightHeaderTextStyle
-          ),
-        ),
-      ]
-  );
-}
-
-
-
