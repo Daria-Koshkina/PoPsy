@@ -10,7 +10,6 @@ import 'package:po_psy/pages/homeScreen/tests/startTestPage.dart';
 
 class CompletedTestsWidget extends StatefulWidget {
   final List<Test> tests;
-
   // final List<TestSessions> sessions;
 
   CompletedTestsWidget({this.tests});
@@ -23,8 +22,7 @@ class CompletedTestsWidgetState extends State<CompletedTestsWidget> {
 
   @override
   void initState() {
-    sessions = ApiManager()
-        .prepareSession(UserHandler.instance.getUserId().toString());
+    sessions = ApiManager().prepareSession(UserHandler.instance.getUserId().toString());
     super.initState();
   }
 
@@ -83,9 +81,7 @@ class _completedTestWidget extends StatelessWidget {
       height: 45,
       child: Row(
         children: [
-          SizedBox(
-            width: 10,
-          ),
+          SizedBox(width: 10,),
           Text(
             test.title,
             style: TextStyles.lightCommonTextStyle,

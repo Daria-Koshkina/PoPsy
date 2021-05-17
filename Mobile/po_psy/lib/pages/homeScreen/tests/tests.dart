@@ -36,6 +36,7 @@ class TestsPageState extends State<TestsPage> {
   Future<List<Test>> tests;
   Future<List<Test>> completed;
   Future<List<TestSessions>> sessions;
+  List<Category> chosenCategories;
 
   @override
   void initState() {
@@ -178,7 +179,8 @@ Widget _testsWidget(List<Test> tests, Future<List<TestSessions>> sessions) {
         } else {
           return CircularProgressIndicator();
         }
-      });
+      }
+  );
 }
 
 TestSessions _getTestSessions(List<TestSessions> sessions, Test test) {

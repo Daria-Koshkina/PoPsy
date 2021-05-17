@@ -5,7 +5,9 @@ import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
 import 'package:po_psy/models/User.dart';
 import 'package:po_psy/models/UserHandler.dart';
+import 'package:po_psy/pages/consultations/Consultations.dart';
 import 'package:po_psy/pages/homeScreen/account/editProfile.dart';
+import 'package:po_psy/pages/homeScreen/account/settings.dart';
 
 
 class AccountPage extends StatelessWidget {
@@ -44,7 +46,7 @@ Widget _profilePage(User user, BuildContext context) {
       _line(),
       _userEmail(user.email),
       SizedBox(height: 7,),
-      _profileButtons(),
+      _profileButtons(context),
       SizedBox(
         height: 31,
         child: Center(
@@ -208,12 +210,32 @@ Widget _line(){
   );
 }
 
-Widget _profileButtons() {
+Widget _profileButtons(BuildContext context) {
   return Container(
     color: ColorPallet.backgroundColor,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        TextButton.icon(
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) =>
+                new Consultations())
+            );
+          },
+          label: Text(
+            'Consultations',
+            style: TextStyles.header2TextStyle,
+          ),
+          icon: Icon(
+            MyIcons.account_circle,
+            color: ColorPallet.mainColor,
+            size: 19,
+          ),
+        ),
+        _line(),
+
         TextButton.icon(
           onPressed: () {},
           label: Text(

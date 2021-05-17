@@ -24,4 +24,9 @@ class MyIcons {
 
   static const _kFontFam2 = 'MyIcons2';
   static const IconData more_vert = IconData(0xe800, fontFamily: _kFontFam2);
+
+  static const _kFontFam3 = 'MyIcons3';
+
+  static const IconData video2 = IconData(0xf03d, fontFamily: _kFontFam3);
+  static const IconData telegram = IconData(0xf2c6, fontFamily: _kFontFam3);
 }

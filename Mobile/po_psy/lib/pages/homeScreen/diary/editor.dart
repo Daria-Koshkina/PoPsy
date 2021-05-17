@@ -1,5 +1,8 @@
-import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sound/public/flutter_sound_player.dart';
+import 'package:flutter_sound/public/flutter_sound_recorder.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:po_psy/api/api.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
@@ -8,11 +11,16 @@ import 'package:po_psy/widgets/LogoElement.dart';
 import 'package:po_psy/pages/authorization/registration/registration.dart';
 import 'package:po_psy/models/User.dart';
 import 'dart:async';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter_sound/flutter_sound.dart';
 
+import '../../../constants/UIConstants/ColorPallet.dart';
+
+
+typedef _Fn = void Function();
 
 class EditorPage extends StatefulWidget {
   Record record;
-
   EditorPage({this.record});
 
   @override
@@ -20,11 +28,55 @@ class EditorPage extends StatefulWidget {
 }
 
 class _EditorPageState extends State<EditorPage> {
+  FlutterSoundPlayer _mPlayer = FlutterSoundPlayer();
+  FlutterSoundRecorder _mRecorder = FlutterSoundRecorder();
+  bool _mPlayerIsInited = false;
+  bool _mRecorderIsInited = false;
+  bool _mplaybackReady = false;
+  final String _mPath = 'flutter_sound_example.aac';
+
   Record record;
   _EditorPageState({this.record});
   String _text = '';
+
+  @override
+  void initState() {
+    _mPlayer.openAudioSession().then((value) {
+      setState(() {
+        _mPlayerIsInited = true;
+      });
+    });
+
+    openTheRecorder().then((value) {
+      setState(() {
+        _mRecorderIsInited = true;
+      });
+    });
+    textControler.addListener(_saveText);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _mPlayer.closeAudioSession();
+    _mPlayer = null;
+
+    _mRecorder.closeAudioSession();
+    _mRecorder = null;
+    super.dispose();
+  }
+
+  Future<void> openTheRecorder() async {
+    if (!kIsWeb) {
+      var status = await Permission.microphone.request();
+      if (status != PermissionStatus.granted) {
+        throw RecordingPermissionException('Microphone permission not granted');
+      }
+    }
+    await _mRecorder.openAudioSession();
+    _mRecorderIsInited = true;
+  }
   DateTime _dateTime = DateTime.now();
-  String _audio = '';
   List<String> months = ['January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'];
   List<String> week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
@@ -35,15 +87,54 @@ class _EditorPageState extends State<EditorPage> {
   bool _underline = false;
   bool _bold = false;
   final textControler = TextEditingController();
-  @override
-  void initState() {
-    textControler.addListener(_saveText);
-    super.initState();
-  }
 
   _saveText(){
     _text = textControler.text;
   }
+
+  void Myrecord() {
+    _mRecorder
+        .startRecorder(
+      toFile: _mPath,
+      //codec: kIsWeb ? Codec.opusWebM : Codec.aacADTS,
+    )
+        .then((value) {
+      setState(() {});
+    });
+  }
+
+  void stopRecorder() async {
+    await _mRecorder.stopRecorder().then((value) {
+      setState(() {
+        //var url = value;
+        _mplaybackReady = true;
+      });
+    });
+  }
+
+  void play() {
+    assert(_mPlayerIsInited &&
+        _mplaybackReady &&
+        _mRecorder.isStopped &&
+        _mPlayer.isStopped);
+    _mPlayer
+        .startPlayer(
+        fromURI: _mPath,
+        //codec: kIsWeb ? Codec.opusWebM : Codec.aacADTS,
+        whenFinished: () {
+          setState(() {});
+        })
+        .then((value) {
+      setState(() {});
+    });
+  }
+
+  void stopPlayer() {
+    _mPlayer.stopPlayer().then((value) {
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +152,7 @@ class _EditorPageState extends State<EditorPage> {
                             Container(
                                 child: MaterialButton(
                                   onPressed: () {
-                                      Navigator.of(context).pop();                      },
+                                    Navigator.of(context).pop();                      },
                                   textColor: Colors.white,
                                   child: Icon(
                                     Icons.arrow_back,
@@ -74,8 +165,8 @@ class _EditorPageState extends State<EditorPage> {
                               margin: EdgeInsets.only(top: 15),
                               child: Text(
                                   record == null ?
-                                  "${week[_dateTime.weekday]}, ${months[_dateTime.month]} ${_dateTime.day}, ${_dateTime.year}"
-                                      :"${week[record.Date.weekday]}, ${months[record.Date.month]} ${record.Date.day}, ${record.Date.year}",
+                                  "${week[_dateTime.weekday - 1]}, ${months[_dateTime.month - 1]} ${_dateTime.day}, ${_dateTime.year}"
+                                      :"${week[record.Date.weekday - 1]}, ${months[record.Date.month - 1]} ${record.Date.day}, ${record.Date.year}",
                                   style: TextStyles.lightHeader2TextStyle
                               ),
                             ),
@@ -104,6 +195,7 @@ class _EditorPageState extends State<EditorPage> {
                           )
                       ),
                       Container(
+                          margin: EdgeInsets.all(10.0),
                           child: new ConstrainedBox(
                               constraints: BoxConstraints(
                                 maxHeight: 350.0,
@@ -122,9 +214,9 @@ class _EditorPageState extends State<EditorPage> {
                                         },
                                         style: TextStyle(
                                           color: ColorPallet.mainTextColor,
-                                            fontSize: double.tryParse(_currentSelectedValue),
-                                            decoration: _underline ? TextDecoration.underline : TextDecoration.none,
-                                            fontStyle: _italic ? FontStyle.italic : FontStyle.normal,
+                                          fontSize: double.tryParse(_currentSelectedValue),
+                                          decoration: _underline ? TextDecoration.underline : TextDecoration.none,
+                                          fontStyle: _italic ? FontStyle.italic : FontStyle.normal,
                                           fontWeight: _bold ? FontWeight.bold : FontWeight.normal,
                                         ),
                                         maxLines: null,
@@ -137,118 +229,131 @@ class _EditorPageState extends State<EditorPage> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children:[
                             Container(
-                              width: 50,
-                                child: MaterialButton(
-                                  onPressed: () {
-                                    //  Navigator.of(context).push(
-                                    //     MaterialPageRoute(builder: (context) => LoginPage()));
-                                  },
-                                  textColor: ColorPallet.mainColor,
-                                  child: Icon(
-                                    Icons.mic,
-                                    size: 35,
-                                  ),
-                                )
+                              width: 60,
+                              height: 60,
+                              child: ElevatedButton(
+                                onPressed: getRecorderFn(),
+                                child: Icon(_mRecorder.isRecording ? Icons.crop_square : Icons.mic,
+                                    color: Colors.white),
+                                style: ElevatedButton.styleFrom(shape: new RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(30.0),
+                                ),
+                                ),
+                              ),
                             ),
                             Container(
-                                margin: EdgeInsets.only(right: 15),
-                              width: 50,
-                                child: MaterialButton(
-                                  onPressed: () {
-                                    //  Navigator.of(context).push(
-                                    //     MaterialPageRoute(builder: (context) => LoginPage()));
-                                  },
-                                  textColor: ColorPallet.mainColor,
-                                  child: Icon(
-                                    Icons.attach_file,
-                                    size: 35,
-                                  ),
-                                )
+                              margin: EdgeInsets.only(right: 15, left: 15),
+                              width: 60,
+                              height: 60,
+                              child: ElevatedButton(
+                                onPressed: getPlaybackFn(),
+                                child: Icon(_mPlayer.isPlaying ? Icons.pause : Icons.play_arrow,
+                                    color: Colors.white),
+                                style: ElevatedButton.styleFrom(shape: new RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(30.0),
+                                ),),
+                              ),
                             ),
                           ]
                       ),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Container(
-                                child: IconButton(
-                                    iconSize: 50.0,
-                                    icon: Image.asset(
-                                      "assets/image/underline_letter.png",
-                                      color: ColorPallet.mainColor,
-                                      fit: BoxFit.fill,),
-                                    onPressed: () {
-                                      setState(() {
-                                        _underline = !_underline;
-                                      });
-                                    }
-                                )
-                            ),
-                            Container(
-                                child: IconButton(
-                                    iconSize: 50.0,
-                                    icon: Image.asset(
-                                      "assets/image/bold_letter.png",
-                                      color: ColorPallet.mainColor,
-                                      fit: BoxFit.fill,),
-                                    onPressed: () {
-                                      setState(() {
+                      Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                Container(
+                                    child: IconButton(
+                                        iconSize: 50.0,
+                                        icon: Image.asset(
+                                          "assets/image/underline_letter.png",
+                                          color: ColorPallet.mainColor,
+                                          fit: BoxFit.fill,),
+                                        onPressed: () {
+                                          setState(() {
+                                            _underline = !_underline;
+                                          });
+                                        }
+                                    )
+                                ),
+                                Container(
+                                    child: IconButton(
+                                        iconSize: 50.0,
+                                        icon: Image.asset(
+                                          "assets/image/bold_letter.png",
+                                          color: ColorPallet.mainColor,
+                                          fit: BoxFit.fill,),
+                                        onPressed: () {
+                                          setState(() {
 
-                                      _bold =  !_bold;
-                                       });
-                                    }
+                                            _bold =  !_bold;
+                                          });
+                                        }
+                                    )
+                                ),
+                                Container(
+                                    child: IconButton(
+                                        iconSize: 50.0,
+                                        icon: Image.asset(
+                                          "assets/image/italic_letter.png",
+                                          color: ColorPallet.mainColor,
+                                          fit: BoxFit.fill,),
+                                        onPressed: () {
+                                          setState(() {
+                                            _italic = !_italic;
+                                          });
+                                        }
+                                    )
+                                ),
+                                Container(
+                                    width: 100,
+                                    child: FormField<String>(
+                                      builder: (FormFieldState<String> state) {
+                                        return InputDecorator(
+                                          decoration: InputDecoration(
+                                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0))),
+                                          isEmpty: _current == '14',
+                                          child: DropdownButtonHideUnderline(
+                                            child: DropdownButton<String>(
+                                              value: _currentSelectedValue,
+                                              isDense: true,
+                                              onChanged: (String newValue) {
+                                                setState(() {
+                                                  _currentSelectedValue = newValue;
+                                                  state.didChange(newValue);
+                                                });
+                                              },
+                                              items: _current.map((String value) {
+                                                return DropdownMenuItem<String>(
+                                                  value: value,
+                                                  child: Text(value),
+                                                );
+                                              }).toList(),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    )
                                 )
-                            ),
-                            Container(
-                                child: IconButton(
-                                    iconSize: 50.0,
-                                    icon: Image.asset(
-                                      "assets/image/italic_letter.png",
-                                      color: ColorPallet.mainColor,
-                                      fit: BoxFit.fill,),
-                                    onPressed: () {
-                                      setState(() {
-                                        _italic = !_italic;
-                                      });
-                                    }
-                                )
-                            ),
-                            Container(
-                                width: 100,
-                                child: FormField<String>(
-                                  builder: (FormFieldState<String> state) {
-                                    return InputDecorator(
-                                      decoration: InputDecoration(
-                                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0))),
-                                      isEmpty: _current == '14',
-                                      child: DropdownButtonHideUnderline(
-                                        child: DropdownButton<String>(
-                                          value: _currentSelectedValue,
-                                          isDense: true,
-                                          onChanged: (String newValue) {
-                                            setState(() {
-                                              _currentSelectedValue = newValue;
-                                              state.didChange(newValue);
-                                            });
-                                          },
-                                          items: _current.map((String value) {
-                                            return DropdownMenuItem<String>(
-                                              value: value,
-                                              child: Text(value),
-                                            );
-                                          }).toList(),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                )
-                            )
-                          ]
+                              ]
+                          )
                       )
                     ]
                 )
             )
         )
     );
+  }
+  _Fn getRecorderFn() {
+    if (!_mRecorderIsInited || !_mPlayer.isStopped) {
+      return null;
+    }
+    return _mRecorder.isStopped ? Myrecord : stopRecorder;
+  }
+
+  _Fn getPlaybackFn() {
+    if (!_mPlayerIsInited || !_mplaybackReady || !_mRecorder.isStopped) {
+      return null;
+    }
+    return _mPlayer.isStopped ? play : stopPlayer;
   }
 }
