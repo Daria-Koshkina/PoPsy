@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:po_psy/blocs/authBlock.dart';
+import 'package:po_psy/blocs/authFacebook.dart';
 import 'package:po_psy/models/UserHandler.dart';
 import 'package:po_psy/pages/authorization/bootSplash/boot.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
@@ -28,13 +29,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     Firebase.initializeApp();
     return Provider(
-        create: (context) => AuthBlock(),
-        child: MaterialApp(
-          title: 'PoPsy',
-          theme: ThemeData(
-            primarySwatch: ColorPallet.mainColor,
-          ),
-          home: HomePage(),
-        ));
+      create: (context) => AuthFacebook(),
+      child: Provider(
+          create: (context) => AuthBlock(),
+          child: MaterialApp(
+            title: 'PoPsy',
+            theme: ThemeData(
+              primarySwatch: ColorPallet.mainColor,
+            ),
+            home: HomePage(),
+          )),
+    );
   }
 }

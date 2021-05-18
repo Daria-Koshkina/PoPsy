@@ -77,10 +77,12 @@ class TestStepPageState extends State<TestStepPage> {
                   activeColor: ColorPallet.mainColor,
                   checked: _checked,
                   itemBuilder: (Checkbox cb, Text txt, int i) {
-                    return Column(
-                      children: <Widget>[
-                        _checkBoxWidget(cb, txt)
-                      ],
+                    return SingleChildScrollView(
+                      child: Column(
+                        children: <Widget>[
+                          _checkBoxWidget(cb, txt)
+                        ],
+                      ),
                     );
                   },
                   onChange: (bool isChecked, String label, int index) {
@@ -239,7 +241,7 @@ List<String> _getAnswersTitles(List<Answer> answers) {
 
 Widget _checkBoxWidget(Checkbox cb, Text txt) {
   return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 7),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: ColorPallet.backgroundColor,

@@ -56,7 +56,7 @@ Widget _profilePage(User user, BuildContext context) {
         height: 31,
         child: Center(
           child: Text(
-            'PoPsy for Android v0.0.1',
+            'PoPsy for Android v8.1.2',
             style: TextStyles.lightSubHeaderTextStyle,
           ),
         ),

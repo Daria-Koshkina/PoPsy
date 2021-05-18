@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:po_psy/api/api.dart';
 import 'package:po_psy/blocs/authBlock.dart';
+import 'package:po_psy/blocs/authFacebook.dart';
 import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
 import 'package:po_psy/models/UserHandler.dart';
@@ -52,6 +53,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final AuthBlock authBlock = Provider.of(context);
+    final AuthFacebook authFacebook = Provider.of(context);
     return Scaffold(
         backgroundColor: ColorPallet.backgroundColor,
         body: Container(
@@ -228,9 +230,7 @@ class _LoginPageState extends State<LoginPage> {
                                       icon: Image.asset(
                                         "assets/image/facebook-logo.png",
                                         fit: BoxFit.fill,),
-                                      onPressed: () {
-                                        //To Doo----------------------------------------------------------------------
-                                      }
+                                    onPressed: () => authFacebook.loginFacebook(context),
                                   )
                                 ],
                               ),

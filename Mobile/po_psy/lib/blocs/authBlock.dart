@@ -25,7 +25,7 @@ class AuthBlock{
         accessToken: googleAuth.accessToken
       );
       //Firebase SignIn
-      final result = await authService.signInWithCredentioal(credential);
+      final result = await authService.signInWithCredential(credential);
       String email = result.user.email;
       final responce = await ApiManager().getUserByEmail(email);
       if (responce.statusCode == 200){
