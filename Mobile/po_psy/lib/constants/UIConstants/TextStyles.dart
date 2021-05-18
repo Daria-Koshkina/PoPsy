@@ -147,7 +147,7 @@ class TextStyles {
 
   static TextStyle testResultTextStyle = TextStyle(
     fontFamily: 'Roboto',
-    fontSize: 36,
+    fontSize: 30,
     fontWeight: FontWeight.bold,
     color: Colors.white,
   );

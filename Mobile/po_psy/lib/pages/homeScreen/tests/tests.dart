@@ -50,20 +50,22 @@ class TestsPageState extends State<TestsPage> {
             return AnnotatedRegion<SystemUiOverlayStyle>(
                 value: SystemUiOverlayStyle.light,
                 child: Scaffold(
-                  body: Container(
-                    color: ColorPallet.backgroundColor,
-                    child: ListView(
-                      children: [
-                        SizedBox(
-                          height: 10,
+                  body: Padding(padding: EdgeInsets.only(bottom: 150),
+                      child: Container(
+                        color: ColorPallet.backgroundColor,
+                        child: ListView(
+                          children: [
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                child: _categoriesWidget(
+                                    categories, widget.chosenCategories)),
+                            _testsWidget(snapshot.data, sessions),
+                          ],
                         ),
-                        Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: _categoriesWidget(categories, widget.chosenCategories)),
-                        _testsWidget(snapshot.data, sessions),
-                      ],
-                    ),
-                  ),
+                      )),
                   bottomSheet: _getBottomSheetWidget(completed),
                 ));
           } else {

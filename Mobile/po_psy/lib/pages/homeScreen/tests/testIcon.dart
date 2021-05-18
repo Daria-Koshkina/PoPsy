@@ -27,10 +27,13 @@ class TestIconWidget extends StatelessWidget {
                   vertical: 7, horizontal: 20),
                   child: Row(
                     children: [
-                      Column(
+                      Expanded(child: Column(
                         children: [
                           Text(
                             test.title,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: false,
                             style: TextStyles.lightHeader2TextStyle,
                           ),
                           Spacer(),
@@ -39,6 +42,7 @@ class TestIconWidget extends StatelessWidget {
                             style: TextStyles.lightHeader2TextStyle,
                           )
                         ],
+                      )
                       ),
                       Spacer(),
                       SizedBox(

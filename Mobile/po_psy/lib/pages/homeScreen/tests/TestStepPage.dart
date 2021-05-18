@@ -6,6 +6,7 @@ import 'package:po_psy/constants/UIConstants/ColorPallet.dart';
 import 'package:po_psy/constants/UIConstants/TextStyles.dart';
 import 'package:po_psy/models/UserHandler.dart';
 import 'package:po_psy/models/testsModels/TestHandler.dart';
+import 'package:po_psy/models/testsModels/TestResult.dart';
 import 'package:po_psy/models/testsModels/TestSessions.dart';
 import 'package:po_psy/models/testsModels/TestStep.dart';
 import 'package:po_psy/pages/homeScreen/tests/TestResultPage.dart';
@@ -36,7 +37,8 @@ class TestStepPageState extends State<TestStepPage> {
                 children: [
                   SizedBox(height: 5,),
                   Text(
-                    'Question ${TestHandler.instance.getIndex()} of ${TestHandler.instance.test
+                    'Question ${TestHandler.instance
+                        .getIndex()} of ${TestHandler.instance.test
                         .steps.length}',
                     style: TextStyles.lightHeader2TextStyle,
                   ),
@@ -49,7 +51,8 @@ class TestStepPageState extends State<TestStepPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) =>
-                          new StartTestPage(TestHandler.instance.test, widget._testSessions))
+                          new StartTestPage(
+                              TestHandler.instance.test, widget._testSessions))
                       );
                     },
                     child: Text(
@@ -60,41 +63,45 @@ class TestStepPageState extends State<TestStepPage> {
                 ],
               ),
               SizedBox(height: 15,),
-              Text(
-                widget._testStep.question.text,
-                style: TextStyles.lightHeader2TextStyle,
+              Padding(padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Text(
+                    widget._testStep.question.text,
+                    style: TextStyles.lightHeader2TextStyle,
+                  )
               ),
               _getImage(widget._testStep.imageURL),
-          Material(
-            color: ColorPallet.mainColor,
-            child: CheckboxGroup(
-              labels: _getAnswersTitles(widget._testStep.answers),
-              activeColor: ColorPallet.mainColor,
-              checked: _checked,
-              itemBuilder: (Checkbox cb, Text txt, int i){
-                return Column(
-                  children: <Widget>[
-                    _checkBoxWidget(cb, txt)
-                  ],
-                );
-              },
-              onChange: (bool isChecked, String label, int index) {
-                currentAnswer = widget._testStep.answers[index];
-                print(currentAnswer.text);
-              },
-              onSelected: (List selected) => setState(() {
-                if (selected.length > 1) {
-                  selected.removeAt(0);
-                  print('selected length  ${selected.length}');
-                } else {
-                  print("only one");
-                }
-                _checked = selected;
-              }),
-            ),
-          ),
+              Material(
+                color: ColorPallet.mainColor,
+                child: CheckboxGroup(
+                  labels: _getAnswersTitles(widget._testStep.answers),
+                  activeColor: ColorPallet.mainColor,
+                  checked: _checked,
+                  itemBuilder: (Checkbox cb, Text txt, int i) {
+                    return Column(
+                      children: <Widget>[
+                        _checkBoxWidget(cb, txt)
+                      ],
+                    );
+                  },
+                  onChange: (bool isChecked, String label, int index) {
+                    currentAnswer = widget._testStep.answers[index];
+                    print(currentAnswer.text);
+                  },
+                  onSelected: (List selected) =>
+                      setState(() {
+                        if (selected.length > 1) {
+                          selected.removeAt(0);
+                          print('selected length  ${selected.length}');
+                        } else {
+                          print("only one");
+                        }
+                        _checked = selected;
+                      }),
+                ),
+              ),
               Spacer(),
-              Padding(padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   child: Row(
                     children: [
                       SizedBox(
@@ -113,7 +120,8 @@ class TestStepPageState extends State<TestStepPage> {
                             ),
                             onPressed: () {
                               //Navigator.pop(context);
-                              _previousStep(widget._testStep, context, widget._testSessions);
+                              _previousStep(widget._testStep, context,
+                                  widget._testSessions);
                             },
                           )
                       ),
@@ -163,7 +171,7 @@ class TestStepPageState extends State<TestStepPage> {
           new TestStepPage(step, widget._testSessions))
       );
     } else {
-      var result = TestHandler.instance.getResult();
+      TestResult result = TestHandler.instance.getResult();
       Navigator.push(
           context,
           MaterialPageRoute(builder: (context) =>
