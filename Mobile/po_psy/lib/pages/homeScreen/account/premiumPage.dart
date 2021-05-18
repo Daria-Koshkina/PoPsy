@@ -183,7 +183,7 @@ Widget _logoElem(BuildContext context) {
     Container(
       alignment: Alignment.bottomLeft,
       margin: EdgeInsets.only(left: 25, top: 220),
-      child: Text("Additional feature \nselection starting with \n&5.00",
+      child: Text("Additional feature \nselection starting with \n\$5.00",
           style: TextStyles.lightHeaderTextStyle),
     ),
   ]);

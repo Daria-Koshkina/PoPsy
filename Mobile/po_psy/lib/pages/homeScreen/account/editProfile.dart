@@ -70,6 +70,7 @@ class _MyFirstAppState extends State<EditAccountPage> {
   Widget _appBar(User user, BuildContext context) {
     return AppBar(
       backgroundColor: ColorPallet.backgroundColor,
+      automaticallyImplyLeading: false,
       actions: [
         TextButton(
           onPressed: () {
