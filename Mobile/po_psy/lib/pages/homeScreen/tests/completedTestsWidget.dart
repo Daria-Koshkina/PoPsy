@@ -82,8 +82,7 @@ class _completedTestWidget extends StatelessWidget {
       child: Row(
         children: [
           SizedBox(width: 10,),
-          Text(
-            test.title,
+          Text(test.title.length < 20 ? test.title : test.title.substring(0, 20) + '...',
             style: TextStyles.lightCommonTextStyle,
           ),
           Spacer(),
