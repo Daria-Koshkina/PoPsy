@@ -27,9 +27,10 @@ final Color color;
             children: [
               Padding(
                   padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-                  child: new Row(
+                  child: Row(
                       children: [
-                        Text(videoPlaylist.title,
+                        Text(
+                          videoPlaylist.title.length < 16 ? videoPlaylist.title : videoPlaylist.title.substring(0, 16) + '...',
                           style: TextStyles.lightHeaderTextStyle,),
                         Spacer(),
                         IconButton(icon: Icon(Icons.arrow_forward_ios,

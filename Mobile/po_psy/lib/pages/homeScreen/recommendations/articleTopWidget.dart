@@ -15,11 +15,12 @@ class ArticleTopWidget extends StatelessWidget {
     return new Container(
       height: 300,
       color: ColorPallet.placeholderColor,
+      padding: EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
           SizedBox(height: 35,),
           Padding(
-              padding: new EdgeInsets.symmetric(horizontal: 12),
+              padding: new EdgeInsets.symmetric(horizontal: 2),
               child: Row(
                 children: [
                   IconButton(

@@ -29,7 +29,7 @@ class MusicPlaylistWidget extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                   child: new Row(
                       children: [
-                        Text(musicPlaylist.title,
+                        Text(musicPlaylist.title.length < 16 ? musicPlaylist.title : musicPlaylist.title.substring(0, 16) + '...',
                           style: TextStyles.lightHeaderTextStyle,),
                         Spacer(),
                         Material(

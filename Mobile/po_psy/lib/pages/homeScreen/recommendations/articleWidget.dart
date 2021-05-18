@@ -24,13 +24,22 @@ class ArticleWidget extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
                 child: new Row(
                     children: [
-                      Column(children: [
+                      Expanded(child:
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
                         Text(article.title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: false,
                           style: TextStyles.lightHeaderTextStyle,),
                         SizedBox(height: 5,),
-                        Text(article.title,
+                        Text(article.author,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: false,
                           style: TextStyles.lightHeader2TextStyle,),
-                      ]),
+                      ])),
                       Spacer(),
                       IconButton(icon: Icon(Icons.arrow_forward_ios,
                         color: Colors.white,), onPressed: () {
